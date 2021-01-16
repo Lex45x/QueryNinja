@@ -8,13 +8,28 @@ namespace QueryNinja.Targets.Queryable.Exceptions
     /// </summary>
     public class PropertyIsNotCollectionException : QueryableTargetException
     {
+        /// <summary>
+        /// Property of wrong type.
+        /// </summary>
         public string Property { get; }
+
+        /// <summary>
+        /// Actual type of the property.
+        /// </summary>
+        public Type PropertyType { get; }
+
+        /// <summary>
+        /// Type of the entity.
+        /// </summary>
         public Type EntityType { get; }
 
-        public PropertyIsNotCollectionException(string property, Type entityType)
-            : base($"Property {property} in entity {entityType} is expected to implement generic IEnumerable interface to apply collection filter")
+        /// <inheritdoc />
+        public PropertyIsNotCollectionException(string property, Type propertyType, Type entityType)
+            : base(
+                $"Property {property} of type {propertyType} in entity {entityType} is expected to implement generic IEnumerable interface to apply collection filter")
         {
             Property = property;
+            PropertyType = propertyType;
             EntityType = entityType;
         }
     }

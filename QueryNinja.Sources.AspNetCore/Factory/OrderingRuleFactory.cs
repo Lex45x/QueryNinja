@@ -5,16 +5,12 @@ using QueryNinja.Core.OrderingRules;
 
 namespace QueryNinja.Sources.AspNetCore.Factory
 {
-    public class OrderingRuleFactory : AbstractComponentExtension<OrderingRule>, IQueryComponentFactory
+    internal class OrderingRuleFactory : AbstractComponentExtension<OrderingRule>, IQueryComponentFactory
     {
         public bool CanApply(string name, string value)
         {
-            if (!name.StartsWith("order", StringComparison.OrdinalIgnoreCase))
-            {
-                return false;
-            }
-
-            return typeof(OrderDirection).IsEnumDefined(value);
+            return name.StartsWith("order", StringComparison.OrdinalIgnoreCase) &&
+                   typeof(OrderDirection).IsEnumDefined(value);
         }
 
         public IQueryComponent Create(string name, string value)

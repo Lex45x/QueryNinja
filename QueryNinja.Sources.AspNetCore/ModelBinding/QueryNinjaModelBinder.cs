@@ -8,8 +8,13 @@ using QueryNinja.Core.OrderingRules;
 
 namespace QueryNinja.Sources.AspNetCore.ModelBinding
 {
+    /// <summary>
+    /// ModelBinder that can create <see cref="IQuery"/> instance from request parameters. <br/>
+    /// Currently, only binding from <see cref="BindingSource.Query"/> is supported.
+    /// </summary>
     public class QueryNinjaModelBinder : IModelBinder
     {
+        /// <inheritdoc />
         public Task BindModelAsync(ModelBindingContext bindingContext)
         {
             var components =

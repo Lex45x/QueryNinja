@@ -13,15 +13,31 @@ namespace QueryNinja.Sources.AspNetCore.Factory
     /// </summary>
     public class DefaultFilterFactory : AbstractComponentExtension<IFilter>, IQueryComponentFactory
     {
+        /// <summary>
+        /// Create instance of the factory and initialize it with default filters.
+        /// </summary>
         public DefaultFilterFactory()
         {
             RegisterFilterFactory<CollectionOperation>((operation, property, value) => new CollectionFilter(operation, property, value));
             RegisterFilterFactory<ComparisonOperation>((operation, property, value) => new ComparisonFilter(operation, property, value));
         }
 
+        /// <summary>
+        /// Operation-specific factory method that can create <see cref="IFilter"/> from parameters.
+        /// </summary>
+        /// <param name="operation"></param>
+        /// <param name="property"></param>
+        /// <param name="value"></param>
+        /// <typeparam name="TOperation"></typeparam>
         public delegate IFilter FactoryMethod<in TOperation>(TOperation operation, string property, string value)
             where TOperation : struct, Enum;
 
+        /// <summary>
+        /// Factory method that can create <see cref="IFilter"/> from parameters without knowing exact <paramref name="operation"/> type.
+        /// </summary>
+        /// <param name="operation"></param>
+        /// <param name="property"></param>
+        /// <param name="value"></param>
         public delegate IFilter FactoryMethod(string operation, string property, string value);
 
         private readonly Dictionary<Type, FactoryMethod> filterFactories =

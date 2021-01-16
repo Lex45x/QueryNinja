@@ -7,8 +7,12 @@ namespace QueryNinja.Targets.Queryable.Exceptions
     /// </summary>
     public class QueryBuildingException : QueryableTargetException
     {
+        /// <summary>
+        /// Type of the builder that failed building query.
+        /// </summary>
         public Type BuilderType { get; }
 
+        /// <inheritdoc />
         public QueryBuildingException(Type builderType, Exception innerException)
             : base("Query building is failed", innerException)
         {

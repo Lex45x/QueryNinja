@@ -11,6 +11,7 @@ namespace QueryNinja.Extensions.AspNetCore.Swagger
     /// </summary>
     public class QueryParameterFilter : IParameterFilter
     {
+        /// <inheritdoc />
         public void Apply(OpenApiParameter parameter, ParameterFilterContext context)
         {
             var isTypeCorrect = typeof(IQuery).IsAssignableFrom(context.ParameterInfo.ParameterType);

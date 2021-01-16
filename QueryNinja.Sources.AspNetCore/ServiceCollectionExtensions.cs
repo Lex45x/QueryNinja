@@ -7,6 +7,9 @@ using QueryNinja.Sources.AspNetCore.Factory;
 
 namespace QueryNinja.Sources.AspNetCore
 {
+    /// <summary>
+    /// Allows simplified registration of all required QueryNinja services in <see cref="IServiceCollection"/>
+    /// </summary>
     public static class ServiceCollectionExtensions
     {
         /// <summary>

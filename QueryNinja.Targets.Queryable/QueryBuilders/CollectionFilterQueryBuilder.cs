@@ -16,7 +16,7 @@ namespace QueryNinja.Targets.Queryable.QueryBuilders
 
             if (collectionInterface == null)
             {
-                throw new PropertyIsNotCollectionException(component.Property, typeof(TEntity));
+                throw new PropertyIsNotCollectionException(component.Property, propertyLambda.ReturnType, typeof(TEntity));
             }
 
             var elementType = collectionInterface.GetGenericArguments().First();
