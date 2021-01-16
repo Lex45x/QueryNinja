@@ -18,8 +18,8 @@ namespace QueryNinja.Targets.Queryable.Exceptions
         public Type Type { get; }
 
         /// <inheritdoc />
-        public TypeConversionException(string value, Type type)
-            : base($"Cannot convert string '{value}' to {type}")
+        public TypeConversionException(string value, Type type, Exception e)
+            : base($"Cannot convert string '{value}' to {type}", e)
         {
             Value = value;
             Type = type;

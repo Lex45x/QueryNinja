@@ -21,14 +21,17 @@ namespace QueryNinja.Targets.Queryable
         {
             var typeConverter = TypeDescriptor.GetConverter(type);
 
-            var converted = typeConverter.ConvertFromString(value);
-
-            if (converted == null)
+            object? converted;
+            try
             {
-                throw new TypeConversionException(value, type);
+                converted = typeConverter.ConvertFromString(value);
+            }
+            catch (Exception e)
+            {
+                throw new TypeConversionException(value, type, e);
             }
 
-            var constantExpression = Expression.Constant(converted, converted.GetType());
+            var constantExpression = Expression.Constant(converted, converted?.GetType() ?? type);
 
             return constantExpression;
         }
@@ -45,14 +48,18 @@ namespace QueryNinja.Targets.Queryable
             var pathSegments = path.Split(separator: '.');
 
             var parameter = Expression.Parameter(typeof(TEntity));
-            
+
             Expression currentProperty = pathSegments
                 .Aggregate<string, Expression>(parameter, (current, property) =>
                 {
                     //implementation from Expression.Property(string, Type, string);
                     //needed to add custom error handling on top of Expressions
-                    var propertyInfo = current.Type.GetProperty(property, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.IgnoreCase | BindingFlags.FlattenHierarchy)
-                                       ?? current.Type.GetProperty(property, BindingFlags.Static | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.IgnoreCase | BindingFlags.FlattenHierarchy);
+                    var propertyInfo = current.Type.GetProperty(property,
+                                           BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public |
+                                           BindingFlags.IgnoreCase | BindingFlags.FlattenHierarchy)
+                                       ?? current.Type.GetProperty(property,
+                                           BindingFlags.Static | BindingFlags.Instance | BindingFlags.NonPublic |
+                                           BindingFlags.IgnoreCase | BindingFlags.FlattenHierarchy);
 
                     if (propertyInfo == null)
                     {
@@ -87,5 +94,4 @@ namespace QueryNinja.Targets.Queryable
             return false;
         }
     }
-
 }

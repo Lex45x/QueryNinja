@@ -16,12 +16,7 @@ namespace QueryNinja.Sources.AspNetCore.ModelBinding
                 return null;
             }
 
-            if (context.BindingInfo.BindingSource != BindingSource.Query)
-            {
-                return null;
-            }
-
-            return new QueryNinjaModelBinder();
+            return context.BindingInfo.BindingSource != BindingSource.Query ? null : new QueryNinjaModelBinder();
         }
     }
 }

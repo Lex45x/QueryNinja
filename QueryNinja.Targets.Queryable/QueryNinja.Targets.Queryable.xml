@@ -1,0 +1,221 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>QueryNinja.Targets.Queryable</name>
+    </assembly>
+    <members>
+        <member name="T:QueryNinja.Targets.Queryable.Exceptions.InvalidPropertyException">
+            <summary>
+            Occurred when there is an attempt to create <see cref="T:System.Linq.Expressions.MemberExpression"/> for missing property. 
+            </summary>
+        </member>
+        <member name="P:QueryNinja.Targets.Queryable.Exceptions.InvalidPropertyException.Path">
+            <summary>
+            Original path to the property.
+            </summary>
+        </member>
+        <member name="P:QueryNinja.Targets.Queryable.Exceptions.InvalidPropertyException.CurrentType">
+            <summary>
+            Type, where <see cref="P:QueryNinja.Targets.Queryable.Exceptions.InvalidPropertyException.Property"/> was not found.
+            </summary>
+        </member>
+        <member name="P:QueryNinja.Targets.Queryable.Exceptions.InvalidPropertyException.Property">
+            <summary>
+            Missing property name.
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.Exceptions.InvalidPropertyException.#ctor(System.String,System.Type,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="T:QueryNinja.Targets.Queryable.Exceptions.NoMatchingExtensionsException">
+            <summary>
+            Occurred when <see cref="T:QueryNinja.Core.IQueryComponent"/> has no registered <see cref="T:QueryNinja.Targets.Queryable.QueryBuilders.IQueryBuilder"/> that <see cref="M:QueryNinja.Targets.Queryable.QueryBuilders.IQueryBuilder.CanAppend(QueryNinja.Core.IQueryComponent)"/>.
+            </summary>
+        </member>
+        <member name="P:QueryNinja.Targets.Queryable.Exceptions.NoMatchingExtensionsException.Component">
+            <summary>
+            Query component that caused exception.
+            </summary>
+        </member>
+        <member name="P:QueryNinja.Targets.Queryable.Exceptions.NoMatchingExtensionsException.CurrentBuilders">
+            <summary>
+            Current collection of query builders.
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.Exceptions.NoMatchingExtensionsException.#ctor(QueryNinja.Core.IQueryComponent,System.Collections.Generic.IReadOnlyList{QueryNinja.Targets.Queryable.QueryBuilders.IQueryBuilder})">
+            <inheritdoc />
+        </member>
+        <member name="T:QueryNinja.Targets.Queryable.Exceptions.PropertyIsNotCollectionException">
+            <summary>
+            Property <see cref="P:QueryNinja.Targets.Queryable.Exceptions.PropertyIsNotCollectionException.Property"/> is expected to implement <see cref="T:System.Collections.Generic.IEnumerable`1"/>.
+            </summary>
+        </member>
+        <member name="P:QueryNinja.Targets.Queryable.Exceptions.PropertyIsNotCollectionException.Property">
+            <summary>
+            Property of wrong type.
+            </summary>
+        </member>
+        <member name="P:QueryNinja.Targets.Queryable.Exceptions.PropertyIsNotCollectionException.PropertyType">
+            <summary>
+            Actual type of the property.
+            </summary>
+        </member>
+        <member name="P:QueryNinja.Targets.Queryable.Exceptions.PropertyIsNotCollectionException.EntityType">
+            <summary>
+            Type of the entity.
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.Exceptions.PropertyIsNotCollectionException.#ctor(System.String,System.Type,System.Type)">
+            <inheritdoc />
+        </member>
+        <member name="T:QueryNinja.Targets.Queryable.Exceptions.QueryableTargetException">
+            <summary>
+            Base exception for all exceptions in QueryNinja.Targets.Queryable namespace.
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.Exceptions.QueryableTargetException.#ctor(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.Exceptions.QueryableTargetException.#ctor(System.String,System.Exception)">
+            <inheritdoc />
+        </member>
+        <member name="T:QueryNinja.Targets.Queryable.Exceptions.QueryBuildingException">
+            <summary>
+            Query building in <see cref="P:QueryNinja.Targets.Queryable.Exceptions.QueryBuildingException.BuilderType"/> is failed with <see cref="!:QueryBuildingException.InnerException"/>.
+            </summary>
+        </member>
+        <member name="P:QueryNinja.Targets.Queryable.Exceptions.QueryBuildingException.BuilderType">
+            <summary>
+            Type of the builder that failed building query.
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.Exceptions.QueryBuildingException.#ctor(System.Type,System.Exception)">
+            <inheritdoc />
+        </member>
+        <member name="T:QueryNinja.Targets.Queryable.Exceptions.TypeConversionException">
+            <summary>
+            Occurred when there is no way to create instance of <see cref="P:QueryNinja.Targets.Queryable.Exceptions.TypeConversionException.Type"/> from string <see cref="P:QueryNinja.Targets.Queryable.Exceptions.TypeConversionException.Value"/>
+            </summary>
+        </member>
+        <member name="P:QueryNinja.Targets.Queryable.Exceptions.TypeConversionException.Value">
+            <summary>
+            String value
+            </summary>
+        </member>
+        <member name="P:QueryNinja.Targets.Queryable.Exceptions.TypeConversionException.Type">
+            <summary>
+            Desired type for <see cref="P:QueryNinja.Targets.Queryable.Exceptions.TypeConversionException.Value"/> conversion.
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.Exceptions.TypeConversionException.#ctor(System.String,System.Type,System.Exception)">
+            <inheritdoc />
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.ExpressionsExtensions.AsConstant(System.String,System.Type)">
+            <summary>
+            Creates a constant expression of desired type from string value. <br/>
+            Includes built-in type conversion.
+            </summary>
+            <param name="value"></param>
+            <param name="type"></param>
+            <exception cref="T:QueryNinja.Targets.Queryable.Exceptions.TypeConversionException">When <see cref="T:System.ComponentModel.TypeDescriptor"/> unable to convert string <paramref name="value"/> to instance of type <paramref name="type"/></exception>
+            <returns></returns>
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.ExpressionsExtensions.From``1(System.String)">
+            <summary>
+            Takes desired property with <paramref name="path"/> from <typeparamref name="TEntity"/>
+            </summary>
+            <typeparam name="TEntity"></typeparam>
+            <param name="path"></param>
+            <exception cref="T:QueryNinja.Targets.Queryable.Exceptions.InvalidPropertyException">In case of at leas one property in the <paramref name="path"/> will not be found.</exception>
+            <returns></returns>
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.ExpressionsExtensions.IsOrderExpressionDefined(System.Linq.IQueryable)">
+            <summary>
+            Checks whether Queryable already contains order expressions defined.
+            </summary>
+            <param name="queryable">Source</param>
+            <returns></returns>
+        </member>
+        <member name="T:QueryNinja.Targets.Queryable.QueryableExtensions">
+            <summary>
+            Extensions that allow to use QueryNinja on <see cref="T:System.Linq.IQueryable`1"/> interface.
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.QueryableExtensions.WithQuery``1(System.Linq.IQueryable{``0},QueryNinja.Core.IQuery)">
+            <summary>
+            Appends <paramref name="query"/> to the <paramref name="queryable"/>.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="queryable"></param>
+            <param name="query"></param>
+            <exception cref="T:QueryNinja.Targets.Queryable.Exceptions.NoMatchingExtensionsException">When <paramref name="query"/> contains component that no <see cref="T:QueryNinja.Targets.Queryable.QueryBuilders.IQueryBuilder"/> can append.</exception>
+            <returns></returns>
+        </member>
+        <member name="T:QueryNinja.Targets.Queryable.QueryBuilders.AbstractQueryBuilder`1">
+            <summary>
+            Provides generic implementation for <see cref="T:QueryNinja.Targets.Queryable.QueryBuilders.IQueryBuilder"/> using specific <typeparamref name="TComponent"/> type.
+            </summary>
+            <typeparam name="TComponent"></typeparam>
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.QueryBuilders.AbstractQueryBuilder`1.CanAppend(QueryNinja.Core.IQueryComponent)">
+            <inheritdoc/>
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.QueryBuilders.AbstractQueryBuilder`1.Append``1(System.Linq.IQueryable{``0},QueryNinja.Core.IQueryComponent)">
+            <inheritdoc/>
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.QueryBuilders.AbstractQueryBuilder`1.AppendImplementation``1(System.Linq.IQueryable{``0},`0)">
+            <summary>
+            A call to this method wil be wrapped with error handling in <see cref="M:QueryNinja.Targets.Queryable.QueryBuilders.AbstractQueryBuilder`1.Append``1(System.Linq.IQueryable{``0},`0)"/>
+            </summary>
+            <typeparam name="TEntity"></typeparam>
+            <param name="source"></param>
+            <param name="component"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.QueryBuilders.AbstractQueryBuilder`1.Append``1(System.Linq.IQueryable{``0},`0)">
+            <summary>
+            Provides generic <see cref="M:QueryNinja.Targets.Queryable.QueryBuilders.AbstractQueryBuilder`1.Append``1(System.Linq.IQueryable{``0},QueryNinja.Core.IQueryComponent)"/> implementation for specific component type.<br/>
+            Contains generic error handling.
+            </summary>
+            <typeparam name="TEntity"></typeparam>
+            <param name="source"></param>
+            <param name="component"></param>
+            <exception cref="T:QueryNinja.Targets.Queryable.Exceptions.QueryBuildingException">Thrown in case of any unexpected exception.</exception>
+            <returns></returns>
+        </member>
+        <member name="T:QueryNinja.Targets.Queryable.QueryBuilders.IQueryBuilder">
+            <summary>
+            Extension interface for Queryable Target. <br/>
+            Appends to <see cref="T:System.Linq.IQueryable`1"/> instance of a <see cref="T:QueryNinja.Core.IQueryComponent"/>
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.QueryBuilders.IQueryBuilder.CanAppend(QueryNinja.Core.IQueryComponent)">
+            <summary>
+            Checks whether current QueryBuilder knows how to append passed <see cref="T:QueryNinja.Core.IQueryComponent"/>.
+            </summary>
+            <param name="component"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.QueryBuilders.IQueryBuilder.Append``1(System.Linq.IQueryable{``0},QueryNinja.Core.IQueryComponent)">
+            <summary>
+            Append original <paramref name="source"/> with additional expression depending on <paramref name="component"/>.
+            </summary>
+            <typeparam name="TEntity"></typeparam>
+            <param name="source"></param>
+            <param name="component"></param>
+            <returns></returns>
+        </member>
+        <member name="T:QueryNinja.Targets.Queryable.RegistrationExtensions">
+            <summary>
+            Allows to register IQueryable Target in <see cref="T:QueryNinja.Core.Extensibility.QueryNinjaExtensions"/>
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.RegistrationExtensions.WithQueryableTarget(QueryNinja.Core.Extensibility.IExtensionsSettings)">
+            <summary>
+            Extends <paramref name="settings"/> with default query builders.
+            </summary>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
