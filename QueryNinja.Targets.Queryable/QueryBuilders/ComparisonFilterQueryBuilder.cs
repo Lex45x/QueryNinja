@@ -20,13 +20,13 @@ namespace QueryNinja.Targets.Queryable.QueryBuilders
             };
         
 
-        protected override IQueryable<TEntity> AppendImplementation<TEntity>(IQueryable<TEntity> source, ComparisonFilter defaultFilter)
+        protected override IQueryable<TEntity> AppendImplementation<TEntity>(IQueryable<TEntity> source, ComparisonFilter component)
         {
-            var propertyLambda = defaultFilter.Property.From<TEntity>();
+            var propertyLambda = component.Property.From<TEntity>();
 
-            var constant = defaultFilter.Value.AsConstant(propertyLambda.ReturnType);
+            var constant = component.Value.AsConstant(propertyLambda.ReturnType);
 
-            var body = Operations[defaultFilter.Operation](propertyLambda.Body, constant);
+            var body = Operations[component.Operation](propertyLambda.Body, constant);
             
             var filterExpression = Expression.Lambda(body, propertyLambda.Parameters);
 

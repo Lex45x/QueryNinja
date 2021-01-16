@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using QueryNinja.Examples.AspNetCore.DbContext;
+// ReSharper disable All
 
 namespace QueryNinja.Examples.AspNetCore.Migrations
 {

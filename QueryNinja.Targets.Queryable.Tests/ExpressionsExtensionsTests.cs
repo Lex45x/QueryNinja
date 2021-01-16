@@ -21,9 +21,9 @@ namespace QueryNinja.Targets.Queryable.Tests
 
         public static IEnumerable<TestCaseData> Expressions = new List<TestCaseData>
         {
-            new TestCaseData(Enumerable.Repeat(5, 1).AsQueryable().OrderBy(a => a).Where(a => true)).Returns(true),
-            new TestCaseData(Enumerable.Repeat(5, 1).AsQueryable().OrderBy(a => a)).Returns(true),
-            new TestCaseData(Enumerable.Repeat(5, 1).AsQueryable()).Returns(false)
+            new TestCaseData(Enumerable.Repeat(element: 5, count: 1).AsQueryable().OrderBy(a => a).Where(a => true)).Returns(result: true),
+            new TestCaseData(Enumerable.Repeat(element: 5, count: 1).AsQueryable().OrderBy(a => a)).Returns(result: true),
+            new TestCaseData(Enumerable.Repeat(element: 5, count: 1).AsQueryable()).Returns(result: false)
         };
 
         public static IEnumerable<TestCaseData> FromTestCases = new List<TestCaseData>
@@ -46,7 +46,7 @@ namespace QueryNinja.Targets.Queryable.Tests
             Assert.AreEqual(constantExpression?.Type, constant.GetType());
         }
 
-        private static readonly Example example = new Example
+        private static readonly Example ExampleInstance = new()
         {
             Value = "1",
             Child = new Example
@@ -67,7 +67,7 @@ namespace QueryNinja.Targets.Queryable.Tests
 
             var @delegate = lambda.Compile();
 
-            var result = (string?)@delegate?.DynamicInvoke(example);
+            var result = (string?)@delegate.DynamicInvoke(ExampleInstance);
 
             return result;
         }

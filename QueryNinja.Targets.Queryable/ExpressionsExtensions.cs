@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
+using QueryNinja.Targets.Queryable.Exceptions;
 
 namespace QueryNinja.Targets.Queryable
 {
@@ -13,6 +15,7 @@ namespace QueryNinja.Targets.Queryable
         /// </summary>
         /// <param name="value"></param>
         /// <param name="type"></param>
+        /// <exception cref="TypeConversionException">When <see cref="TypeDescriptor"/> unable to convert string <paramref name="value"/> to instance of type <paramref name="type"/></exception>
         /// <returns></returns>
         public static Expression AsConstant(this string value, Type type)
         {
@@ -22,7 +25,7 @@ namespace QueryNinja.Targets.Queryable
 
             if (converted == null)
             {
-                throw new InvalidOperationException($"Cannot convert string '{value}' to {type}");
+                throw new TypeConversionException(value, type);
             }
 
             var constantExpression = Expression.Constant(converted, converted.GetType());
@@ -35,14 +38,29 @@ namespace QueryNinja.Targets.Queryable
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="path"></param>
+        /// <exception cref="InvalidPropertyException">In case of at leas one property in the <paramref name="path"/> will not be found.</exception>
         /// <returns></returns>
         public static LambdaExpression From<TEntity>(this string path)
         {
-            var pathSegments = path.Split('.');
+            var pathSegments = path.Split(separator: '.');
 
             var parameter = Expression.Parameter(typeof(TEntity));
+            
+            Expression currentProperty = pathSegments
+                .Aggregate<string, Expression>(parameter, (current, property) =>
+                {
+                    //implementation from Expression.Property(string, Type, string);
+                    //needed to add custom error handling on top of Expressions
+                    var propertyInfo = current.Type.GetProperty(property, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.IgnoreCase | BindingFlags.FlattenHierarchy)
+                                       ?? current.Type.GetProperty(property, BindingFlags.Static | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.IgnoreCase | BindingFlags.FlattenHierarchy);
 
-            Expression currentProperty = pathSegments.Aggregate<string, Expression>(parameter, (current, property) => Expression.Property(current, current.Type, property));
+                    if (propertyInfo == null)
+                    {
+                        throw new InvalidPropertyException(path, current.Type, property);
+                    }
+
+                    return Expression.Property(current, propertyInfo);
+                });
 
             return Expression.Lambda(currentProperty, parameter);
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace QueryNinja.Core.Extensibility
 {
@@ -9,8 +10,9 @@ namespace QueryNinja.Core.Extensibility
     public interface IQueryComponentExtension
     {
         /// <summary>
-        /// Type of the component this descriptor is related to.
+        /// Type of the component this extension is related to.
         /// </summary>
+        [SuppressMessage("ReSharper", "UnusedMember.Global", Justification = "For public extensions development")]
         Type QueryComponent { get; }
     }
 }

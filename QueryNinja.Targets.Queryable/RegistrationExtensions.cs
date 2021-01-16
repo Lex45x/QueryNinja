@@ -8,6 +8,11 @@ namespace QueryNinja.Targets.Queryable
     /// </summary>
     public static class RegistrationExtensions
     {
+        /// <summary>
+        /// Extends <paramref name="settings"/> with default query builders.
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <returns></returns>
         public static IExtensionsSettings WithQueryableTarget(this IExtensionsSettings settings)
         {
             settings.Register<CollectionFilterQueryBuilder>();

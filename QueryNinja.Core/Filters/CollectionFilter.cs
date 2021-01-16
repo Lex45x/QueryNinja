@@ -7,6 +7,7 @@
     /// </summary>
     public class CollectionFilter : AbstractDefaultFilter<CollectionOperation>
     {
+        /// <inheritdoc />
         public CollectionFilter(CollectionOperation operation, string property, string value)
             : base(operation, property, value)
         {

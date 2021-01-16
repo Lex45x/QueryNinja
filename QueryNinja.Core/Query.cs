@@ -12,6 +12,11 @@ namespace QueryNinja.Core
     /// </summary>
     public sealed class Query : IQuery
     {
+        /// <summary>
+        /// Creates instance of <see cref="Query"/> with defined filters and ordering rules.
+        /// </summary>
+        /// <param name="filters"></param>
+        /// <param name="orderingRules"></param>
         public Query(ICollection<IFilter> filters, ICollection<OrderingRule> orderingRules)
         {
             Filters = filters;
@@ -35,6 +40,10 @@ namespace QueryNinja.Core
             return Filters.Cast<IQueryComponent>().Concat(OrderingRules);
         }
 
+        /// <summary>
+        /// Debug-friendly implementation. Represent whole query.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             var result = GetComponents()

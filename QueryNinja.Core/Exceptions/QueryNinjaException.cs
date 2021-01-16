@@ -7,11 +7,13 @@ namespace QueryNinja.Core.Exceptions
     /// </summary>
     public abstract class QueryNinjaException : Exception
     {
+        /// <inheritdoc />
         protected QueryNinjaException(string message)
             : base(message)
         {
         }
 
+        /// <inheritdoc />
         protected QueryNinjaException(string message, Exception innerException)
             : base(message, innerException)
         {

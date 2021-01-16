@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using QueryNinja.Core;
@@ -27,7 +26,7 @@ namespace QueryNinja.Extensions.AspNetCore.Swagger
             parameter.In = ParameterLocation.Query;
             parameter.Example = new OpenApiObject
             {
-                ["filters.Property.Equals"] = new OpenApiInteger(0),
+                ["filters.Property.Equals"] = new OpenApiInteger(value: 0),
                 ["order.Property"] = new OpenApiString("Ascending")
             };
         }

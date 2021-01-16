@@ -23,7 +23,7 @@ namespace QueryNinja.Sources.AspNetCore
             QueryNinjaExtensions.Configure.Register(factory);
             QueryNinjaExtensions.Configure.Register<OrderingRuleFactory>();
 
-            collection.Configure<MvcOptions>(options => options.ModelBinderProviders.Insert(0, new QueryNinjaModelBinderProvider()));
+            collection.Configure<MvcOptions>(options => options.ModelBinderProviders.Insert(index: 0, new QueryNinjaModelBinderProvider()));
 
             return QueryNinjaExtensions.Configure;
         }

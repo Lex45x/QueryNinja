@@ -1,8 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 using QueryNinja.Examples.AspNetCore.DbContext.Entities;
+// ReSharper disable StringLiteralTypo
 
 namespace QueryNinja.Examples.AspNetCore.DbContext
 {
+    [SuppressMessage("ReSharper", "UnusedMember.Global", Justification = "Example of context is no fully utilized")]
     public class UniversityDbContext : Microsoft.EntityFrameworkCore.DbContext
     {
         public UniversityDbContext(DbContextOptions<UniversityDbContext> options)
@@ -40,52 +43,52 @@ namespace QueryNinja.Examples.AspNetCore.DbContext
             modelBuilder
                 .Entity<Student>()
                 .HasData(
-                    new Student()
+                    new Student
                     {
                         Id = 1,
                         Name = "Dina Davies"
                     },
-                    new Student()
+                    new Student
                     {
                         Id = 2,
                         Name = "Zayna Rivas"
                     },
-                    new Student()
+                    new Student
                     {
                         Id = 3,
                         Name = "Margo Alcock"
                     },
-                    new Student()
+                    new Student
                     {
                         Id = 4,
                         Name = "Ayden Ashton"
                     },
-                    new Student()
+                    new Student
                     {
                         Id = 5,
                         Name = "Heena Norton"
                     },
-                    new Student()
+                    new Student
                     {
                         Id = 6,
                         Name = "Mica Hills"
                     },
-                    new Student()
+                    new Student
                     {
                         Id = 7,
                         Name = "Roshni Rigby"
                     },
-                    new Student()
+                    new Student
                     {
                         Id = 8,
                         Name = "Quentin Farley"
                     },
-                    new Student()
+                    new Student
                     {
                         Id = 9,
                         Name = "Zubair Hurley"
                     },
-                    new Student()
+                    new Student
                     {
                         Id = 10,
                         Name = "Atlanta Lim"

@@ -11,22 +11,22 @@ namespace QueryNinja.Targets.Queryable.Tests
     [TestFixture(Category = "Integration", TestOf = typeof(QueryableExtensions))]
     public class QueryableExtensionsTest
     {
-        private static readonly IQueryable<Example> sourceData = new[]
+        private static readonly IQueryable<Example> SourceData = new[]
         {
-            new Example(1, "First", 15),
-            new Example(2, "Second", 21),
-            new Example(3, "Third", 73),
-            new Example(4, "Fourth", 90),
-            new Example(5, "Fifth", 45),
-            new Example(6, "Sixth", 22),
-            new Example(7, "Seventh", 65),
-            new Example(8, "Eighth", 34),
-            new Example(9, "Ninth", 8)
+            new Example(id: 1, "First", intValue: 15),
+            new Example(id: 2, "Second", intValue: 21),
+            new Example(id: 3, "Third", intValue: 73),
+            new Example(id: 4, "Fourth", intValue: 90),
+            new Example(id: 5, "Fifth", intValue: 45),
+            new Example(id: 6, "Sixth", intValue: 22),
+            new Example(id: 7, "Seventh", intValue: 65),
+            new Example(id: 8, "Eighth", intValue: 34),
+            new Example(id: 9, "Ninth", intValue: 8)
         }.AsQueryable();
 
         public static IEnumerable<TestCaseData> Scenarios = new List<TestCaseData>
         {
-            new TestCaseData(sourceData,
+            new TestCaseData(SourceData,
                 new Query(
                     new []
                     {
@@ -38,7 +38,7 @@ namespace QueryNinja.Targets.Queryable.Tests
                         new OrderingRule("Id", OrderDirection.Ascending)
                     }))
             .Returns(new []{ 1, 3, 5, 6 }),
-            new TestCaseData(sourceData,
+            new TestCaseData(SourceData,
                 new Query(
                     new []
                     {

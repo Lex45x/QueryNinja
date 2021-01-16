@@ -7,6 +7,7 @@
     /// </summary>
     public sealed class ComparisonFilter : AbstractDefaultFilter<ComparisonOperation>
     {
+        /// <inheritdoc />
         public ComparisonFilter(ComparisonOperation operation, string property, string value)
             : base(operation, property, value)
         {

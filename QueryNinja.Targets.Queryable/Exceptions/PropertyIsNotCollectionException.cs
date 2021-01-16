@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using QueryNinja.Core.Exceptions;
 
 namespace QueryNinja.Targets.Queryable.Exceptions
 {

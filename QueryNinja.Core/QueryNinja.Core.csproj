@@ -5,4 +5,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Users\redka\Source\Repos\QueryNinja\QueryNinja.Core\QueryNinja.Core.xml</DocumentationFile>
+  </PropertyGroup>
+
 </Project>

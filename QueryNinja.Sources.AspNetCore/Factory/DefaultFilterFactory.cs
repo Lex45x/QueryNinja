@@ -56,7 +56,7 @@ namespace QueryNinja.Sources.AspNetCore.Factory
 
             var segments = name.AsSpan();
 
-            var lastDot = segments.LastIndexOf('.');
+            var lastDot = segments.LastIndexOf(value: '.');
 
             var operation = segments.Slice(lastDot + 1).ToString();
 
@@ -68,8 +68,8 @@ namespace QueryNinja.Sources.AspNetCore.Factory
         {
             var segments = name.AsSpan();
 
-            var firstDot = segments.IndexOf('.');
-            var lastDot = segments.LastIndexOf('.');
+            var firstDot = segments.IndexOf(value: '.');
+            var lastDot = segments.LastIndexOf(value: '.');
 
             var operation = segments.Slice(lastDot + 1).ToString();
             var property = segments.Slice(firstDot + 1, lastDot - firstDot - 1).ToString();

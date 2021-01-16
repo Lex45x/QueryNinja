@@ -31,8 +31,15 @@ namespace QueryNinja.Targets.Queryable.QueryBuilders
             return Append(source, (TComponent) component);
         }
 
+        /// <summary>
+        /// A call to this method wil be wrapped with error handling in <see cref="Append{TEntity}(IQueryable{TEntity},TComponent)"/>
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="component"></param>
+        /// <returns></returns>
         protected abstract IQueryable<TEntity> AppendImplementation<TEntity>(IQueryable<TEntity> source,
-            TComponent filter);
+            TComponent component);
 
         /// <summary>
         /// Provides generic <see cref="Append{TEntity}(IQueryable{TEntity},IQueryComponent)"/> implementation for specific component type.<br/>
@@ -40,14 +47,14 @@ namespace QueryNinja.Targets.Queryable.QueryBuilders
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="source"></param>
-        /// <param name="filter"></param>
+        /// <param name="component"></param>
         /// <exception cref="QueryBuildingException">Thrown in case of any unexpected exception.</exception>
         /// <returns></returns>
-        public IQueryable<TEntity> Append<TEntity>(IQueryable<TEntity> source, TComponent filter)
+        public IQueryable<TEntity> Append<TEntity>(IQueryable<TEntity> source, TComponent component)
         {
             try
             {
-                return AppendImplementation(source, filter);
+                return AppendImplementation(source, component);
             }
             catch (QueryNinjaException)
             {

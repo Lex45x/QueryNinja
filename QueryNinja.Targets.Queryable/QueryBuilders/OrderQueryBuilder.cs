@@ -7,7 +7,7 @@ namespace QueryNinja.Targets.Queryable.QueryBuilders
 {
     internal class OrderQueryBuilder : AbstractQueryBuilder<OrderingRule>
     {
-        public override IQueryable<TEntity> Append<TEntity>(IQueryable<TEntity> source, OrderingRule order)
+        protected override IQueryable<TEntity> AppendImplementation<TEntity>(IQueryable<TEntity> source, OrderingRule order)
         {
             var methodName = source.IsOrderExpressionDefined() ? "ThenBy" : "OrderBy";
 

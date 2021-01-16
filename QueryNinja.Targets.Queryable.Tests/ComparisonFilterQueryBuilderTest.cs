@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using QueryNinja.Core.Filters;
 using QueryNinja.Targets.Queryable.QueryBuilders;
+// ReSharper disable StringLiteralTypo
 
 namespace QueryNinja.Targets.Queryable.Tests
 {
