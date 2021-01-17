@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace QueryNinja.Core.Extensibility
@@ -11,6 +12,14 @@ namespace QueryNinja.Core.Extensibility
         //prevents any extension to be registered twice
         private static readonly HashSet<IQueryComponentExtension> ExtensionsSet =
             new HashSet<IQueryComponentExtension>(new TypeBasedEqualityComparer());
+
+        private static readonly HashSet<Type> KnownQueryComponentsSet = new HashSet<Type>();
+
+        /// <summary>
+        /// Allows to get all known Types of <see cref="IQueryComponent"/>. <br/>
+        /// Intended only for extensibility purposes.
+        /// </summary>
+        public static IReadOnlyCollection<Type> KnownQueryComponents => KnownQueryComponentsSet; 
 
         /// <summary>
         /// Allows to get all extensions of Desired type. <br/>
@@ -32,7 +41,7 @@ namespace QueryNinja.Core.Extensibility
 
 
         /// <inheritdoc/>
-        public class ExtensionsSettings
+        private class ExtensionsSettings
             : IExtensionsSettings
         {
             /// <inheritdoc/>
@@ -46,6 +55,27 @@ namespace QueryNinja.Core.Extensibility
                 where TExtension : IQueryComponentExtension, new()
             {
                 Register(new TExtension());
+            }
+
+            /// <inheritdoc />
+            public void RegisterComponent(Type componentType)
+            {
+                if (typeof(IQueryComponent).IsAssignableFrom(componentType))
+                {
+                    KnownQueryComponentsSet.Add(componentType);
+                }
+                else
+                {
+                    //todo: custom exception
+                    throw new ArgumentException("Type should implement IQueryComponent", nameof(componentType));
+                }
+            }
+
+            /// <inheritdoc />
+            public void RegisterComponent<TComponent>()
+                where TComponent : IQueryComponent
+            {
+                KnownQueryComponentsSet.Add(typeof(TComponent));
             }
         }
 
@@ -63,6 +93,16 @@ namespace QueryNinja.Core.Extensibility
             {
                 return obj.GetType().GetHashCode();
             }
+        }
+
+        /// <summary>
+        /// Clears <see cref="Extensions{TExtension}"/> and <see cref="KnownQueryComponents"/>. <br/>
+        /// Usage intended only for testing purposes to reset static state.
+        /// </summary>
+        public static void Clear()
+        {
+            ExtensionsSet.Clear();
+            KnownQueryComponentsSet.Clear();
         }
     }
 }

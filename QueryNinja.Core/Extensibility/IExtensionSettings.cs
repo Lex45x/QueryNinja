@@ -1,4 +1,6 @@
-﻿namespace QueryNinja.Core.Extensibility
+﻿using System;
+
+namespace QueryNinja.Core.Extensibility
 {
     /// <summary>
     /// Interface that allow to configure <see cref="QueryNinjaExtensions"/>
@@ -19,5 +21,20 @@
         /// <typeparam name="TExtension"></typeparam>
         void Register<TExtension>()
             where TExtension : IQueryComponentExtension, new();
+
+        /// <summary>
+        /// Registers existence of a specific query component type. <br/>
+        /// Later on, Sources or Targets <b>may</b> use this information.
+        /// </summary>
+        /// <param name="componentType">Type that implements <see cref="IQueryComponent"/></param>
+        void RegisterComponent(Type componentType);
+
+        /// <summary>
+        /// Registers existence of a specific query component type. <br/>
+        /// Later on, Sources or Targets <b>may</b> use this information.
+        /// </summary>
+        /// <typeparam name="TComponent">Type that implements <see cref="IQueryComponent"/></typeparam>
+        void RegisterComponent<TComponent>()
+            where TComponent : IQueryComponent;
     }
 }

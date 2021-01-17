@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using QueryNinja.Sources.AspNetCore.ModelBinding;
 using System;
+using QueryNinja.Core;
 using QueryNinja.Core.Extensibility;
 using QueryNinja.Sources.AspNetCore.Factory;
 
@@ -14,21 +15,66 @@ namespace QueryNinja.Sources.AspNetCore
     {
         /// <summary>
         /// Adds <see cref="QueryNinjaModelBinderProvider"/> to <see cref="MvcOptions"/> and configures <see cref="QueryNinjaExtensions"/> <br/>
-        /// Also, allows to register user-defined operation-based filters via <paramref name="configureFactory"/>
+        /// Also, allows to register user-defined operation-based filters via <see cref="IAspNetCoreExtensionSettings"/>
         /// </summary>
         /// <param name="collection"></param>
-        /// <param name="configureFactory">Delegate to configure <see cref="DefaultFilterFactory"/> with user-defined filters.</param>
         /// <returns><see cref="QueryNinjaExtensions.Configure"/></returns>
-        public static IExtensionsSettings AddQueryNinja(this IServiceCollection collection, Action<DefaultFilterFactory> configureFactory = null)
+        public static IAspNetCoreExtensionSettings AddQueryNinja(this IServiceCollection collection)
         {
             var factory = new DefaultFilterFactory();
-            configureFactory?.Invoke(factory);
             QueryNinjaExtensions.Configure.Register(factory);
+
             QueryNinjaExtensions.Configure.Register<OrderingRuleFactory>();
 
-            collection.Configure<MvcOptions>(options => options.ModelBinderProviders.Insert(index: 0, new QueryNinjaModelBinderProvider()));
 
-            return QueryNinjaExtensions.Configure;
+            collection.Configure<MvcOptions>(options =>
+                options.ModelBinderProviders.Insert(index: 0, new QueryNinjaModelBinderProvider()));
+
+            return new ExtensionSettings(QueryNinjaExtensions.Configure, factory);
+        }
+
+        private class ExtensionSettings : IAspNetCoreExtensionSettings
+        {
+            private readonly IExtensionsSettings parent;
+            private readonly DefaultFilterFactory factory;
+
+            public ExtensionSettings(IExtensionsSettings parent, DefaultFilterFactory factory)
+            {
+                this.parent = parent;
+                this.factory = factory;
+            }
+
+            /// <inheritdoc />
+            public void Register(IQueryComponentExtension extension)
+            {
+                parent.Register(extension);
+            }
+
+            /// <inheritdoc />
+            public void Register<TExtension>()
+                where TExtension : IQueryComponentExtension, new()
+            {
+                parent.Register<TExtension>();
+            }
+
+            /// <inheritdoc />
+            public void RegisterComponent(Type componentType)
+            {
+                parent.RegisterComponent(componentType);
+            }
+
+            /// <inheritdoc />
+            public void RegisterComponent<TComponent>()
+                where TComponent : IQueryComponent
+            {
+                parent.RegisterComponent<TComponent>();
+            }
+
+            /// <inheritdoc />
+            public void ConfigureFilterFactory(Action<DefaultFilterFactory> configure)
+            {
+                configure(factory);
+            }
         }
     }
 }

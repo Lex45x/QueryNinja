@@ -40,6 +40,20 @@
             </summary>
             <typeparam name="TExtension"></typeparam>
         </member>
+        <member name="M:QueryNinja.Core.Extensibility.IExtensionsSettings.RegisterComponent(System.Type)">
+            <summary>
+            Registers existence of a specific query component type. <br/>
+            Later on, Sources or Targets <b>may</b> use this information.
+            </summary>
+            <param name="componentType">Type that implements <see cref="T:QueryNinja.Core.IQueryComponent"/></param>
+        </member>
+        <member name="M:QueryNinja.Core.Extensibility.IExtensionsSettings.RegisterComponent``1">
+            <summary>
+            Registers existence of a specific query component type. <br/>
+            Later on, Sources or Targets <b>may</b> use this information.
+            </summary>
+            <typeparam name="TComponent">Type that implements <see cref="T:QueryNinja.Core.IQueryComponent"/></typeparam>
+        </member>
         <member name="T:QueryNinja.Core.Extensibility.IQueryComponentExtension">
             <summary>
             Interface that used to use <see cref="T:QueryNinja.Core.IQueryComponent"/> in Target or Source package <br/>
@@ -54,6 +68,12 @@
         <member name="T:QueryNinja.Core.Extensibility.QueryNinjaExtensions">
             <summary>
             Contains all descriptors related to all plugins.
+            </summary>
+        </member>
+        <member name="P:QueryNinja.Core.Extensibility.QueryNinjaExtensions.KnownQueryComponents">
+            <summary>
+            Allows to get all known Types of <see cref="T:QueryNinja.Core.IQueryComponent"/>. <br/>
+            Intended only for extensibility purposes.
             </summary>
         </member>
         <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.Extensions``1">
@@ -79,9 +99,21 @@
         <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionsSettings.Register``1">
             <inheritdoc/>
         </member>
+        <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionsSettings.RegisterComponent(System.Type)">
+            <inheritdoc />
+        </member>
+        <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionsSettings.RegisterComponent``1">
+            <inheritdoc />
+        </member>
         <member name="T:QueryNinja.Core.Extensibility.QueryNinjaExtensions.TypeBasedEqualityComparer">
             <summary>
             Compares <see cref="T:QueryNinja.Core.Extensibility.IQueryComponentExtension"/> by Type.
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.Clear">
+            <summary>
+            Clears <see cref="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.Extensions``1"/> and <see cref="P:QueryNinja.Core.Extensibility.QueryNinjaExtensions.KnownQueryComponents"/>. <br/>
+            Usage intended only for testing purposes to reset static state.
             </summary>
         </member>
         <member name="T:QueryNinja.Core.Filters.AbstractDefaultFilter`1">
