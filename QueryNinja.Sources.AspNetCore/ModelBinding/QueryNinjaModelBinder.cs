@@ -24,8 +24,7 @@ namespace QueryNinja.Sources.AspNetCore.ModelBinding
                     ?.Create(queryParameter.Key, queryParameter.Value))
                 .ToList();
 
-            var result = new Query(components.OfType<IFilter>().ToList(),
-                components.OfType<OrderingRule>().ToList());
+            var result = new Query(components);
 
             bindingContext.Result = ModelBindingResult.Success(result);
 

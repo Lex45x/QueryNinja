@@ -30,25 +30,19 @@ namespace QueryNinja.Targets.Queryable.Tests
         {
             new TestCaseData(SourceData,
                     new Query(
-                        new[]
+                        new IQueryComponent[]
                         {
                             new ComparisonFilter(ComparisonOperation.Equals, "StringValue.Length", "5"),
-                            new ComparisonFilter(ComparisonOperation.GreaterOrEquals, "IntValue", "10")
-                        },
-                        new[]
-                        {
+                            new ComparisonFilter(ComparisonOperation.GreaterOrEquals, "IntValue", "10"),
                             new OrderingRule("Id", OrderDirection.Ascending)
                         }))
                 .Returns(new[] {1, 3, 5, 6}),
             new TestCaseData(SourceData,
                     new Query(
-                        new[]
+                        new IQueryComponent[]
                         {
                             new ComparisonFilter(ComparisonOperation.Equals, "StringValue.Length", "6"),
-                            new ComparisonFilter(ComparisonOperation.Less, "IntValue", "40")
-                        },
-                        new[]
-                        {
+                            new ComparisonFilter(ComparisonOperation.Less, "IntValue", "40"),
                             new OrderingRule("StringValue", OrderDirection.Ascending)
                         }))
                 .Returns(new[] {8, 2})

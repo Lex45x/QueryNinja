@@ -13,7 +13,6 @@ namespace QueryNinja.Sources.AspNetCore.Tests
             var serviceCollection = Mock.Of<IServiceCollection>();
 
             var extensionSettings = serviceCollection.AddQueryNinja();
-            
         }
     }
 }
