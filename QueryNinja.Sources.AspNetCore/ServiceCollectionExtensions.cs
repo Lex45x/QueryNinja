@@ -45,35 +45,40 @@ namespace QueryNinja.Sources.AspNetCore
             }
 
             /// <inheritdoc />
-            public void Register(IQueryComponentExtension extension)
+            public IExtensionsSettings Register(IQueryComponentExtension extension)
             {
                 parent.Register(extension);
+                return parent;
             }
 
             /// <inheritdoc />
-            public void Register<TExtension>()
+            public IExtensionsSettings Register<TExtension>()
                 where TExtension : IQueryComponentExtension, new()
             {
                 parent.Register<TExtension>();
+                return parent;
             }
 
             /// <inheritdoc />
-            public void RegisterComponent(Type componentType)
+            public IExtensionsSettings RegisterComponent(Type componentType)
             {
                 parent.RegisterComponent(componentType);
+                return parent;
             }
 
             /// <inheritdoc />
-            public void RegisterComponent<TComponent>()
+            public IExtensionsSettings RegisterComponent<TComponent>()
                 where TComponent : IQueryComponent
             {
                 parent.RegisterComponent<TComponent>();
+                return parent;
             }
 
             /// <inheritdoc />
-            public void ConfigureFilterFactory(Action<DefaultFilterFactory> configure)
+            public IAspNetCoreExtensionSettings ConfigureFilterFactory(Action<DefaultFilterFactory> configure)
             {
                 configure(factory);
+                return this;
             }
         }
     }

@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using QueryNinja.Examples.AspNetCore.DbContext;
+using QueryNinja.Examples.AspNetCore.Extensions;
 using QueryNinja.Extensions.AspNetCore.Swagger;
 using QueryNinja.Sources.AspNetCore;
 using QueryNinja.Targets.Queryable;
@@ -28,7 +29,10 @@ namespace QueryNinja.Examples.AspNetCore
 
             services
                 .AddQueryNinja()
-                .WithQueryableTarget();
+                .WithQueryableTarget()
+                //User-defined extensions registration
+                .RegisterComponent<DatabaseFunctionFilter>()
+                .Register<DatabaseFunctionQueryBuilder>();
 
             services
                 .AddControllers()

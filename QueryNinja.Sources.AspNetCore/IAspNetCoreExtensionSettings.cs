@@ -13,6 +13,6 @@ namespace QueryNinja.Sources.AspNetCore
         /// Allows to extend <see cref="DefaultFilterFactory"/> with user-defined filters.
         /// </summary>
         /// <param name="configure">Delegate to configure <see cref="DefaultFilterFactory"/> with user-defined filters.</param>
-        void ConfigureFilterFactory(Action<DefaultFilterFactory> configure);
+        IAspNetCoreExtensionSettings ConfigureFilterFactory(Action<DefaultFilterFactory> configure);
     }
 }

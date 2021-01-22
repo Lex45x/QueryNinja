@@ -22,5 +22,9 @@
     <ProjectReference Include="..\QueryNinja.Targets.Queryable\QueryNinja.Targets.Queryable.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+
 
 </Project>

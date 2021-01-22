@@ -7,7 +7,10 @@ using QueryNinja.Targets.Queryable.Exceptions;
 
 namespace QueryNinja.Targets.Queryable
 {
-    internal static class ExpressionsExtensions
+    /// <summary>
+    /// Contains extensions to work with expression trees.
+    /// </summary>
+    public static class ExpressionsExtensions
     {
         /// <summary>
         /// Creates a constant expression of desired type from string value. <br/>

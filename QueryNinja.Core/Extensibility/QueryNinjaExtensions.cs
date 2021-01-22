@@ -45,20 +45,22 @@ namespace QueryNinja.Core.Extensibility
             : IExtensionsSettings
         {
             /// <inheritdoc/>
-            public void Register(IQueryComponentExtension extension)
+            public IExtensionsSettings Register(IQueryComponentExtension extension)
             {
                 ExtensionsSet.Add(extension);
+                return this;
             }
 
             /// <inheritdoc/>
-            public void Register<TExtension>()
+            public IExtensionsSettings Register<TExtension>()
                 where TExtension : IQueryComponentExtension, new()
             {
                 Register(new TExtension());
+                return this;
             }
 
             /// <inheritdoc />
-            public void RegisterComponent(Type componentType)
+            public IExtensionsSettings RegisterComponent(Type componentType)
             {
                 if (typeof(IQueryComponent).IsAssignableFrom(componentType))
                 {
@@ -69,13 +71,17 @@ namespace QueryNinja.Core.Extensibility
                     //todo: custom exception
                     throw new ArgumentException("Type should implement IQueryComponent", nameof(componentType));
                 }
+
+                return this;
             }
 
             /// <inheritdoc />
-            public void RegisterComponent<TComponent>()
+            public IExtensionsSettings RegisterComponent<TComponent>()
                 where TComponent : IQueryComponent
             {
                 KnownQueryComponentsSet.Add(typeof(TComponent));
+
+                return this;
             }
         }
 
