@@ -9,6 +9,7 @@ namespace QueryNinja.Core.Extensibility
     {
         /// <summary>
         /// Add new instance of the <see cref="IQueryComponentExtension"/> to extensions collection. <br/>
+        /// Also, will automatically add <see cref="IQueryComponentExtension.QueryComponent"/> to known components. <br/>
         /// <b>It is not possible to register two instances of the extension with the same Type. This type of actions will be ignored.</b>
         /// </summary>
         /// <param name="extension"></param>

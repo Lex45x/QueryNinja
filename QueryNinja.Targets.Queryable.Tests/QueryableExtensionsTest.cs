@@ -50,7 +50,7 @@ namespace QueryNinja.Targets.Queryable.Tests
 
         public static IEnumerable<TestCaseData> FailedScenarios = new List<TestCaseData>
         {
-            new TestCaseData(SourceData, new UnsupportedQuery(), typeof(NoMatchingExtensionsException))
+            new(SourceData, new UnsupportedQuery(), typeof(NoMatchingExtensionsException))
         };
 
 

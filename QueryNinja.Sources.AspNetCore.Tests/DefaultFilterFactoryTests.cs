@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using QueryNinja.Core;
 using QueryNinja.Core.Extensibility;
 using QueryNinja.Core.Filters;
 using QueryNinja.Sources.AspNetCore.Factory;
@@ -41,7 +40,7 @@ namespace QueryNinja.Sources.AspNetCore.Tests
 
             var filter = (dynamic) queryComponent;
 
-            var range = (name.IndexOf('.') + 1) .. name.LastIndexOf('.');
+            var range = (name.IndexOf(value: '.') + 1) .. name.LastIndexOf(value: '.');
             var property = name.AsSpan()[range].ToString();
 
             Assert.AreEqual(filter.Operation, expectedEnum);

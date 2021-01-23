@@ -3,9 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Microsoft.Extensions.Primitives;
 using Moq;
 using NUnit.Framework;
@@ -42,7 +40,7 @@ namespace QueryNinja.Sources.AspNetCore.Tests
 
             var query = bindingContext.Result.Model as IQuery;
 
-            Assert.AreSame(query.GetComponents().First(), component);
+            Assert.AreSame(query?.GetComponents().First(), component);
         }
 
         private static ModelBindingContext CreateModelBindingContext()

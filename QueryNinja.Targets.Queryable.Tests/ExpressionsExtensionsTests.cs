@@ -12,13 +12,13 @@ namespace QueryNinja.Targets.Queryable.Tests
     {
         public static IEnumerable<TestCaseData> Constants = new List<TestCaseData>
         {
-            new TestCaseData(arg1: 1, arg2: null),
-            new TestCaseData(arg1: 1.1, arg2: null),
-            new TestCaseData(arg1: 1.1m, arg2: null),
-            new TestCaseData("test", arg2: null),
-            new TestCaseData(arg1: 'a', arg2: null),
-            new TestCaseData(StringComparison.Ordinal, arg2: null),
-            new TestCaseData(new List<string>(), typeof(TypeConversionException))
+            new(arg1: 1, arg2: null),
+            new(arg1: 1.1, arg2: null),
+            new(arg1: 1.1m, arg2: null),
+            new("test", arg2: null),
+            new(arg1: 'a', arg2: null),
+            new(StringComparison.Ordinal, arg2: null),
+            new(new List<string>(), typeof(TypeConversionException))
         };
 
         public static IEnumerable<TestCaseData> Expressions = new List<TestCaseData>
@@ -39,8 +39,8 @@ namespace QueryNinja.Targets.Queryable.Tests
 
         public static IEnumerable<TestCaseData> FromFailedTestCases = new List<TestCaseData>
         {
-            new TestCaseData("Values", typeof(InvalidPropertyException)),
-            new TestCaseData("Child.Values", typeof(InvalidPropertyException))
+            new("Values", typeof(InvalidPropertyException)),
+            new("Child.Values", typeof(InvalidPropertyException))
         };
 
         [Test]

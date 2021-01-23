@@ -123,7 +123,7 @@ namespace QueryNinja.Sources.AspNetCore.Factory
             var operationType = filter.GetInterface("IDefaultFilter`1").GetGenericArguments()[0];
 
             var genericCreateFactory = GetType()
-                .GetMethod("TryCreateFactory", genericParameterCount: 1, BindingFlags.Instance | BindingFlags.NonPublic, null, new[] {typeof(Type)}, null);
+                .GetMethod("TryCreateFactory", genericParameterCount: 1, BindingFlags.Instance | BindingFlags.NonPublic, binder: null, new[] {typeof(Type)}, modifiers: null);
 
             //can be caused only by changing the codebase.
             if (genericCreateFactory == null)

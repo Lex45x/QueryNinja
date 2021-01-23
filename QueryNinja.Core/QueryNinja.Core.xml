@@ -29,6 +29,7 @@
         <member name="M:QueryNinja.Core.Extensibility.IExtensionsSettings.Register(QueryNinja.Core.Extensibility.IQueryComponentExtension)">
             <summary>
             Add new instance of the <see cref="T:QueryNinja.Core.Extensibility.IQueryComponentExtension"/> to extensions collection. <br/>
+            Also, will automatically add <see cref="P:QueryNinja.Core.Extensibility.IQueryComponentExtension.QueryComponent"/> to known components. <br/>
             <b>It is not possible to register two instances of the extension with the same Type. This type of actions will be ignored.</b>
             </summary>
             <param name="extension"></param>
@@ -297,15 +298,14 @@
         </member>
         <member name="T:QueryNinja.Core.Query">
             <summary>
-            Represent default query class with filters and ordering rules.
+            Represent default query class with filters and ordering rules. <br/>
             </summary>
         </member>
-        <member name="M:QueryNinja.Core.Query.#ctor(System.Collections.Generic.ICollection{QueryNinja.Core.Filters.IFilter},System.Collections.Generic.ICollection{QueryNinja.Core.OrderingRules.OrderingRule})">
+        <member name="M:QueryNinja.Core.Query.#ctor(System.Collections.Generic.ICollection{QueryNinja.Core.IQueryComponent})">
             <summary>
-            Creates instance of <see cref="T:QueryNinja.Core.Query"/> with defined filters and ordering rules.
+            Creates instance of <see cref="T:QueryNinja.Core.Query"/> with defined query components.
             </summary>
-            <param name="filters"></param>
-            <param name="orderingRules"></param>
+            <param name="components"></param>
         </member>
         <member name="P:QueryNinja.Core.Query.Filters">
             <summary>

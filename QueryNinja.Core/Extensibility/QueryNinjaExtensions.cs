@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace QueryNinja.Core.Extensibility
@@ -48,6 +49,7 @@ namespace QueryNinja.Core.Extensibility
             public IExtensionsSettings Register(IQueryComponentExtension extension)
             {
                 ExtensionsSet.Add(extension);
+                RegisterComponent(extension.QueryComponent);
                 return this;
             }
 
@@ -105,6 +107,7 @@ namespace QueryNinja.Core.Extensibility
         /// Clears <see cref="Extensions{TExtension}"/> and <see cref="KnownQueryComponents"/>. <br/>
         /// Usage intended only for testing purposes to reset static state.
         /// </summary>
+        [SuppressMessage("ReSharper", "UnusedMember.Global", Justification = "Nice to have.")]
         public static void Clear()
         {
             ExtensionsSet.Clear();

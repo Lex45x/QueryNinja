@@ -33,7 +33,7 @@ namespace QueryNinja.Targets.Queryable.Tests
 
         public static IEnumerable<TestCaseData> FailedCases = new List<TestCaseData>
         {
-            new TestCaseData(
+            new(
                 new Example[] {1, 3, 5, 9, 7, 2, 8, 6, 4}.AsQueryable().OrderBy(a => true),
                 new OrderingRule("Value", (OrderDirection) 12),
                 typeof(QueryBuildingException))

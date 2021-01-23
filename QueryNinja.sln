@@ -17,7 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QueryNinja.Targets.Queryabl
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{65119950-A93C-4B97-AC2D-E7427455A22C}"
 	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
+		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
+		CONTRIBUTING.md = CONTRIBUTING.md
+		LICENSE = LICENSE
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Queryable", "Queryable", "{3EBF8E79-74A0-4864-BC77-1C76F939FFB1}"

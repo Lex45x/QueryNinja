@@ -110,6 +110,11 @@
         <member name="M:QueryNinja.Targets.Queryable.Exceptions.TypeConversionException.#ctor(System.String,System.Type,System.Exception)">
             <inheritdoc />
         </member>
+        <member name="T:QueryNinja.Targets.Queryable.ExpressionsExtensions">
+            <summary>
+            Contains extensions to work with expression trees.
+            </summary>
+        </member>
         <member name="M:QueryNinja.Targets.Queryable.ExpressionsExtensions.AsConstant(System.String,System.Type)">
             <summary>
             Creates a constant expression of desired type from string value. <br/>

@@ -12,7 +12,6 @@ namespace QueryNinja.Core.Extensibility
         /// <summary>
         /// Type of the component this extension is related to.
         /// </summary>
-        [SuppressMessage("ReSharper", "UnusedMember.Global", Justification = "For public extensions development")]
         Type QueryComponent { get; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using QueryNinja.Core.Filters;
@@ -6,7 +7,6 @@ using QueryNinja.Core.OrderingRules;
 
 namespace QueryNinja.Core
 {
-
     /// <summary>
     /// Represent default query class with filters and ordering rules. <br/>
     /// </summary>
@@ -27,11 +27,13 @@ namespace QueryNinja.Core
         /// Represent a collection of filters to be applied on Target collection. <br/>
         /// All filters are join with AND operator.
         /// </summary>
+        [SuppressMessage("ReSharper", "UnusedMember.Global", Justification = "Public API")]
         public ICollection<IFilter> Filters => components.OfType<IFilter>().ToList();
 
         /// <summary>
         /// Represent a collection of order rules to be applied on Target collection. <br/>
         /// </summary>
+        [SuppressMessage("ReSharper", "UnusedMember.Global", Justification = "Public API")]
         public ICollection<OrderingRule> OrderingRules => components.OfType<OrderingRule>().ToList();
 
         ///<inheritdoc/>

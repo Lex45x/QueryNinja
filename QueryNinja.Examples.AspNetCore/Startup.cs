@@ -31,7 +31,6 @@ namespace QueryNinja.Examples.AspNetCore
                 .AddQueryNinja()
                 .WithQueryableTarget()
                 //User-defined extensions registration
-                .RegisterComponent<DatabaseFunctionFilter>()
                 .Register<DatabaseFunctionQueryBuilder>();
 
             services

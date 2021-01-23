@@ -3,8 +3,6 @@ using QueryNinja.Core;
 using System.Linq;
 using System.Threading.Tasks;
 using QueryNinja.Core.Extensibility;
-using QueryNinja.Core.Filters;
-using QueryNinja.Core.OrderingRules;
 
 namespace QueryNinja.Sources.AspNetCore.ModelBinding
 {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 using QueryNinja.Core.OrderingRules;
 using QueryNinja.Sources.AspNetCore.Factory;
 
@@ -32,7 +31,7 @@ namespace QueryNinja.Sources.AspNetCore.Tests
 
             var orderingRule = (OrderingRule)queryComponent;
 
-            var range = (name.IndexOf('.') + 1)..;
+            var range = (name.IndexOf(value: '.') + 1)..;
             var property = name.AsSpan()[range].ToString();
 
             Assert.AreEqual(orderingRule.Direction, expectedEnum);

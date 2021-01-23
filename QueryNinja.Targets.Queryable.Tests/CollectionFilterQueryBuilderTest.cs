@@ -25,11 +25,11 @@ namespace QueryNinja.Targets.Queryable.Tests
 
         public static IEnumerable<TestCaseData> FailedTests = new List<TestCaseData>
         {
-            new TestCaseData(
+            new(
                     new Example[]{"a","b","aa","ab","aaa",""},
                     new CollectionFilter(CollectionOperation.Contains, "Value.Length", "a"),
                     typeof(PropertyIsNotCollectionException)),
-            new TestCaseData(
+            new(
                 new Example[]{"a","b","aa","ab","aaa",""},
                 new CollectionFilter((CollectionOperation) 12, "Value", "a"),
                 typeof(QueryBuildingException))
