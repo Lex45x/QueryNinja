@@ -76,8 +76,6 @@ jobs:
   heroku_deploy:
     name: Deploy Example to Heroku
     runs-on: ubuntu-latest 
-    container:
-      image: docker:dind
     needs: [build_n_test]
     environment: Heroku
     env:
