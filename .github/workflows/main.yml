@@ -86,8 +86,8 @@ jobs:
       - uses: actions/checkout@v2 
       - name: Deploy Docker Image to Heroku
         # You may pin to the exact commit or the version.
-        # uses: mtsmachado8/heroku-deploy@5bf18e5f6160beaccc01c678d0aaa81963434e74
-        uses: Techmmunity/docker-heroku-deploy@v1.0.0
+        # uses: Techmmunity/docker-heroku-deploy@ab0eabb6186da53eabe90b5c0a443404e7659c44
+        uses: Techmmunity/docker-heroku-deploy@ab0eabb6186da53eabe90b5c0a443404e7659c44
         with:
           # Email Linked to your Heroku Account
           email: ${{ secrets.HEROKU_API_EMAIL }}
