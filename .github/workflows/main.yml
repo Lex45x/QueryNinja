@@ -78,6 +78,7 @@ jobs:
     runs-on: ubuntu-latest 
     container:
       image: heroku/heroku:20
+    needs: [build_n_test]
     environment: Heroku
     env:
       HEROKU_IMAGE_NAME: "registry.heroku.com/query-ninja/web"
