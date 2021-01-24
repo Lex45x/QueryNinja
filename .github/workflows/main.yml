@@ -84,10 +84,10 @@ jobs:
       HEROKU_IMAGE_NAME: "registry.heroku.com/query-ninja/web"
     steps:
       - uses: actions/checkout@v2 
-      - name: Deploy to Heroku Using Docker
+      - name: Deploy Docker Image to Heroku
         # You may pin to the exact commit or the version.
         # uses: mtsmachado8/heroku-deploy@5bf18e5f6160beaccc01c678d0aaa81963434e74
-        uses: mtsmachado8/heroku-deploy@v2.0.3
+        uses: Techmmunity/docker-heroku-deploy@v1.0.0
         with:
           # Email Linked to your Heroku Account
           email: ${{ secrets.HEROKU_API_EMAIL }}
@@ -97,6 +97,8 @@ jobs:
           app_name: "query-ninja"
           # Dokerfile path
           dockerfile_path: "./QueryNinja.Examples.AspNetCore"
+          # Dockerfile name
+          dockerfile_name: DOCKERFILE
     
     
         
