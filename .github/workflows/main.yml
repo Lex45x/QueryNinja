@@ -96,7 +96,7 @@ jobs:
           # Your Heroku App Name
           app_name: "query-ninja"
           # Dokerfile path
-          dockerfile_path: "./QueryNinja.Examples.AspNetCore/DOCKERFILE"
+          dockerfile_path: "./QueryNinja.Examples.AspNetCore"
     
     
         
