@@ -34,10 +34,10 @@ jobs:
         version=$(echo ${{ github.ref }} | cut -d'v' -f 2-)
         if ${{ github.ref == 'refs/heads/develop' }};
         then        
-            echo ::set-output name=version::"0.0.1-develop+${shortSha}"
+            echo ::set-output name=version::"0.0.1-develop.${shortSha}"
         elif ${{ contains(github.ref, 'release') || contains(github.ref, 'hotfix') }};
         then           
-            echo ::set-output name=version::"${version}-rc+${shortSha}"
+            echo ::set-output name=version::"${version}-rc.${shortSha}"
         else
             echo ::set-output name=version::$version
         fi
