@@ -25,7 +25,8 @@ namespace QueryNinja.Sources.AspNetCore.Tests
             var componentFactory = Mock.Of<IQueryComponentFactory>(factory =>
                 // ReSharper disable once RedundantBoolCompare due to Moq specifications
                 factory.CanApply(It.IsAny<string>(), It.IsAny<string>()) == true &&
-                factory.Create(It.IsAny<string>(), It.IsAny<string>()) == component);
+                factory.Create(It.IsAny<string>(), It.IsAny<string>()) == component &&
+                factory.QueryComponent == component.GetType());
 
             QueryNinjaExtensions.Configure.Register(componentFactory);
 
