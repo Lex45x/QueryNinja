@@ -31,7 +31,7 @@ jobs:
       run: |
           short_sha=$(git rev-parse --short HEAD)   
           version=$(echo ${{ github.ref }} | cut -d'v' -f 2-)
-          if [[${{ githu.ref == 'refs/heads/develop' }}]]
+          if [[${{ github.ref == 'refs/heads/develop' }}]]
           then        
               echo ::set-output name=version::'0.0.1-develop+${short_sha}'
           elif [[ ${{ contains(github.ref, 'release') || contains(github.ref, 'hotfix') }} ]]   
