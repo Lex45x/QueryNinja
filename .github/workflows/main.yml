@@ -98,7 +98,7 @@ jobs:
           # Dokerfile path
           dockerfile_path: "./QueryNinja.Examples.AspNetCore"
           # Dockerfile name
-          dockerfile_name: Dockerfile
+          dockerfile_name: DOCKERFILE
     
     
         
