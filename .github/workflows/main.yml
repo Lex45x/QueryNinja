@@ -59,7 +59,7 @@ jobs:
     name: Nuget Push
     runs-on: ubuntu-latest   
     container:
-      image: mcr.microsoft.com/dotnet/sdk:5.0 
+      image: mcr.microsoft.com/dotnet/sdk:5.0
     needs: [build_n_test]
     environment: NuGet
     if: ${{github.event_name == 'push'}}
@@ -73,6 +73,25 @@ jobs:
       - name: Push Packages
         run: dotnet nuget push "./nuget/*.symbols.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
         
+  heroku_deploy:
+    name: Deploy Example to Heroku
+    runs-on: ubuntu-latest 
+    container:
+      image: heroku/heroku:20
+    environment: Heroku
+    env:
+      HEROKU_IMAGE_NAME: "registry.heroku.com/query-ninja/web"
+    steps:
+      - name: Docker Build
+        run: docker build "${HEROKU_IMAGE_NAME}" --file "./QueryNinja.Examples.AspNetCore/DOCKERFILE"
+      - name: Heroku Registry Login
+        run: docker login --username=_ --password="${{ secrets.HEROKU_API_KEY }}" registry.heroku.com
+      - name: Docker Push
+        run: docker push "${HEROKU_IMAGE_NAME}"
+      - name: Heroku Release
+        run: heroku container:release web
+    
+    
         
   
   
