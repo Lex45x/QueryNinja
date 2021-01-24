@@ -8,4 +8,5 @@ RUN dotnet publish ./QueryNinja.Examples.AspNetCore/QueryNinja.Examples.AspNetCo
 FROM mcr.microsoft.com/dotnet/aspnet:5.0-alpine
 WORKDIR /app
 COPY --from=builder /app .
+ENV ASPNETCORE_URLS http://*:$PORT
 ENTRYPOINT ["dotnet", "QueryNinja.Examples.AspNetCore.dll"]
