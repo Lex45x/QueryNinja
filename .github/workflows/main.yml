@@ -30,7 +30,6 @@ jobs:
       if: ${{github.event_name == 'push'}}
       run: |
           short-sha=$(git rev-parse --short ${{ github.ref }})
-          echo "Short sha: $(short-sha)"
           version=$(echo ${{ github.ref }} | cut -d'v' -f 2-)
           if ${{ github.ref == 'refs/heads/develop' }};
           then        
