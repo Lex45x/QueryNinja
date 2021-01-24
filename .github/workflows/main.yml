@@ -29,15 +29,15 @@ jobs:
       id: package_version
       if: ${{github.event_name == 'push'}}
       run: |
-          short_sha=$(git rev-parse --short ${{ github.ref }})
-          echo "Short sha: $(short_sha)"
+          short-sha=$(git rev-parse --short ${{ github.ref }})
+          echo "Short sha: $(short-sha)"
           version=$(echo ${{ github.ref }} | cut -d'v' -f 2-)
           if ${{ github.ref == 'refs/heads/develop' }};
           then        
-              echo ::set-output name=version::"0.0.1-develop+$(short_sha)"
+              echo ::set-output name=version::"0.0.1-develop+$(short-sha)"
           elif ${{ contains(github.ref, 'release') || contains(github.ref, 'hotfix') }};
           then           
-              echo ::set-output name=version::"$(version)-rc+$(short_sha)"
+              echo ::set-output name=version::"$(version)-rc+$(short-sha)"
           else
               echo ::set-output name=version::$version
           fi
