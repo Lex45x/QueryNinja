@@ -49,6 +49,7 @@ jobs:
         CI_PACKAGE_VERSION: ${{steps.package_version.outputs.version}}
         
     - name: Archive NuGet packages
+      if: ${{github.event_name == 'push'}}
       uses: actions/upload-artifact@v2
       with:
         name: NuGet Packages
