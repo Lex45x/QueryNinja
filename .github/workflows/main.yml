@@ -29,7 +29,8 @@ jobs:
       id: package_version
       if: ${{github.event_name == 'push'}}
       run: |
-          short_sha=$(echo ${{ github.ref }} | cut -c1-8)
+          short_sha=$(git rev-parse --short ${{ github.ref }})
+          echo "Short sha: $(short_sha)"
           version=$(echo ${{ github.ref }} | cut -d'v' -f 2-)
           if ${{ github.ref == 'refs/heads/develop' }};
           then        
