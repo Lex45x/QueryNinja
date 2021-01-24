@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>QueryNinja.Examples.AspNetCore</name>
+    </assembly>
+    <members>
+        <member name="T:QueryNinja.Examples.AspNetCore.Controllers.StudentsController">
+            <summary>
+            This controller allow to test QueryNinja. <br/>
+            
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Examples.AspNetCore.Controllers.StudentsController.#ctor(QueryNinja.Examples.AspNetCore.DbContext.UniversityDbContext)">
+            <summary>
+            Creates instance of a controller with dbContext.
+            </summary>
+            <param name="dbContext"></param>
+        </member>
+        <member name="M:QueryNinja.Examples.AspNetCore.Controllers.StudentsController.Get(QueryNinja.Core.IQuery)">
+            <summary>
+            Allows to get list of students with QueryNinja query.
+            </summary>
+            <param name="query">QueryNinja query. Send empty to see all students.</param>
+            <returns>List of students</returns>
+        </member>
+        <member name="T:QueryNinja.Examples.AspNetCore.DbContext.Entities.Exam">
+            <summary>
+            Represent an exam.
+            </summary>
+        </member>
+        <member name="P:QueryNinja.Examples.AspNetCore.DbContext.Entities.Exam.Id">
+            <summary>
+            Id of Exam
+            </summary>
+        </member>
+        <member name="P:QueryNinja.Examples.AspNetCore.DbContext.Entities.Exam.Title">
+            <summary>
+            Exam title
+            </summary>
+        </member>
+        <member name="P:QueryNinja.Examples.AspNetCore.DbContext.Entities.Exam.Grades">
+            <summary>
+            All grades relate to this exam.
+            </summary>
+        </member>
+        <member name="F:QueryNinja.Examples.AspNetCore.Extensions.DatabaseFunction.Like">
+            <summary>
+            Corresponds to SQL Like operation.
+            </summary>
+        </member>
+        <member name="T:QueryNinja.Examples.AspNetCore.Extensions.DatabaseFunctionFilter">
+            <summary>
+            Allows to use DB-related filters inside IQuery.
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Examples.AspNetCore.Extensions.DatabaseFunctionFilter.#ctor(QueryNinja.Examples.AspNetCore.Extensions.DatabaseFunction,System.String,System.String)">
+            <summary>
+            Creates filter instance.
+            </summary>
+            <param name="operation"></param>
+            <param name="property"></param>
+            <param name="value"></param>
+        </member>
+        <member name="P:QueryNinja.Examples.AspNetCore.Extensions.DatabaseFunctionFilter.Operation">
+            <inheritdoc />
+        </member>
+        <member name="P:QueryNinja.Examples.AspNetCore.Extensions.DatabaseFunctionFilter.Property">
+            <inheritdoc />
+        </member>
+        <member name="P:QueryNinja.Examples.AspNetCore.Extensions.DatabaseFunctionFilter.Value">
+            <inheritdoc />
+        </member>
+        <member name="M:QueryNinja.Examples.AspNetCore.Extensions.DatabaseFunctionQueryBuilder.AppendImplementation``1(System.Linq.IQueryable{``0},QueryNinja.Examples.AspNetCore.Extensions.DatabaseFunctionFilter)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

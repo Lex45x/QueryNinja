@@ -9,4 +9,8 @@
     <DocumentationFile>C:\Users\redka\Source\Repos\QueryNinja\QueryNinja.Core\QueryNinja.Core.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>C:\Users\redka\Source\Repos\QueryNinja\QueryNinja.Core\QueryNinja.Core.xml</DocumentationFile>
+  </PropertyGroup>
+
 </Project>

@@ -3,7 +3,7 @@
 
 namespace QueryNinja.Examples.AspNetCore.Migrations
 {
-    public partial class InitialMigration : Migration
+    internal partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

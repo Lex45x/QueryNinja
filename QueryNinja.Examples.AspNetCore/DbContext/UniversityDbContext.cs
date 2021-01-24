@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using QueryNinja.Examples.AspNetCore.DbContext.Entities;
 // ReSharper disable StringLiteralTypo
+#pragma warning disable 1591
 
 namespace QueryNinja.Examples.AspNetCore.DbContext
 {

@@ -7,6 +7,12 @@ namespace QueryNinja.Examples.AspNetCore.Extensions
     /// </summary>
     public class DatabaseFunctionFilter : IDefaultFilter<DatabaseFunction>
     {
+        /// <summary>
+        /// Creates filter instance.
+        /// </summary>
+        /// <param name="operation"></param>
+        /// <param name="property"></param>
+        /// <param name="value"></param>
         public DatabaseFunctionFilter(DatabaseFunction operation, string property, string value)
         {
             Operation = operation;
