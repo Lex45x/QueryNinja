@@ -13,7 +13,8 @@ on:
     branches: 
       - develop    
 jobs:
-  Default:
+  build_n_test:
+    name: Build & Test
     runs-on: ubuntu-latest   
     container:
       image: mcr.microsoft.com/dotnet/sdk:5.0
@@ -52,5 +53,26 @@ jobs:
       with:
         name: NuGet Packages
         path: ./nuget 
+    
+  nuget_push:
+    name: Nuget Push
+    runs-on: ubuntu-latest   
+    container:
+      image: mcr.microsoft.com/dotnet/sdk:5.0 
+    needs: [build_n_test]
+    environment: NuGet
+    if: ${{github.event_name == 'push'}}
+    steps:
+      - name: Get NuGet Packages
+        uses: actions/download-artifact@v2
+        with:
+          name: NuGet Packages
+          path: ./nuget
+          
+      - name: Push Packages
+        run: dotnet nuget push ./nuget --api-key ${{ secrets.NUGET_API_KEY }}
+        
+        
+  
   
     
