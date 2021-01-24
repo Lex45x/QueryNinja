@@ -70,7 +70,7 @@ jobs:
           path: ./nuget
           
       - name: Push Packages
-        run: dotnet nuget push ./nuget --api-key ${{ secrets.NUGET_API_KEY }}
+        run: dotnet nuget push "./nuget/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }}
         
         
   
