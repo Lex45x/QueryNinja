@@ -77,12 +77,13 @@ jobs:
     name: Deploy Example to Heroku
     runs-on: ubuntu-latest 
     container:
-      image: heroku/heroku:20
+      image: docker:dind
     needs: [build_n_test]
     environment: Heroku
     env:
       HEROKU_IMAGE_NAME: "registry.heroku.com/query-ninja/web"
     steps:
+      - uses: actions/checkout@v2 
       - name: Deploy to Heroku Using Docker
         # You may pin to the exact commit or the version.
         # uses: mtsmachado8/heroku-deploy@5bf18e5f6160beaccc01c678d0aaa81963434e74
