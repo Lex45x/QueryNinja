@@ -80,23 +80,17 @@ jobs:
     environment: Heroku
     env:
       HEROKU_IMAGE_NAME: "registry.heroku.com/query-ninja/web"
+      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
     steps:
       - uses: actions/checkout@v2 
-      - name: Deploy Docker Image to Heroku
-        # You may pin to the exact commit or the version.
-        # uses: Techmmunity/docker-heroku-deploy@ab0eabb6186da53eabe90b5c0a443404e7659c44
-        uses: Techmmunity/docker-heroku-deploy@ab0eabb6186da53eabe90b5c0a443404e7659c44
-        with:
-          # Email Linked to your Heroku Account
-          email: ${{ secrets.HEROKU_API_EMAIL }}
-          # Your Heroku API Key
-          api_key: ${{ secrets.HEROKU_API_KEY }}
-          # Your Heroku App Name
-          app_name: "query-ninja"
-          # Dokerfile path
-          dockerfile_path: "."
-          # Dockerfile name
-          dockerfile_name: "./QueryNinja.Examples.AspNetCore/DOCKERFILE"
+      - name: Build image
+        run: docker build . --file "./QueryNinja.Examples.AspNetCore/DOCKERFILE" --tag $HEROKU_IMAGE_NAME
+      - name: Heroku Build
+        run: |
+          heroku container:login
+          heroku container:push -a query-ninja web
+      - name: Heroku Release
+        run: heroku container:release -a query-ninja web 
     
     
         
