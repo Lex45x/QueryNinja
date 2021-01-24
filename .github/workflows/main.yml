@@ -31,7 +31,8 @@ jobs:
       run: |
           short_sha=$(git rev-parse --short HEAD)   
           version=$(echo ${{ github.ref }} | cut -d'v' -f 2-)        
-          if [[ ${{ contains(github.ref, 'release') || contains(github.ref, 'hotfix') }} ]]              
+          if [[ ${{ contains(github.ref, 'release') || contains(github.ref, 'hotfix') }} ]]   
+          then           
               echo ::set-output name=version::${{format('{{{1}-rc+{0}}}', env.short_sha, env.version)}}
           else
               echo ::set-output name=version::$version
