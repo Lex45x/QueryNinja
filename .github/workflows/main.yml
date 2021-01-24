@@ -78,6 +78,7 @@ jobs:
     runs-on: ubuntu-latest 
     needs: [build_n_test]
     environment: Heroku
+    if: ${{github.event_name == 'push' && startWith(github.ref, 'tags')}}
     env:
       HEROKU_IMAGE_NAME: "registry.heroku.com/query-ninja/web"
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
