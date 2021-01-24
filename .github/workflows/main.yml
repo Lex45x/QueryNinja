@@ -1,0 +1,49 @@
+# Contains main CI pipelines for packages.
+name: General Pull-Request CI
+
+on:
+  push:
+    branches: 
+      - release/v*
+      - hotfix/v*
+      - develop
+    tags:
+      - v*
+  pull_request:
+    branches: 
+      - develop    
+jobs:
+  build:
+    runs-on: ubuntu-latest   
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core SDK 5.0
+      uses: actions/setup-dotnet@v1.6.0
+      with:
+        dotnet-version: '5.0'    
+    - name: Install dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
+    - name: Define package version
+      id: package_version
+      if: ${{github.event_name == 'push' && github.ref != 'develop'}}
+      run: |
+          $short_sha = $(git rev-parse --short HEAD)   
+          $version = $(echo ${{ github.ref }} | cut -d'v' -f 2-)        
+          if [[ ${{ contains(github.ref, 'release') || contains(github.ref, 'hotfix') }} ]]              
+              echo ::set-output name=version::${{format('{{{1}-rc+{0}}}', $short_sha, $version)}}
+          else
+              echo ::set-output name=version::$version
+          fi
+      
+    - name: Nuget Pack
+      if: ${{github.event_name == 'push' && github.ref != 'develop'}}
+      run: dotnet pack --include-symbols --no-restore --configuration Release -p:PackageVersion=$CI_PACKAGE_VERSION
+      env:
+        CI_PACKAGE_VERSION: ${{steps.package_version.outputs.version}}
+  
+  
+    
