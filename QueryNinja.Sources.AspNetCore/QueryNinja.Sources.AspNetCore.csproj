@@ -8,6 +8,10 @@
     <DocumentationFile>C:\Users\redka\Source\Repos\QueryNinja\QueryNinja.Sources.AspNetCore\QueryNinja.Sources.AspNetCore.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>C:\Users\redka\Source\Repos\QueryNinja\QueryNinja.Sources.AspNetCore\QueryNinja.Sources.AspNetCore.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />

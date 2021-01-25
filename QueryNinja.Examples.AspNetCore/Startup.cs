@@ -13,7 +13,7 @@ using QueryNinja.Targets.Queryable;
 
 namespace QueryNinja.Examples.AspNetCore
 {
-    public class Startup
+    internal class Startup
     {
         public Startup(IConfiguration configuration)
         {
@@ -25,7 +25,11 @@ namespace QueryNinja.Examples.AspNetCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSwaggerGen(options => options.WithQueryNinja());
+            services.AddSwaggerGen(options =>
+            {
+                options.WithQueryNinja();
+                options.IncludeXmlComments("./QueryNinja.Examples.AspNetCore.xml");
+            }); 
 
             services
                 .AddQueryNinja()
