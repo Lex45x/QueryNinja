@@ -35,10 +35,11 @@ jobs:
         if ${{ github.ref == 'refs/heads/develop' }};
         then        
             echo ::set-output name=version::"0.0.1-develop.${shortSha}"
-        elif ${{ startsWith(github.ref, 'release') || startsWith(github.ref, 'hotfix') }};
+        elif ${{ startsWith(github.ref, 'refs/heads/release/') || startsWith(github.ref, 'refs/heads/hotfix/') }};
         then           
             echo ::set-output name=version::"${version}-rc.${shortSha}"
-        else
+        elif ${{ startsWith(github.ref, 'refs/tags/v') }}
+        then
             echo ::set-output name=version::$version
         fi
       
