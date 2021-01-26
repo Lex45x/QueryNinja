@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AnalyseParams>
+  <TargetExecutable>/usr/bin/dotnet</TargetExecutable>
+  <TargetArguments>test QueryNinja.sln</TargetArguments>
+  <Output>QueryNinjaCoverageReport.html</Output>
+  <ReportType>html</ReportType>
+</AnalyseParams>
