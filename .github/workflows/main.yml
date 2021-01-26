@@ -29,6 +29,7 @@ jobs:
     - name: Generate Coverage Report
       uses: dodopizza/dotcover-action@v1
       with: 
+        dotCoverCommand: cover
         configFile: dotCover.xml
     - name: Define package version
       id: package_version
