@@ -43,7 +43,7 @@ namespace QueryNinja.Sources.AspNetCore.Tests
 
             Assert.AreSame(query?.GetComponents().First(), component);
         }
-
+        
         private static ModelBindingContext CreateModelBindingContext()
         {
             var queryCollection = new QueryCollection(new Dictionary<string, StringValues>
