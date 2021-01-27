@@ -17,7 +17,7 @@ jobs:
     name: Build & Test
     runs-on: ubuntu-latest   
     container:
-      image: mcr.microsoft.com/dotnet/sdk:5.0
+      image: mcr.microsoft.com/dotnet/sdk:5.0-alpine
     steps:
     - uses: actions/checkout@v2   
     - name: Install dependencies
@@ -60,7 +60,7 @@ jobs:
     name: Nuget Push
     runs-on: ubuntu-latest   
     container:
-      image: mcr.microsoft.com/dotnet/sdk:5.0
+      image: mcr.microsoft.com/dotnet/sdk:5.0-alpine
     needs: [build_n_test]
     environment: NuGet
     if: ${{github.event_name == 'push'}}
