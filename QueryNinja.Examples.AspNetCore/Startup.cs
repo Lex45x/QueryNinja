@@ -29,13 +29,19 @@ namespace QueryNinja.Examples.AspNetCore
             {
                 options.WithQueryNinja();
                 options.IncludeXmlComments("./QueryNinja.Examples.AspNetCore.xml");
-            }); 
+            });
 
             services
                 .AddQueryNinja()
                 .WithQueryableTarget()
                 //User-defined extensions registration
-                .Register<DatabaseFunctionQueryBuilder>();
+                .AddFilter<DatabaseFunctionFilter, DatabaseFunction>(
+                    builder =>
+                    {
+                        builder.Define<string>(DatabaseFunction.Like,
+                            (property, value) => EF.Functions.Like(property, value)
+                        );
+                    });
 
             services
                 .AddControllers()
@@ -57,10 +63,7 @@ namespace QueryNinja.Examples.AspNetCore
 
             app.UseSwagger();
 
-            app.UseSwaggerUI(options =>
-            {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "QueryNinja.Example");
-            });
+            app.UseSwaggerUI(options => { options.SwaggerEndpoint("/swagger/v1/swagger.json", "QueryNinja.Example"); });
 
             app.UseHttpsRedirection();
 

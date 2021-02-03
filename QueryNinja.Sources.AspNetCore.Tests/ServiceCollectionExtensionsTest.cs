@@ -1,10 +1,13 @@
 ﻿using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Moq;
 using NUnit.Framework;
 using QueryNinja.Core.Extensibility;
 using QueryNinja.Core.Filters;
 using QueryNinja.Sources.AspNetCore.Factory;
+using QueryNinja.Sources.AspNetCore.ModelBinding;
 
 namespace QueryNinja.Sources.AspNetCore.Tests
 {
@@ -30,6 +33,16 @@ namespace QueryNinja.Sources.AspNetCore.Tests
             var instance = defaultFilterFactory.Create("filter.Property.DoSmth", "Value");
 
             Assert.IsInstanceOf<TestDefaultFilter>(instance);
+
+            var provider = serviceCollection.BuildServiceProvider();
+
+            var configureOptions = provider.GetRequiredService<IConfigureOptions<MvcOptions>>();
+
+            var mvcOptions = new MvcOptions();
+
+            configureOptions.Configure(mvcOptions);
+
+            Assert.IsInstanceOf<QueryNinjaModelBinderProvider>(mvcOptions.ModelBinderProviders[index: 0]);
         }
 
         public class TestDefaultFilter : IDefaultFilter<TestOperation>

@@ -8,7 +8,8 @@ namespace QueryNinja.Targets.Queryable.QueryBuilders
 {
     internal class CollectionFilterQueryBuilder : AbstractQueryBuilder<CollectionFilter>
     {
-        protected override IQueryable<TEntity> AppendImplementation<TEntity>(IQueryable<TEntity> source, CollectionFilter component)
+        protected override IQueryable<TEntity> AppendImplementation<TEntity>(IQueryable<TEntity> source,
+            CollectionFilter component)
         {
             var propertyLambda = component.Property.From<TEntity>();
 
@@ -16,7 +17,8 @@ namespace QueryNinja.Targets.Queryable.QueryBuilders
 
             if (collectionInterface == null)
             {
-                throw new PropertyIsNotCollectionException(component.Property, propertyLambda.ReturnType, typeof(TEntity));
+                throw new PropertyIsNotCollectionException(component.Property, propertyLambda.ReturnType,
+                    typeof(TEntity));
             }
 
             var elementType = collectionInterface.GetGenericArguments().First();
@@ -24,7 +26,8 @@ namespace QueryNinja.Targets.Queryable.QueryBuilders
             var body = component.Operation switch
             {
                 CollectionOperation.Contains => Contains(propertyLambda.Body, component.Value.AsConstant(elementType)),
-                CollectionOperation.IsEmpty => IsEmpty(propertyLambda.Body, component.Value.AsConstant(typeof(bool)), elementType),
+                CollectionOperation.IsEmpty => IsEmpty(propertyLambda.Body, component.Value.AsConstant(typeof(bool)),
+                    elementType),
                 _ => throw new ArgumentOutOfRangeException(nameof(CollectionFilter.Operation))
             };
 
