@@ -203,10 +203,29 @@
         </member>
         <member name="T:QueryNinja.Targets.Queryable.QueryBuilders.DefaultFilterQueryBuilder`2">
             <summary>
-            
+            Allows to configure <see cref="T:QueryNinja.Core.Filters.IDefaultFilter`1"/> in simplified way.
             </summary>
             <typeparam name="TOperation"></typeparam>
             <typeparam name="TFilter"></typeparam>
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.QueryBuilders.DefaultFilterQueryBuilder`2.Define``1(`1,System.Linq.Expressions.Expression{System.Func{``0,``0,System.Boolean}})">
+            <summary>
+            Allows to define <paramref name="operation"/> on <typeparamref name="TTarget"/> property type. <br/>
+            </summary>
+            <typeparam name="TTarget">Supported type of property.</typeparam>
+            <param name="operation">Desired operation to define.</param>
+            <param name="expression">Expression that defines <paramref name="operation"/> on the property of type <typeparamref name="TTarget"/></param>
+            <returns>Configured instance of <see cref="T:QueryNinja.Targets.Queryable.QueryBuilders.DefaultFilterQueryBuilder`2"/></returns>
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.QueryBuilders.DefaultFilterQueryBuilder`2.Define``2(`1,System.Linq.Expressions.Expression{System.Func{``0,``1,System.Boolean}})">
+            <summary>
+            Allows to define <paramref name="operation"/> on <typeparamref name="TTarget"/> property type with different constant type of <typeparamref name="TValue"/><br/>
+            </summary>
+            <typeparam name="TTarget">Supported type of property.</typeparam>
+            <typeparam name="TValue">Supported type of the value.</typeparam>
+            <param name="operation">Desired operation to define.</param>
+            <param name="expression">Expression that defines <paramref name="operation"/> on the property of type <typeparamref name="TTarget"/></param>
+            <returns>Configured instance of <see cref="T:QueryNinja.Targets.Queryable.QueryBuilders.DefaultFilterQueryBuilder`2"/></returns>
         </member>
         <member name="M:QueryNinja.Targets.Queryable.QueryBuilders.DefaultFilterQueryBuilder`2.AppendImplementation``1(System.Linq.IQueryable{``0},`0)">
             <inheritdoc />
