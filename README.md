@@ -6,4 +6,4 @@ We support:
 * [MongoDB](https://www.nuget.org/packages/mongodb.driver)
 * [NEST for ElasticSearch](https://www.elastic.co/guide/en/elasticsearch/client/net-api/current/introduction.html)
 
-Find out more in [Wiki](../wiki/Home.md)!
+Find out more in [Wiki](https://github.com/Lex45x/QueryNinja/wiki)!
