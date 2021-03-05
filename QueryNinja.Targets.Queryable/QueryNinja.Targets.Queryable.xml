@@ -141,6 +141,19 @@
             <param name="queryable">Source</param>
             <returns></returns>
         </member>
+        <member name="T:QueryNinja.Targets.Queryable.IQueryableExtensionsSettings">
+            <summary>
+            Extends <see cref="T:QueryNinja.Core.Extensibility.IExtensionsSettings"/> with ability to define <see cref="T:QueryNinja.Targets.Queryable.QueryBuilders.DefaultFilterQueryBuilder`2"/> for custom filters.
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.IQueryableExtensionsSettings.AddFilter``2(System.Action{QueryNinja.Targets.Queryable.QueryBuilders.DefaultFilterQueryBuilder{``0,``1}})">
+            <summary>
+            Registers instance of <see cref="T:QueryNinja.Targets.Queryable.QueryBuilders.DefaultFilterQueryBuilder`2"/> with configured operations.
+            </summary>
+            <param name="configure">Allows to configure <see cref="T:QueryNinja.Targets.Queryable.QueryBuilders.DefaultFilterQueryBuilder`2"/>.</param>
+            <typeparam name="TFilter">User-defined filters.</typeparam>
+            <typeparam name="TOperation">Operations enum for user-defined filters.</typeparam>
+        </member>
         <member name="T:QueryNinja.Targets.Queryable.QueryableExtensions">
             <summary>
             Extensions that allow to use QueryNinja on <see cref="T:System.Linq.IQueryable`1"/> interface.
@@ -188,6 +201,35 @@
             <exception cref="T:QueryNinja.Targets.Queryable.Exceptions.QueryBuildingException">Thrown in case of any unexpected exception.</exception>
             <returns></returns>
         </member>
+        <member name="T:QueryNinja.Targets.Queryable.QueryBuilders.DefaultFilterQueryBuilder`2">
+            <summary>
+            Allows to configure <see cref="T:QueryNinja.Core.Filters.IDefaultFilter`1"/> in simplified way.
+            </summary>
+            <typeparam name="TOperation"></typeparam>
+            <typeparam name="TFilter"></typeparam>
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.QueryBuilders.DefaultFilterQueryBuilder`2.Define``1(`1,System.Linq.Expressions.Expression{System.Func{``0,``0,System.Boolean}})">
+            <summary>
+            Allows to define <paramref name="operation"/> on <typeparamref name="TTarget"/> property type. <br/>
+            </summary>
+            <typeparam name="TTarget">Supported type of property.</typeparam>
+            <param name="operation">Desired operation to define.</param>
+            <param name="expression">Expression that defines <paramref name="operation"/> on the property of type <typeparamref name="TTarget"/></param>
+            <returns>Configured instance of <see cref="T:QueryNinja.Targets.Queryable.QueryBuilders.DefaultFilterQueryBuilder`2"/></returns>
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.QueryBuilders.DefaultFilterQueryBuilder`2.Define``2(`1,System.Linq.Expressions.Expression{System.Func{``0,``1,System.Boolean}})">
+            <summary>
+            Allows to define <paramref name="operation"/> on <typeparamref name="TTarget"/> property type with different constant type of <typeparamref name="TValue"/><br/>
+            </summary>
+            <typeparam name="TTarget">Supported type of property.</typeparam>
+            <typeparam name="TValue">Supported type of the value.</typeparam>
+            <param name="operation">Desired operation to define.</param>
+            <param name="expression">Expression that defines <paramref name="operation"/> on the property of type <typeparamref name="TTarget"/></param>
+            <returns>Configured instance of <see cref="T:QueryNinja.Targets.Queryable.QueryBuilders.DefaultFilterQueryBuilder`2"/></returns>
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.QueryBuilders.DefaultFilterQueryBuilder`2.AppendImplementation``1(System.Linq.IQueryable{``0},`0)">
+            <inheritdoc />
+        </member>
         <member name="T:QueryNinja.Targets.Queryable.QueryBuilders.IQueryBuilder">
             <summary>
             Extension interface for Queryable Target. <br/>
@@ -210,6 +252,15 @@
             <param name="component"></param>
             <returns></returns>
         </member>
+        <member name="T:QueryNinja.Targets.Queryable.QueryBuilders.ReplaceParametersExpressionVisitor">
+            <summary>
+            This Expression Visitor is used to replace parameters in expression tree with predefined property and constant expressions. <br/>
+            This functinality is used by <see cref="T:QueryNinja.Targets.Queryable.QueryBuilders.DefaultFilterQueryBuilder`2"/> to allow define expression in simplified way.
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.QueryBuilders.ReplaceParametersExpressionVisitor.VisitParameter(System.Linq.Expressions.ParameterExpression)">
+            <inheritdoc />
+        </member>
         <member name="T:QueryNinja.Targets.Queryable.RegistrationExtensions">
             <summary>
             Allows to register IQueryable Target in <see cref="T:QueryNinja.Core.Extensibility.QueryNinjaExtensions"/>
@@ -221,6 +272,21 @@
             </summary>
             <param name="settings"></param>
             <returns></returns>
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.RegistrationExtensions.ExtensionSettings.Register(QueryNinja.Core.Extensibility.IQueryComponentExtension)">
+            <inheritdoc />
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.RegistrationExtensions.ExtensionSettings.Register``1">
+            <inheritdoc />
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.RegistrationExtensions.ExtensionSettings.RegisterComponent(System.Type)">
+            <inheritdoc />
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.RegistrationExtensions.ExtensionSettings.RegisterComponent``1">
+            <inheritdoc />
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.RegistrationExtensions.ExtensionSettings.AddFilter``2(System.Action{QueryNinja.Targets.Queryable.QueryBuilders.DefaultFilterQueryBuilder{``0,``1}})">
+            <inheritdoc />
         </member>
     </members>
 </doc>
