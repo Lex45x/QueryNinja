@@ -25,9 +25,9 @@ namespace QueryNinja.Sources.AspNetCore.ModelBinding
 
             return Task.CompletedTask;
         }
+        
 
-
-        private IEnumerable<IQueryComponent> GetQueryComponents(IQueryCollection queryParameters)
+        private static IEnumerable<IQueryComponent> GetQueryComponents(IQueryCollection queryParameters)
         {
             var factories = QueryNinjaExtensions.Extensions<IQueryComponentFactory>().ToList();
 
