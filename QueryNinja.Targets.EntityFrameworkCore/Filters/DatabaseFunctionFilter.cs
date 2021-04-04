@@ -1,6 +1,6 @@
 ﻿using QueryNinja.Core.Filters;
 
-namespace QueryNinja.Examples.AspNetCore.Extensions
+namespace QueryNinja.Targets.EntityFrameworkCore.Filters
 {
     /// <summary>
     /// Allows to use DB-related filters inside IQuery.

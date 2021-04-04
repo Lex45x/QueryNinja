@@ -7,14 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="NUnit" Version="3.13.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\QueryNinja.Sources.AspNetCore\QueryNinja.Sources.AspNetCore.csproj" />
+    <ProjectReference Include="..\QueryNinja.Targets.EntityFrameworkCore\QueryNinja.Targets.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\QueryNinja.Targets.Queryable\QueryNinja.Targets.Queryable.csproj" />
   </ItemGroup>
 
 </Project>

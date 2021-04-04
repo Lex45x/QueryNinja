@@ -13,21 +13,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.1">
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\QueryNinja.Core\QueryNinja.Core.csproj" />
     <ProjectReference Include="..\QueryNinja.Extensions.AspNetCore.Swagger\QueryNinja.Extensions.AspNetCore.Swagger.csproj" />
     <ProjectReference Include="..\QueryNinja.Sources.AspNetCore\QueryNinja.Sources.AspNetCore.csproj" />
-    <ProjectReference Include="..\QueryNinja.Targets.Queryable\QueryNinja.Targets.Queryable.csproj" />
+    <ProjectReference Include="..\QueryNinja.Targets.EntityFrameworkCore\QueryNinja.Targets.EntityFrameworkCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>

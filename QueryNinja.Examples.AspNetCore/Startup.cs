@@ -6,9 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using QueryNinja.Examples.AspNetCore.DbContext;
-using QueryNinja.Examples.AspNetCore.Extensions;
 using QueryNinja.Extensions.AspNetCore.Swagger;
 using QueryNinja.Sources.AspNetCore;
+using QueryNinja.Targets.EntityFrameworkCore;
 using QueryNinja.Targets.Queryable;
 
 namespace QueryNinja.Examples.AspNetCore
@@ -33,15 +33,7 @@ namespace QueryNinja.Examples.AspNetCore
 
             services
                 .AddQueryNinja()
-                .WithQueryableTarget()
-                //User-defined extensions registration
-                .AddFilter<DatabaseFunctionFilter, DatabaseFunction>(
-                    builder =>
-                    {
-                        builder.Define<string>(DatabaseFunction.Like,
-                            (property, value) => EF.Functions.Like(property, value)
-                        );
-                    });
+                .WithEntityFrameworkTarget();
 
             services
                 .AddControllers()

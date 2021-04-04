@@ -43,32 +43,5 @@
             All grades relate to this exam.
             </summary>
         </member>
-        <member name="F:QueryNinja.Examples.AspNetCore.Extensions.DatabaseFunction.Like">
-            <summary>
-            Corresponds to SQL Like operation.
-            </summary>
-        </member>
-        <member name="T:QueryNinja.Examples.AspNetCore.Extensions.DatabaseFunctionFilter">
-            <summary>
-            Allows to use DB-related filters inside IQuery.
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Examples.AspNetCore.Extensions.DatabaseFunctionFilter.#ctor(QueryNinja.Examples.AspNetCore.Extensions.DatabaseFunction,System.String,System.String)">
-            <summary>
-            Creates filter instance.
-            </summary>
-            <param name="operation"></param>
-            <param name="property"></param>
-            <param name="value"></param>
-        </member>
-        <member name="P:QueryNinja.Examples.AspNetCore.Extensions.DatabaseFunctionFilter.Operation">
-            <inheritdoc />
-        </member>
-        <member name="P:QueryNinja.Examples.AspNetCore.Extensions.DatabaseFunctionFilter.Property">
-            <inheritdoc />
-        </member>
-        <member name="P:QueryNinja.Examples.AspNetCore.Extensions.DatabaseFunctionFilter.Value">
-            <inheritdoc />
-        </member>
     </members>
 </doc>
