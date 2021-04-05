@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
@@ -88,7 +87,18 @@ namespace QueryNinja.Targets.Queryable
 
             Expression result = instance;
 
-            result = properties.Aggregate(result, Expression.Property);
+            result = properties.Aggregate(result, (expression, property) =>
+            {
+                try
+                {
+                    return Expression.Property(expression, property);
+                }
+                catch (Exception)
+                {
+                    throw new InvalidPropertyException(name, instance.Type, property);
+                }
+            });
+
 
             return result;
         }
