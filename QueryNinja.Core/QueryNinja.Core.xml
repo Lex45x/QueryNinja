@@ -4,6 +4,17 @@
         <name>QueryNinja.Core</name>
     </assembly>
     <members>
+        <member name="T:QueryNinja.Core.DynamicQuery">
+            <summary>
+            Represent default query class with filters, ordering rules and selectors. <br/>
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Core.DynamicQuery.#ctor(System.Collections.Generic.IReadOnlyList{QueryNinja.Core.IQueryComponent},System.Collections.Generic.IReadOnlyList{QueryNinja.Core.Projection.ISelector})">
+            <inheritdoc />
+        </member>
+        <member name="M:QueryNinja.Core.DynamicQuery.GetSelectors">
+            <inheritdoc />
+        </member>
         <member name="T:QueryNinja.Core.Exceptions.QueryNinjaException">
             <summary>
             Base exception for all QueryNinja exceptions.
@@ -387,12 +398,6 @@
             Debug-friendly implementation. Represent whole query.
             </summary>
             <returns></returns>
-        </member>
-        <member name="M:QueryNinja.Core.DynamicQuery.#ctor(System.Collections.Generic.IReadOnlyList{QueryNinja.Core.IQueryComponent},System.Collections.Generic.IReadOnlyList{QueryNinja.Core.Projection.ISelector})">
-            <inheritdoc />
-        </member>
-        <member name="M:QueryNinja.Core.DynamicQuery.GetSelectors">
-            <inheritdoc />
         </member>
     </members>
 </doc>
