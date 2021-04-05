@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Moq;
 using NUnit.Framework;
 using QueryNinja.Core.Extensibility;
 using QueryNinja.Core.Filters;
@@ -45,7 +44,7 @@ namespace QueryNinja.Sources.AspNetCore.Tests
             Assert.IsInstanceOf<QueryNinjaModelBinderProvider>(mvcOptions.ModelBinderProviders[index: 0]);
         }
 
-        public class TestDefaultFilter : IDefaultFilter<TestOperation>
+        private class TestDefaultFilter : IDefaultFilter<TestOperation>
         {
             public TestDefaultFilter(TestOperation operation, string property, string value)
             {
@@ -64,7 +63,7 @@ namespace QueryNinja.Sources.AspNetCore.Tests
             public string Value { get; }
         }
 
-        public enum TestOperation
+        private enum TestOperation
         {
             DoSmth
         }

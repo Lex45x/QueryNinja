@@ -286,7 +286,7 @@
         <member name="T:QueryNinja.Targets.Queryable.QueryBuilders.ReplaceParametersExpressionVisitor">
             <summary>
             This Expression Visitor is used to replace parameters in expression tree with predefined property and constant expressions. <br/>
-            This functinality is used by <see cref="T:QueryNinja.Targets.Queryable.QueryBuilders.DefaultFilterQueryBuilder`2"/> to allow define expression in simplified way.
+            This functionality is used by <see cref="T:QueryNinja.Targets.Queryable.QueryBuilders.DefaultFilterQueryBuilder`2"/> to allow define expression in simplified way.
             </summary>
         </member>
         <member name="M:QueryNinja.Targets.Queryable.QueryBuilders.ReplaceParametersExpressionVisitor.VisitParameter(System.Linq.Expressions.ParameterExpression)">

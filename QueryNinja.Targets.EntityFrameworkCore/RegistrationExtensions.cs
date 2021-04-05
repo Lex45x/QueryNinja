@@ -1,8 +1,5 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using QueryNinja.Core;
+﻿using Microsoft.EntityFrameworkCore;
 using QueryNinja.Core.Extensibility;
-using QueryNinja.Core.Filters;
 using QueryNinja.Targets.EntityFrameworkCore.Filters;
 using QueryNinja.Targets.Queryable;
 using QueryNinja.Targets.Queryable.QueryBuilders;

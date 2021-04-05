@@ -1,5 +1,4 @@
-﻿using System;
-using QueryNinja.Core.Filters;
+﻿using QueryNinja.Core.Filters;
 using QueryNinja.Examples.AspNetCore.DbContext.Entities;
 
 namespace QueryNinja.Examples.AspNetCore.Extensions

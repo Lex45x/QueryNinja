@@ -95,7 +95,7 @@ namespace QueryNinja.Sources.AspNetCore.Tests
             return bindingContext;
         }
 
-        public class TestComponent : IFilter
+        private class TestComponent : IFilter
         {
         }
     }

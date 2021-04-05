@@ -49,7 +49,6 @@ namespace QueryNinja.Extensions.AspNetCore.Swagger
                     ["filters.Property.Equals"] = new OpenApiInteger(value: 0),
                     ["order.Property"] = new OpenApiString("Ascending")
                 };
-                return;
             }
         }
     }

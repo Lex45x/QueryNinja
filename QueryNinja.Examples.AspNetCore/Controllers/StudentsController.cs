@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using QueryNinja.Core;
 using QueryNinja.Examples.AspNetCore.DbContext;
-using QueryNinja.Examples.AspNetCore.DbContext.Entities;
 using QueryNinja.Targets.Queryable;
 using System.Collections.Generic;
 using System.Threading.Tasks;
