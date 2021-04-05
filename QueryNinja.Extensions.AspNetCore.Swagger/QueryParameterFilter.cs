@@ -14,22 +14,43 @@ namespace QueryNinja.Extensions.AspNetCore.Swagger
         /// <inheritdoc />
         public void Apply(OpenApiParameter parameter, ParameterFilterContext context)
         {
-            var isTypeCorrect = typeof(IQuery).IsAssignableFrom(context.ParameterInfo.ParameterType);
             var isBindingSourceCorrect = context.ApiParameterDescription.Source == BindingSource.Query;
 
-            if (!isTypeCorrect && !isBindingSourceCorrect)
+            if (!isBindingSourceCorrect)
             {
                 return;
             }
-            
-            parameter.Explode = true;
-            parameter.Style = ParameterStyle.Form;
-            parameter.In = ParameterLocation.Query;
-            parameter.Example = new OpenApiObject
+
+            var isDynamicQuery = typeof(IDynamicQuery).IsAssignableFrom(context.ParameterInfo.ParameterType);
+
+            if (isDynamicQuery)
             {
-                ["filters.Property.Equals"] = new OpenApiInteger(value: 0),
-                ["order.Property"] = new OpenApiString("Ascending")
-            };
+                parameter.Explode = true;
+                parameter.Style = ParameterStyle.Form;
+                parameter.In = ParameterLocation.Query;
+                parameter.Example = new OpenApiObject
+                {
+                    ["filters.Property.Equals"] = new OpenApiInteger(value: 0),
+                    ["order.Property"] = new OpenApiString("Ascending"),
+                    ["select"] = new OpenApiString("Property")
+                };
+                return;
+            }
+
+            var isQuery = typeof(IQuery).IsAssignableFrom(context.ParameterInfo.ParameterType);
+
+            if (isQuery)
+            {
+                parameter.Explode = true;
+                parameter.Style = ParameterStyle.Form;
+                parameter.In = ParameterLocation.Query;
+                parameter.Example = new OpenApiObject
+                {
+                    ["filters.Property.Equals"] = new OpenApiInteger(value: 0),
+                    ["order.Property"] = new OpenApiString("Ascending")
+                };
+                return;
+            }
         }
     }
 }
