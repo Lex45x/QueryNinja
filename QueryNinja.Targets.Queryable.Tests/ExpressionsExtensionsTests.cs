@@ -10,6 +10,19 @@ namespace QueryNinja.Targets.Queryable.Tests
     [TestFixture(Category = "Unit", TestOf = typeof(ExpressionsExtensions))]
     public class ExpressionsExtensionsTests
     {
+        private static readonly Example ExampleInstance = new()
+        {
+            Value = "1",
+            Child = new Example
+            {
+                Value = "2",
+                Child = new Example
+                {
+                    Value = "3"
+                }
+            }
+        };
+
         public static IEnumerable<TestCaseData> Constants = new List<TestCaseData>
         {
             new(arg1: 1, arg2: null),
@@ -43,6 +56,13 @@ namespace QueryNinja.Targets.Queryable.Tests
             new("Child.Values", typeof(InvalidPropertyException))
         };
 
+        public static IEnumerable<TestCaseData> Properties = new List<TestCaseData>
+        {
+            new TestCaseData(Expression.Constant(ExampleInstance), "Value").Returns("1"),
+            new TestCaseData(Expression.Constant(ExampleInstance), "Child.Value").Returns("2"),
+            new TestCaseData(Expression.Constant(ExampleInstance), "Child.Child.Value").Returns("3"),
+        };
+
         [Test]
         [TestCaseSource(nameof(Constants))]
         public void AsConstantTest(object constant, Type exceptionType)
@@ -62,19 +82,6 @@ namespace QueryNinja.Targets.Queryable.Tests
                 Assert.Throws(exceptionType, () => constantExpression = value?.AsConstant(constant.GetType()));
             }
         }
-
-        private static readonly Example ExampleInstance = new()
-        {
-            Value = "1",
-            Child = new Example
-            {
-                Value = "2",
-                Child = new Example
-                {
-                    Value = "3"
-                }
-            }
-        };
 
         [Test]
         [TestCaseSource(nameof(FromSuccessTestCases))]
@@ -103,11 +110,26 @@ namespace QueryNinja.Targets.Queryable.Tests
             return source.IsOrderExpressionDefined();
         }
 
+        [Test]
+        [TestCaseSource(nameof(Properties))]
+        public object PropertyTest(Expression source, string property)
+        {
+            var propertyExpression = source.Property(property);
+
+            var lambda = Expression.Lambda<Func<object>>(propertyExpression);
+
+            var compiledLambda = lambda.Compile();
+
+            var propertyValue = compiledLambda();
+
+            return propertyValue;
+        }
+
         public class Example
         {
-            public string? Value { get; set; }
+            public string? Value { get; init; }
 
-            public Example? Child { get; set; }
+            public Example? Child { get; init; }
         }
     }
 }

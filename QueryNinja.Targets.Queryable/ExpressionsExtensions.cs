@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
@@ -73,6 +74,23 @@ namespace QueryNinja.Targets.Queryable
                 });
 
             return Expression.Lambda(currentProperty, parameter);
+        }
+
+        /// <summary>
+        /// Allows to take property from parameter expression.
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static Expression Property(this Expression instance, string name)
+        {
+            var properties = name.Split(separator: '.');
+
+            Expression result = instance;
+
+            result = properties.Aggregate(result, Expression.Property);
+
+            return result;
         }
 
         /// <summary>

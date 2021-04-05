@@ -6,6 +6,7 @@ using System.Linq;
 using QueryNinja.Core.Extensibility;
 using QueryNinja.Core.Filters;
 using QueryNinja.Core.OrderingRules;
+using QueryNinja.Core.Projection;
 using QueryNinja.Targets.Queryable.Exceptions;
 
 namespace QueryNinja.Targets.Queryable.Tests
@@ -48,6 +49,75 @@ namespace QueryNinja.Targets.Queryable.Tests
                 .Returns(new[] {8, 2})
         };
 
+        public static IEnumerable<TestCaseData> SuccessDynamicScenarios = new List<TestCaseData>
+        {
+            new TestCaseData(SourceData,
+                    new DynamicQuery(
+                        new IQueryComponent[]
+                        {
+                            new ComparisonFilter(ComparisonOperation.Equals, "StringValue.Length", "5"),
+                            new ComparisonFilter(ComparisonOperation.GreaterOrEquals, "IntValue", "10"),
+                            new OrderingRule("Id", OrderDirection.Ascending)
+                        },
+                        new ISelector[]
+                        {
+                            new Selector("Id"),
+                            new RenameSelector("StringValue", "Values.String"),
+                            new RenameSelector("IntValue", "Values.Numbers.Int")
+                        }))
+                .Returns(new[]
+                {
+                    new Dictionary<string, object>
+                    {
+                        ["Id"] = 1,
+                        ["Values"] = new Dictionary<string, object>
+                        {
+                            ["String"] = "First",
+                            ["Numbers"] = new Dictionary<string, object>
+                            {
+                                ["Int"] = 15
+                            }
+                        }
+                    },
+                    new Dictionary<string, object>
+                    {
+                        ["Id"] = 3,
+                        ["Values"] = new Dictionary<string, object>
+                        {
+                            ["String"] = "Third",
+                            ["Numbers"] = new Dictionary<string, object>
+                            {
+                                ["Int"] = 73
+                            }
+                        }
+                    },
+                    new Dictionary<string, object>
+                    {
+                        ["Id"] = 5,
+                        ["Values"] = new Dictionary<string, object>
+                        {
+                            ["String"] = "Fifth",
+                            ["Numbers"] = new Dictionary<string, object>
+                            {
+                                ["Int"] = 45
+                            }
+                        }
+                    },
+                    new Dictionary<string, object>
+                    {
+                        ["Id"] = 6,
+                        ["Values"] = new Dictionary<string, object>
+                        {
+                            ["String"] = "Sixth",
+                            ["Numbers"] = new Dictionary<string, object>
+                            {
+                                ["Int"] = 22
+                            }
+                        }
+                    }
+                })
+        };
+
         public static IEnumerable<TestCaseData> FailedScenarios = new List<TestCaseData>
         {
             new(SourceData, new UnsupportedQuery(), typeof(NoMatchingExtensionsException))
@@ -62,27 +132,34 @@ namespace QueryNinja.Targets.Queryable.Tests
 
         [Test]
         [TestCaseSource(nameof(SuccessScenarios))]
-        public IEnumerable<int> ScenariosTest(IQueryable<Example> source, IQuery query)
+        public IEnumerable<int> ScenariosTestOnQuery(IQueryable<Example> source, IQuery query)
         {
             return source.WithQuery(query).Select(example => example.Id);
         }
 
         [Test]
+        [TestCaseSource(nameof(SuccessDynamicScenarios))]
+        public IEnumerable<dynamic> ScenariosTestOnDynamicQuery(IQueryable<Example> source, IDynamicQuery query)
+        {
+            return source.WithQuery(query).ToList();
+        }
+
+        [Test]
         [TestCaseSource(nameof(FailedScenarios))]
-        public void FailedScenariosTest(IQueryable<Example> source, IQuery query, Type exceptionType)
+        public void FailedScenariosTestOnQuery(IQueryable<Example> source, IQuery query, Type exceptionType)
         {
             Assert.Throws(exceptionType, () => source.WithQuery(query));
         }
 
-        public class UnsupportedQuery : IQuery
+        private class UnsupportedQuery : IQuery
         {
-            public IEnumerable<IQueryComponent> GetComponents()
+            public IReadOnlyList<IQueryComponent> GetComponents()
             {
                 return new[] {new UnknownComponent()};
             }
         }
 
-        public class UnknownComponent : IQueryComponent
+        private class UnknownComponent : IQueryComponent
         {
         }
 

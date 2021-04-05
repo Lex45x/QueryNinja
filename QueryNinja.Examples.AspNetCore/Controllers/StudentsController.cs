@@ -34,7 +34,7 @@ namespace QueryNinja.Examples.AspNetCore.Controllers
         /// <param name="query">QueryNinja query. Send empty to see all students.</param>
         /// <returns>List of students</returns>
         [HttpGet]
-        public async Task<IEnumerable<Student>> Get([FromQuery] IQuery query)
+        public async Task<IEnumerable<dynamic>> Get([FromQuery] IDynamicQuery query)
         {
             var result = await dbContext.Students
                 .AsNoTracking()

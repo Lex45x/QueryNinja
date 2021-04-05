@@ -237,6 +237,17 @@
             Represent a rule to filter Target collection.
             </summary>
         </member>
+        <member name="T:QueryNinja.Core.IDynamicQuery">
+            <summary>
+            This is core interface for queries that allows to select desired properties from original result aka projection.
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Core.IDynamicQuery.GetSelectors">
+            <summary>
+            Returns a collection that defines how to construct result projection
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:QueryNinja.Core.IQuery">
             <summary>
               This is core interface for all types of queries
@@ -296,12 +307,62 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:QueryNinja.Core.Projection.ISelector">
+            <summary>
+            Allows to specify how the original properties should be selected into result projection.
+            </summary>
+        </member>
+        <member name="P:QueryNinja.Core.Projection.ISelector.Source">
+            <summary>
+            Path to the source property.
+            </summary>
+        </member>
+        <member name="P:QueryNinja.Core.Projection.ISelector.Target">
+            <summary>
+            Path to the target property
+            </summary>
+        </member>
+        <member name="T:QueryNinja.Core.Projection.RenameSelector">
+            <summary>
+            Represent selector that allows to place selected properties to different path.
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Core.Projection.RenameSelector.#ctor(System.String,System.String)">
+            <summary>
+            Creates instance of <see cref="T:QueryNinja.Core.Projection.RenameSelector"/>
+            </summary>
+            <param name="source"></param>
+            <param name="target"></param>
+        </member>
+        <member name="P:QueryNinja.Core.Projection.RenameSelector.Source">
+            <inheritdoc />
+        </member>
+        <member name="P:QueryNinja.Core.Projection.RenameSelector.Target">
+            <inheritdoc />
+        </member>
+        <member name="T:QueryNinja.Core.Projection.Selector">
+            <summary>
+            Represent selector that leaves path to properties as-is.
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Core.Projection.Selector.#ctor(System.String)">
+            <summary>
+            Creates instance of Selector.
+            </summary>
+            <param name="source"></param>
+        </member>
+        <member name="P:QueryNinja.Core.Projection.Selector.Source">
+            <inheritdoc />
+        </member>
+        <member name="P:QueryNinja.Core.Projection.Selector.Target">
+            <inheritdoc />
+        </member>
         <member name="T:QueryNinja.Core.Query">
             <summary>
             Represent default query class with filters and ordering rules. <br/>
             </summary>
         </member>
-        <member name="M:QueryNinja.Core.Query.#ctor(System.Collections.Generic.ICollection{QueryNinja.Core.IQueryComponent})">
+        <member name="M:QueryNinja.Core.Query.#ctor(System.Collections.Generic.IReadOnlyList{QueryNinja.Core.IQueryComponent})">
             <summary>
             Creates instance of <see cref="T:QueryNinja.Core.Query"/> with defined query components.
             </summary>
@@ -326,6 +387,12 @@
             Debug-friendly implementation. Represent whole query.
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:QueryNinja.Core.DynamicQuery.#ctor(System.Collections.Generic.IReadOnlyList{QueryNinja.Core.IQueryComponent},System.Collections.Generic.IReadOnlyList{QueryNinja.Core.Projection.ISelector})">
+            <inheritdoc />
+        </member>
+        <member name="M:QueryNinja.Core.DynamicQuery.GetSelectors">
+            <inheritdoc />
         </member>
     </members>
 </doc>
