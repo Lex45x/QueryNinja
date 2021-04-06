@@ -14,7 +14,6 @@ using QueryNinja.Examples.AspNetCore.Extensions;
 using QueryNinja.Extensions.AspNetCore.Swagger;
 using QueryNinja.Sources.AspNetCore;
 using QueryNinja.Targets.EntityFrameworkCore;
-using QueryNinja.Targets.Queryable;
 
 namespace QueryNinja.Examples.AspNetCore
 {

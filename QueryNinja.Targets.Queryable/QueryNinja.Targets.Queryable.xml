@@ -134,6 +134,14 @@
             <exception cref="T:QueryNinja.Targets.Queryable.Exceptions.InvalidPropertyException">In case of at leas one property in the <paramref name="path"/> will not be found.</exception>
             <returns></returns>
         </member>
+        <member name="M:QueryNinja.Targets.Queryable.ExpressionsExtensions.Property(System.Linq.Expressions.Expression,System.String)">
+            <summary>
+            Allows to take property from parameter expression.
+            </summary>
+            <param name="instance"></param>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
         <member name="M:QueryNinja.Targets.Queryable.ExpressionsExtensions.IsOrderExpressionDefined(System.Linq.IQueryable)">
             <summary>
             Checks whether Queryable already contains order expressions defined.
@@ -154,6 +162,20 @@
             <typeparam name="TFilter">User-defined filters.</typeparam>
             <typeparam name="TOperation">Operations enum for user-defined filters.</typeparam>
         </member>
+        <member name="T:QueryNinja.Targets.Queryable.Projection.ProjectionBuilder">
+            <summary>
+            Applies a projection from <see cref="T:System.Linq.IQueryable`1"/> to structure defined by <see cref="T:QueryNinja.Core.Projection.ISelector"/>
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.Projection.ProjectionBuilder.Project``1(System.Linq.IQueryable{``0},System.Collections.Generic.IEnumerable{QueryNinja.Core.Projection.ISelector})">
+            <summary>
+            Applies <paramref name="selectors"/> on top of <paramref name="source"/>.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="source">Source IQueryable</param>
+            <param name="selectors">Collection of selectors.</param>
+            <returns>Dynamic <see cref="T:System.Linq.IQueryable`1"/>.</returns>
+        </member>
         <member name="T:QueryNinja.Targets.Queryable.QueryableExtensions">
             <summary>
             Extensions that allow to use QueryNinja on <see cref="T:System.Linq.IQueryable`1"/> interface.
@@ -167,6 +189,15 @@
             <param name="queryable"></param>
             <param name="query"></param>
             <exception cref="T:QueryNinja.Targets.Queryable.Exceptions.NoMatchingExtensionsException">When <paramref name="query"/> contains component that no <see cref="T:QueryNinja.Targets.Queryable.QueryBuilders.IQueryBuilder"/> can append.</exception>
+            <returns></returns>
+        </member>
+        <member name="M:QueryNinja.Targets.Queryable.QueryableExtensions.WithQuery``1(System.Linq.IQueryable{``0},QueryNinja.Core.IDynamicQuery)">
+            <summary>
+            Appends <paramref name="query"/> to the <paramref name="queryable"/> and allows to project <see cref="!:T"/> into dynamic object.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="queryable"></param>
+            <param name="query"></param>
             <returns></returns>
         </member>
         <member name="T:QueryNinja.Targets.Queryable.QueryBuilders.AbstractQueryBuilder`1">
@@ -255,7 +286,7 @@
         <member name="T:QueryNinja.Targets.Queryable.QueryBuilders.ReplaceParametersExpressionVisitor">
             <summary>
             This Expression Visitor is used to replace parameters in expression tree with predefined property and constant expressions. <br/>
-            This functinality is used by <see cref="T:QueryNinja.Targets.Queryable.QueryBuilders.DefaultFilterQueryBuilder`2"/> to allow define expression in simplified way.
+            This functionality is used by <see cref="T:QueryNinja.Targets.Queryable.QueryBuilders.DefaultFilterQueryBuilder`2"/> to allow define expression in simplified way.
             </summary>
         </member>
         <member name="M:QueryNinja.Targets.Queryable.QueryBuilders.ReplaceParametersExpressionVisitor.VisitParameter(System.Linq.Expressions.ParameterExpression)">

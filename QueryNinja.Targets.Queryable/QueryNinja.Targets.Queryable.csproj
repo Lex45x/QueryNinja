@@ -17,4 +17,8 @@
     <ProjectReference Include="..\QueryNinja.Core\QueryNinja.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Projection\" />
+  </ItemGroup>
+
 </Project>

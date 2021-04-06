@@ -10,15 +10,15 @@ namespace QueryNinja.Core
     /// <summary>
     /// Represent default query class with filters and ordering rules. <br/>
     /// </summary>
-    public sealed class Query : IQuery
+    public class Query : IQuery
     {
-        private readonly ICollection<IQueryComponent> components;
+        private readonly IReadOnlyList<IQueryComponent> components;
 
         /// <summary>
         /// Creates instance of <see cref="Query"/> with defined query components.
         /// </summary>
         /// <param name="components"></param>
-        public Query(ICollection<IQueryComponent> components)
+        public Query(IReadOnlyList<IQueryComponent> components)
         {
             this.components = components;
         }
@@ -28,16 +28,16 @@ namespace QueryNinja.Core
         /// All filters are join with AND operator.
         /// </summary>
         [SuppressMessage("ReSharper", "UnusedMember.Global", Justification = "Public API")]
-        public ICollection<IFilter> Filters => components.OfType<IFilter>().ToList();
+        public IReadOnlyList<IFilter> Filters => components.OfType<IFilter>().ToList();
 
         /// <summary>
         /// Represent a collection of order rules to be applied on Target collection. <br/>
         /// </summary>
         [SuppressMessage("ReSharper", "UnusedMember.Global", Justification = "Public API")]
-        public ICollection<OrderingRule> OrderingRules => components.OfType<OrderingRule>().ToList();
+        public IReadOnlyList<OrderingRule> OrderingRules => components.OfType<OrderingRule>().ToList();
 
         ///<inheritdoc/>
-        public IEnumerable<IQueryComponent> GetComponents()
+        public IReadOnlyList<IQueryComponent> GetComponents()
         {
             return components;
         }

@@ -11,6 +11,6 @@ namespace QueryNinja.Core
         ///   Returns a single collections with all query components.
         /// </summary>
         /// <returns></returns>
-        IEnumerable<IQueryComponent> GetComponents();
+        IReadOnlyList<IQueryComponent> GetComponents();
     }
 }

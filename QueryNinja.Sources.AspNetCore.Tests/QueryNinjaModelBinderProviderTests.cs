@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Internal;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Moq;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 using QueryNinja.Core;
 using QueryNinja.Sources.AspNetCore.ModelBinding;
 
@@ -42,13 +40,13 @@ namespace QueryNinja.Sources.AspNetCore.Tests
                 context.BindingInfo.BindingSource == BindingSource.Query &&
                 context.Metadata == ModelMetadataForType(typeof(string)));
 
-            yield return new TestCaseData(mockedContext).Returns(null);
+            yield return new TestCaseData(mockedContext).Returns(result: null);
 
             mockedContext = Mock.Of<ModelBinderProviderContext>(context =>
                 context.BindingInfo.BindingSource == BindingSource.Body &&
                 context.Metadata == ModelMetadataForType(typeof(string)));
 
-            yield return new TestCaseData(mockedContext).Returns(null);
+            yield return new TestCaseData(mockedContext).Returns(result: null);
         }
 
         [Test]

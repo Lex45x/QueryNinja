@@ -49,7 +49,7 @@ namespace QueryNinja.Sources.AspNetCore.Tests
         }
 
 
-        public class TestFilter : IDefaultFilter<TestOperations>
+        private class TestFilter : IDefaultFilter<TestOperations>
         {
             public TestFilter(TestOperations operation, string property, string value)
             {
