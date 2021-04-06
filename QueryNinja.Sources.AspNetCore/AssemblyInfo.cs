@@ -18,3 +18,4 @@ using System.Runtime.InteropServices;
 [assembly: Guid("71a39409-325d-44c4-8a69-8503d204c05e")]
 
 [assembly: InternalsVisibleTo("QueryNinja.Sources.AspNetCore.Tests")]
+[assembly: InternalsVisibleTo("QueryNinja.Benchmarking")]
