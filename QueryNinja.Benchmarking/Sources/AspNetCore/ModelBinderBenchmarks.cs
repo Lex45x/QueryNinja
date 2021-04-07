@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Code;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -16,7 +17,8 @@ using QueryNinja.Targets.EntityFrameworkCore;
 
 namespace QueryNinja.Benchmarking.Sources.AspNetCore
 {
-    [SimpleJob(launchCount: 1, warmupCount: 5, targetCount: 30)]
+    [MemoryDiagnoser]
+    [SimpleJob]
     public class ModelBinderBenchmarks
     {
         private static readonly QueryNinjaModelBinder QueryNinjaModelBinder = new();
@@ -53,16 +55,16 @@ namespace QueryNinja.Benchmarking.Sources.AspNetCore
 
             var tenFilters = new Dictionary<string, StringValues>
             {
-                ["filter.A.Equals"] = "1",
-                ["filter.B.IsEmpty"] = "true",
-                ["filter.C.Like"] = "pattern",
-                ["filter.D.Less"] = "2",
-                ["filter.E.Contains"] = "item",
-                ["filter.F.Greater"] = "3",
-                ["filter.G.Like"] = "another pattern",
-                ["filter.H.NotEquals"] = "4",
-                ["filter.I.GreaterOrEquals"] = "5",
-                ["filter.J.Equals"] = "string"
+                ["filters.A.Equals"] = "1",
+                ["filters.B.IsEmpty"] = "true",
+                ["filters.C.Like"] = "pattern",
+                ["filters.D.Less"] = "2",
+                ["filters.E.Contains"] = "item",
+                ["filters.F.Greater"] = "3",
+                ["filters.G.Like"] = "another pattern",
+                ["filters.H.NotEquals"] = "4",
+                ["filters.I.GreaterOrEquals"] = "5",
+                ["filters.J.Equals"] = "string"
             };
 
             yield return CreateModelBindingScenario(tenFilters, "10 Filters");
@@ -106,7 +108,7 @@ namespace QueryNinja.Benchmarking.Sources.AspNetCore
         public ModelBindingScenario Scenario { get; set; }
 
         [Benchmark]
-        public async Task<ModelBindingContext> ModelBindingBenchmark()
+        public async Task<ModelBindingContext> ModelBinding()
         {
             await QueryNinjaModelBinder.BindModelAsync(Scenario.Context);
 

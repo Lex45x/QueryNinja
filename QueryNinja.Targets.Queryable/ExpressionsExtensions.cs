@@ -114,7 +114,7 @@ namespace QueryNinja.Targets.Queryable
 
             while (methodCall != null)
             {
-                if (methodCall.Method.Name.Contains("OrderBy"))
+                if (methodCall.Method.Name.Contains("OrderBy") || methodCall.Method.Name.Contains("ThenBy"))
                 {
                     return true;
                 }

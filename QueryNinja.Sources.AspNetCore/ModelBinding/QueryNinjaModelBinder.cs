@@ -57,8 +57,10 @@ namespace QueryNinja.Sources.AspNetCore.ModelBinding
                 }
                 else
                 {
-                    var propertyNameStart = key.IndexOf(value: '.') + 1;
-                    var sourceProperty = key.Substring(propertyNameStart);
+                    var keySpan = key.AsSpan();
+
+                    var propertyNameStart = keySpan.IndexOf(value: '.') + 1;
+                    var sourceProperty = keySpan.Slice(propertyNameStart).ToString();
 
                     foreach (var targetProperty in value)
                     {
