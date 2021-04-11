@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Code;
+using BenchmarkDotNet.Diagnosers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -19,6 +20,8 @@ namespace QueryNinja.Benchmarking.Sources.AspNetCore
 {
     [MemoryDiagnoser]
     [SimpleJob]
+    [EventPipeProfiler(EventPipeProfile.CpuSampling)]
+    [RPlotExporter]
     public class ModelBinderBenchmarks
     {
         private static readonly QueryNinjaModelBinder QueryNinjaModelBinder = new();

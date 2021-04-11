@@ -26,5 +26,4 @@ namespace QueryNinja.Targets.Queryable.QueryBuilders
         /// <returns></returns>
         IQueryable<TEntity> Append<TEntity>(IQueryable<TEntity> source, IQueryComponent component);
     }
-
 }

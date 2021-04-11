@@ -232,6 +232,9 @@
             <exception cref="T:QueryNinja.Targets.Queryable.Exceptions.QueryBuildingException">Thrown in case of any unexpected exception.</exception>
             <returns></returns>
         </member>
+        <member name="P:QueryNinja.Targets.Queryable.QueryBuilders.AbstractQueryBuilder`1.ComponentType">
+            <inheritdoc />
+        </member>
         <member name="T:QueryNinja.Targets.Queryable.QueryBuilders.DefaultFilterQueryBuilder`2">
             <summary>
             Allows to configure <see cref="T:QueryNinja.Core.Filters.IDefaultFilter`1"/> in simplified way.
@@ -282,6 +285,18 @@
             <param name="source"></param>
             <param name="component"></param>
             <returns></returns>
+        </member>
+        <member name="T:QueryNinja.Targets.Queryable.QueryBuilders.ITypedQueryBuilder">
+            <summary>
+            Introduce type-specific query builder. <br/>
+            Same as <see cref="T:QueryNinja.Targets.Queryable.QueryBuilders.IQueryBuilder"/>, but <see cref="M:QueryNinja.Targets.Queryable.QueryBuilders.IQueryBuilder.CanAppend(QueryNinja.Core.IQueryComponent)"/>
+            returns true for <see cref="T:QueryNinja.Core.IQueryComponent"/> of <see cref="P:QueryNinja.Targets.Queryable.QueryBuilders.ITypedQueryBuilder.ComponentType"/>.
+            </summary>
+        </member>
+        <member name="P:QueryNinja.Targets.Queryable.QueryBuilders.ITypedQueryBuilder.ComponentType">
+            <summary>
+            Type of <see cref="T:QueryNinja.Core.IQueryComponent"/> supported by this Builder.
+            </summary>
         </member>
         <member name="T:QueryNinja.Targets.Queryable.QueryBuilders.ReplaceParametersExpressionVisitor">
             <summary>

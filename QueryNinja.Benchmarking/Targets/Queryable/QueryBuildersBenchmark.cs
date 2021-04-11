@@ -19,6 +19,7 @@ namespace QueryNinja.Benchmarking.Targets.Queryable
     [SimpleJob]
     [MemoryDiagnoser]
     [EventPipeProfiler(EventPipeProfile.CpuSampling)]
+    [RPlotExporter]
     public class QueryBuildersBenchmark
     {
         [GlobalSetup]

@@ -10,7 +10,7 @@ namespace QueryNinja.Benchmarking
     {
         static void Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run(Assembly.GetExecutingAssembly());
+            BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Diagnosers;
 using QueryNinja.Benchmarking.ExampleDomain;
 using QueryNinja.Core;
 using QueryNinja.Core.Extensibility;
@@ -16,8 +17,10 @@ using QueryNinja.Targets.Queryable;
 
 namespace QueryNinja.Benchmarking.Targets.Queryable
 {
-    [MemoryDiagnoser]
     [SimpleJob]
+    [MemoryDiagnoser]
+    [EventPipeProfiler(EventPipeProfile.CpuSampling)]
+    [RPlotExporter]
     public class QueryableExtensionsBenchmark
     {
         [GlobalSetup]
