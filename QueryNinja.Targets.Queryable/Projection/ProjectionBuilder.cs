@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using QueryNinja.Core.Projection;
+using QueryNinja.Targets.Queryable.Reflection;
 
 namespace QueryNinja.Targets.Queryable.Projection
 {
@@ -14,11 +15,7 @@ namespace QueryNinja.Targets.Queryable.Projection
     {
         private static readonly Type DictionaryType;
         private static readonly MethodInfo AddMethod;
-
-        private static readonly MethodInfo Select = typeof(System.Linq.Queryable)
-            .GetMethods(BindingFlags.Static | BindingFlags.Public)
-            .First(methodInfo => methodInfo.Name == "Select" && methodInfo.GetParameters().Length == 2);
-
+        
         static ProjectionBuilder()
         {
             DictionaryType = typeof(Dictionary<string, object>);
@@ -56,7 +53,7 @@ namespace QueryNinja.Targets.Queryable.Projection
 
             var lambda = Expression.Lambda(zeroLayer, parameter);
 
-            var genericSelect = Select.MakeGenericMethod(typeof(T), lambda.ReturnType);
+            var genericSelect = FastReflection.ForQueryable.Select<T, Dictionary<string, object>>();
 
             var queryBody = Expression.Call(genericSelect,
                 source.Expression, Expression.Quote(lambda));

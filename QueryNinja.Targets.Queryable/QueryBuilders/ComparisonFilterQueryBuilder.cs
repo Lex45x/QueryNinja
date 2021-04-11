@@ -4,20 +4,12 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using QueryNinja.Core.Filters;
+using QueryNinja.Targets.Queryable.Reflection;
 
 namespace QueryNinja.Targets.Queryable.QueryBuilders
 {
     internal class ComparisonFilterQueryBuilder : AbstractQueryBuilder<ComparisonFilter>
     {
-        private static readonly MethodInfo Where = typeof(System.Linq.Queryable)
-            .GetMethods(BindingFlags.Static | BindingFlags.Public)
-            .First(methodInfo => methodInfo.Name == "Where" && methodInfo.GetParameters()
-                .Last()
-                .ParameterType.GetGenericArguments()
-                .Last()
-                .GetGenericArguments()
-                .Length == 2);
-
         private static readonly Dictionary<ComparisonOperation, Func<Expression, Expression, Expression>> Operations =
             new Dictionary<ComparisonOperation, Func<Expression, Expression, Expression>>
             {
@@ -41,7 +33,7 @@ namespace QueryNinja.Targets.Queryable.QueryBuilders
 
             var filterExpression = Expression.Lambda(body, propertyLambda.Parameters);
 
-            var genericWhere = Where.MakeGenericMethod(typeof(TEntity));
+            var genericWhere = FastReflection.ForQueryable.Where<TEntity>();
 
             var queryBody = Expression.Call(genericWhere,
                 source.Expression, Expression.Quote(filterExpression));

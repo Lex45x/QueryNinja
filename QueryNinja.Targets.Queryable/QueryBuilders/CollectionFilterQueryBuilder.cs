@@ -5,29 +5,13 @@ using System.Reflection;
 using QueryNinja.Core;
 using QueryNinja.Core.Filters;
 using QueryNinja.Targets.Queryable.Exceptions;
+using QueryNinja.Targets.Queryable.Reflection;
 
 namespace QueryNinja.Targets.Queryable.QueryBuilders
 {
     internal class CollectionFilterQueryBuilder : AbstractQueryBuilder<CollectionFilter>
     {
-        private static readonly MethodInfo Where = typeof(System.Linq.Queryable)
-            .GetMethods(BindingFlags.Static | BindingFlags.Public)
-            .First(methodInfo => methodInfo.Name == "Where" && methodInfo.GetParameters()
-                .Last()
-                .ParameterType.GetGenericArguments()
-                .Last()
-                .GetGenericArguments()
-                .Length == 2);
-
-        private static readonly MethodInfo ContainsMethod = typeof(Enumerable)
-            .GetMethods(BindingFlags.Static | BindingFlags.Public)
-            .First(methodInfo => methodInfo.Name == "Contains" && methodInfo.GetParameters().Length == 2);
-
-        private static readonly MethodInfo AnyMethod = typeof(Enumerable)
-            .GetMethods(BindingFlags.Static | BindingFlags.Public)
-            .First(methodInfo => methodInfo.Name == "Any" && methodInfo.GetParameters().Length == 1);
-
-        protected override IQueryable<TEntity> AppendImplementation<TEntity>(IQueryable<TEntity> source,
+                protected override IQueryable<TEntity> AppendImplementation<TEntity>(IQueryable<TEntity> source,
             CollectionFilter component)
         {
             var propertyLambda = component.Property.From<TEntity>();
@@ -51,7 +35,7 @@ namespace QueryNinja.Targets.Queryable.QueryBuilders
 
             var filterExpression = Expression.Lambda(body, propertyLambda.Parameters);
 
-            var genericWhere = Where.MakeGenericMethod(typeof(TEntity));
+            var genericWhere = FastReflection.ForQueryable.Where<TEntity>();
 
             var queryBody = Expression.Call(genericWhere,
                 source.Expression, Expression.Quote(filterExpression));
@@ -61,7 +45,7 @@ namespace QueryNinja.Targets.Queryable.QueryBuilders
 
         private static Expression IsEmpty(Expression property, Expression constant, Type elementType)
         {
-            var any = AnyMethod.MakeGenericMethod(elementType);
+            var any = FastReflection.ForEnumerable.Any(elementType);
 
             var anyCall = Expression.Call(any, property);
 
@@ -70,7 +54,7 @@ namespace QueryNinja.Targets.Queryable.QueryBuilders
 
         private static Expression Contains(Expression property, Expression constant)
         {
-            var contains = ContainsMethod.MakeGenericMethod(constant.Type);
+            var contains = FastReflection.ForEnumerable.Contains(constant.Type);
             return Expression.Call(contains, property, constant);
         }
     }

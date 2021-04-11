@@ -36,6 +36,8 @@ namespace QueryNinja.Targets.Queryable.QueryBuilders
 
             var lambda = order.Property.From<TEntity>();
 
+            //can't introduce FastReflection as lambda.Return type can contain lots of values
+            //this will multiply cache dictionary in many times.
             var genericOrderMethod = method.MakeGenericMethod(typeof(TEntity), lambda.ReturnType);
 
             var queryBody = Expression.Call(genericOrderMethod, source.Expression, Expression.Quote(lambda));

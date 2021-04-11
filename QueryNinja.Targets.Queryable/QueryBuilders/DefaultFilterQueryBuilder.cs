@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using QueryNinja.Core.Filters;
+using QueryNinja.Targets.Queryable.Reflection;
 
 namespace QueryNinja.Targets.Queryable.QueryBuilders
 {
@@ -70,7 +71,8 @@ namespace QueryNinja.Targets.Queryable.QueryBuilders
             Expression CreateBody(Expression property, Expression constant)
             {
                 var expressionVisitor =
-                    new ReplaceParametersExpressionVisitor(parameters[index: 0], property, parameters[index: 1], constant);
+                    new ReplaceParametersExpressionVisitor(parameters[index: 0], property, parameters[index: 1],
+                        constant);
 
                 return expressionVisitor.Visit(expressionBody) ??
                        throw new InvalidOperationException("Visit returned null");
@@ -105,12 +107,9 @@ namespace QueryNinja.Targets.Queryable.QueryBuilders
 
             var filterExpression = Expression.Lambda(body, propertyLambda.Parameters);
 
-            var queryBody = Expression.Call(typeof(System.Linq.Queryable),
-                "Where",
-                new[]
-                {
-                    typeof(TEntity)
-                },
+            var genericWhere = FastReflection.ForQueryable.Where<TEntity>();
+
+            var queryBody = Expression.Call(genericWhere,
                 source.Expression, Expression.Quote(filterExpression));
 
             return source.Provider.CreateQuery<TEntity>(queryBody);

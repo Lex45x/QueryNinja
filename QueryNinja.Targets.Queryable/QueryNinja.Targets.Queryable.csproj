@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Reflection\" />
     <Folder Include="Projection\" />
   </ItemGroup>
 
