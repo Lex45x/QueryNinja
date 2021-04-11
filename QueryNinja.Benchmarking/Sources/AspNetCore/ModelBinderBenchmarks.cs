@@ -20,8 +20,6 @@ namespace QueryNinja.Benchmarking.Sources.AspNetCore
 {
     [MemoryDiagnoser]
     [SimpleJob]
-    [EventPipeProfiler(EventPipeProfile.CpuSampling)]
-    [RPlotExporter]
     public class ModelBinderBenchmarks
     {
         private static readonly QueryNinjaModelBinder QueryNinjaModelBinder = new();
