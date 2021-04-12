@@ -72,7 +72,7 @@ namespace QueryNinja.Sources.AspNetCore.Factory
         ///<inheritdoc/>
         public bool CanApply(string name, string value)
         {
-            if (!name.StartsWith("filters", StringComparison.OrdinalIgnoreCase))
+            if (!name.StartsWith("filter", StringComparison.OrdinalIgnoreCase))
             {
                 return false;
             }
