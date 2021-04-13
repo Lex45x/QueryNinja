@@ -58,7 +58,7 @@ jobs:
         
     - name: Run Benchmarking
       if: ${{ startsWith(github.ref, 'refs/heads/release/') }}
-      run: dotnet run -c Release --project .\QueryNinja.Benchmarking\QueryNinja.Benchmarking.csproj --filter * --maxIterationCount 50
+      run: dotnet run -c Release --project ./QueryNinja.Benchmarking/QueryNinja.Benchmarking.csproj --filter * --maxIterationCount 50
       
     - name: Archive Benchmarking Results
       if: ${{ startsWith(github.ref, 'refs/heads/release/') }}
