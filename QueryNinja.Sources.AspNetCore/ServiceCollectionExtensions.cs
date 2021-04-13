@@ -32,6 +32,22 @@ namespace QueryNinja.Sources.AspNetCore
             return new ExtensionSettings(QueryNinjaExtensions.Configure, factory);
         }
 
+        /// <summary>
+        /// Add AspNetCores source to <see cref="QueryNinjaExtensions.Configure"/> only. Does not affects any AspNet services. <br/>
+        /// Has to be used only for testing purposes.
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <returns></returns>
+        internal static IAspNetCoreExtensionSettings WithAspNetCoreSource(this IExtensionsSettings settings)
+        {
+            var factory = new DefaultFilterFactory();
+            settings.Register(factory);
+
+            settings.Register<OrderingRuleFactory>();
+
+            return new ExtensionSettings(QueryNinjaExtensions.Configure, factory);
+        }
+
         private class ExtensionSettings : IAspNetCoreExtensionSettings
         {
             private readonly IExtensionsSettings parent;

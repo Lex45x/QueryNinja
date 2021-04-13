@@ -123,6 +123,14 @@
             <param name="collection"></param>
             <returns><see cref="P:QueryNinja.Core.Extensibility.QueryNinjaExtensions.Configure"/></returns>
         </member>
+        <member name="M:QueryNinja.Sources.AspNetCore.ServiceCollectionExtensions.WithAspNetCoreSource(QueryNinja.Core.Extensibility.IExtensionsSettings)">
+            <summary>
+            Add AspNetCores source to <see cref="P:QueryNinja.Core.Extensibility.QueryNinjaExtensions.Configure"/> only. Does not affects any AspNet services. <br/>
+            Has to be used only for testing purposes.
+            </summary>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
         <member name="M:QueryNinja.Sources.AspNetCore.ServiceCollectionExtensions.ExtensionSettings.Register(QueryNinja.Core.Extensibility.IQueryComponentExtension)">
             <inheritdoc />
         </member>

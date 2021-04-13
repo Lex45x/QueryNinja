@@ -1,19 +1,20 @@
 ﻿using QueryNinja.Core.Filters;
+using QueryNinja.Examples.AspNetCore.DbContext.Entities;
 
 namespace QueryNinja.Examples.AspNetCore.Extensions
 {
     /// <summary>
-    /// Allows to use DB-related filters inside IQuery.
+    /// Allows to filter on top of <see cref="Student.Grades"/>
     /// </summary>
-    public class DatabaseFunctionFilter : IDefaultFilter<DatabaseFunction>
+    public class GradeFilter : IDefaultFilter<GradeOperations>
     {
         /// <summary>
-        /// Creates filter instance.
+        /// Default constructor.
         /// </summary>
         /// <param name="operation"></param>
         /// <param name="property"></param>
         /// <param name="value"></param>
-        public DatabaseFunctionFilter(DatabaseFunction operation, string property, string value)
+        public GradeFilter(GradeOperations operation, string property, string value)
         {
             Operation = operation;
             Property = property;
@@ -21,7 +22,7 @@ namespace QueryNinja.Examples.AspNetCore.Extensions
         }
 
         /// <inheritdoc />
-        public DatabaseFunction Operation { get; }
+        public GradeOperations Operation { get; }
 
         /// <inheritdoc />
         public string Property { get; }

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -5,11 +7,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using QueryNinja.Examples.AspNetCore.DbContext;
+using QueryNinja.Examples.AspNetCore.DbContext.Entities;
 using QueryNinja.Examples.AspNetCore.Extensions;
 using QueryNinja.Extensions.AspNetCore.Swagger;
 using QueryNinja.Sources.AspNetCore;
-using QueryNinja.Targets.Queryable;
+using QueryNinja.Targets.EntityFrameworkCore;
 
 namespace QueryNinja.Examples.AspNetCore
 {
@@ -33,21 +37,19 @@ namespace QueryNinja.Examples.AspNetCore
 
             services
                 .AddQueryNinja()
-                .WithQueryableTarget()
-                //User-defined extensions registration
-                .AddFilter<DatabaseFunctionFilter, DatabaseFunction>(
-                    builder =>
-                    {
-                        builder.Define<string>(DatabaseFunction.Like,
-                            (property, value) => EF.Functions.Like(property, value)
-                        );
-                    });
+                .WithEntityFrameworkTarget()
+                .AddFilter<GradeFilter, GradeOperations>(configure =>
+                {
+                    configure.Define<ICollection<Grade>, Mark>(GradeOperations.NoLowerThan,
+                        (grades, mark) => grades.Min(grade => grade.Mark) >= mark);
+                });
 
             services
                 .AddControllers()
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    options.SerializerSettings.Converters.Add(new StringEnumConverter());
                 });
 
             services.AddDbContext<UniversityDbContext>(options => options.UseSqlite("Data Source=University.db"));

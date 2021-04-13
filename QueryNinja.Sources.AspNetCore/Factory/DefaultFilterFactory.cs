@@ -45,8 +45,8 @@ namespace QueryNinja.Sources.AspNetCore.Factory
         /// <param name="value"></param>
         public delegate IFilter FactoryMethod(string operation, string property, string value);
 
-        private readonly Dictionary<Type, FactoryMethod> filterFactories =
-            new Dictionary<Type, FactoryMethod>();
+        private readonly Dictionary<string, FactoryMethod> filterFactories =
+            new Dictionary<string, FactoryMethod>();
 
         /// <summary>
         /// Allows to register user-defined operation-based filter.
@@ -63,13 +63,16 @@ namespace QueryNinja.Sources.AspNetCore.Factory
                 return factory(operationEnum, property, value);
             }
 
-            filterFactories.Add(typeof(TOperation), GeneralFactory);
+            foreach (var operation in typeof(TOperation).GetEnumNames())
+            {
+                filterFactories.Add(operation, GeneralFactory);
+            }
         }
 
         ///<inheritdoc/>
         public bool CanApply(string name, string value)
         {
-            if (!name.StartsWith("filters", StringComparison.OrdinalIgnoreCase))
+            if (!name.StartsWith("filter", StringComparison.OrdinalIgnoreCase))
             {
                 return false;
             }
@@ -80,7 +83,7 @@ namespace QueryNinja.Sources.AspNetCore.Factory
 
             var operation = segments.Slice(lastDot + 1).ToString();
 
-            var factoryPresent = filterFactories.Keys.Any(operationType => operationType.IsEnumDefined(operation));
+            var factoryPresent = filterFactories.ContainsKey(operation);
 
             if (factoryPresent)
             {
@@ -182,9 +185,9 @@ namespace QueryNinja.Sources.AspNetCore.Factory
             var operation = segments.Slice(lastDot + 1).ToString();
             var property = segments.Slice(firstDot + 1, lastDot - firstDot - 1).ToString();
 
-            var desiredFactory = filterFactories.Single(factory => factory.Key.IsEnumDefined(operation));
+            var desiredFactory = filterFactories[operation];
 
-            var filter = desiredFactory.Value(operation, property, value);
+            var filter = desiredFactory(operation, property, value);
 
             return filter;
         }

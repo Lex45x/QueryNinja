@@ -55,6 +55,18 @@ jobs:
       with:
         name: NuGet Packages
         path: ./nuget 
+        
+    - name: Run Benchmarking
+      if: ${{ startsWith(github.ref, 'refs/heads/release/') }}
+      run: dotnet run -c Release --project ./QueryNinja.Benchmarking/QueryNinja.Benchmarking.csproj --filter '*' --maxIterationCount 30
+      
+    - name: Archive Benchmarking Results
+      if: ${{ startsWith(github.ref, 'refs/heads/release/') }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: Benchmarking Results
+        path: ./BenchmarkDotNet.Artifacts
+    
     
   nuget_push:
     name: Nuget Push

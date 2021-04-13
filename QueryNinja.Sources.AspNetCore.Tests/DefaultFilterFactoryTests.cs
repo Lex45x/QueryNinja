@@ -12,9 +12,9 @@ namespace QueryNinja.Sources.AspNetCore.Tests
     {
         public static IEnumerable<TestCaseData> SuccessCases = new[]
         {
-            new TestCaseData("filters.Property.Test", "0", typeof(TestFilter), TestOperations.Test),
-            new TestCaseData("filters.Property.Equals", "0", typeof(ComparisonFilter), ComparisonOperation.Equals),
-            new TestCaseData("filters.Property.Contains", "0", typeof(CollectionFilter), CollectionOperation.Contains)
+            new TestCaseData("filter.Property.Test", "0", typeof(TestFilter), TestOperations.Test),
+            new TestCaseData("filter.Property.Equals", "0", typeof(ComparisonFilter), ComparisonOperation.Equals),
+            new TestCaseData("filter.Property.Contains", "0", typeof(CollectionFilter), CollectionOperation.Contains)
         };
         
         [OneTimeSetUp]
@@ -49,7 +49,7 @@ namespace QueryNinja.Sources.AspNetCore.Tests
         }
 
 
-        public class TestFilter : IDefaultFilter<TestOperations>
+        private class TestFilter : IDefaultFilter<TestOperations>
         {
             public TestFilter(TestOperations operation, string property, string value)
             {

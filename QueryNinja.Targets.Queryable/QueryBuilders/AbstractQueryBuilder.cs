@@ -11,7 +11,8 @@ namespace QueryNinja.Targets.Queryable.QueryBuilders
     /// Provides generic implementation for <see cref="IQueryBuilder"/> using specific <typeparamref name="TComponent"/> type.
     /// </summary>
     /// <typeparam name="TComponent"></typeparam>
-    public abstract class AbstractQueryBuilder<TComponent> : AbstractComponentExtension<TComponent>, IQueryBuilder
+    public abstract class AbstractQueryBuilder<TComponent>
+        : AbstractComponentExtension<TComponent>, ITypedQueryBuilder
         where TComponent : IQueryComponent
     {
         ///<inheritdoc/>
@@ -65,5 +66,8 @@ namespace QueryNinja.Targets.Queryable.QueryBuilders
                 throw new QueryBuildingException(GetType(), e);
             }
         }
+
+        /// <inheritdoc />
+        public Type ComponentType => typeof(TComponent);
     }
 }

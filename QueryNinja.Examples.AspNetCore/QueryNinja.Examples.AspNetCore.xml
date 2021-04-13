@@ -16,7 +16,7 @@
             </summary>
             <param name="dbContext"></param>
         </member>
-        <member name="M:QueryNinja.Examples.AspNetCore.Controllers.StudentsController.Get(QueryNinja.Core.IQuery)">
+        <member name="M:QueryNinja.Examples.AspNetCore.Controllers.StudentsController.Get(QueryNinja.Core.IDynamicQuery)">
             <summary>
             Allows to get list of students with QueryNinja query.
             </summary>
@@ -43,32 +43,37 @@
             All grades relate to this exam.
             </summary>
         </member>
-        <member name="F:QueryNinja.Examples.AspNetCore.Extensions.DatabaseFunction.Like">
+        <member name="T:QueryNinja.Examples.AspNetCore.Extensions.GradeFilter">
             <summary>
-            Corresponds to SQL Like operation.
+            Allows to filter on top of <see cref="P:QueryNinja.Examples.AspNetCore.DbContext.Entities.Student.Grades"/>
             </summary>
         </member>
-        <member name="T:QueryNinja.Examples.AspNetCore.Extensions.DatabaseFunctionFilter">
+        <member name="M:QueryNinja.Examples.AspNetCore.Extensions.GradeFilter.#ctor(QueryNinja.Examples.AspNetCore.Extensions.GradeOperations,System.String,System.String)">
             <summary>
-            Allows to use DB-related filters inside IQuery.
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Examples.AspNetCore.Extensions.DatabaseFunctionFilter.#ctor(QueryNinja.Examples.AspNetCore.Extensions.DatabaseFunction,System.String,System.String)">
-            <summary>
-            Creates filter instance.
+            Default constructor.
             </summary>
             <param name="operation"></param>
             <param name="property"></param>
             <param name="value"></param>
         </member>
-        <member name="P:QueryNinja.Examples.AspNetCore.Extensions.DatabaseFunctionFilter.Operation">
+        <member name="P:QueryNinja.Examples.AspNetCore.Extensions.GradeFilter.Operation">
             <inheritdoc />
         </member>
-        <member name="P:QueryNinja.Examples.AspNetCore.Extensions.DatabaseFunctionFilter.Property">
+        <member name="P:QueryNinja.Examples.AspNetCore.Extensions.GradeFilter.Property">
             <inheritdoc />
         </member>
-        <member name="P:QueryNinja.Examples.AspNetCore.Extensions.DatabaseFunctionFilter.Value">
+        <member name="P:QueryNinja.Examples.AspNetCore.Extensions.GradeFilter.Value">
             <inheritdoc />
+        </member>
+        <member name="T:QueryNinja.Examples.AspNetCore.Extensions.GradeOperations">
+            <summary>
+            Defines operations on top of grades collection.
+            </summary>
+        </member>
+        <member name="F:QueryNinja.Examples.AspNetCore.Extensions.GradeOperations.NoLowerThan">
+            <summary>
+            Get students with lowest grade greater or higher then value.
+            </summary>
         </member>
     </members>
 </doc>

@@ -76,6 +76,34 @@ namespace QueryNinja.Targets.Queryable
         }
 
         /// <summary>
+        /// Allows to take property from parameter expression.
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static Expression Property(this Expression instance, string name)
+        {
+            var properties = name.Split(separator: '.');
+
+            Expression result = instance;
+
+            result = properties.Aggregate(result, (expression, property) =>
+            {
+                try
+                {
+                    return Expression.Property(expression, property);
+                }
+                catch (Exception)
+                {
+                    throw new InvalidPropertyException(name, instance.Type, property);
+                }
+            });
+
+
+            return result;
+        }
+
+        /// <summary>
         /// Checks whether Queryable already contains order expressions defined.
         /// </summary>
         /// <param name="queryable">Source</param>
@@ -86,7 +114,7 @@ namespace QueryNinja.Targets.Queryable
 
             while (methodCall != null)
             {
-                if (methodCall.Method.Name.Contains("OrderBy"))
+                if (methodCall.Method.Name.Contains("OrderBy") || methodCall.Method.Name.Contains("ThenBy"))
                 {
                     return true;
                 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -10,6 +11,7 @@ using NUnit.Framework;
 using QueryNinja.Core;
 using QueryNinja.Core.Extensibility;
 using QueryNinja.Core.Filters;
+using QueryNinja.Core.Projection;
 using QueryNinja.Sources.AspNetCore.ModelBinding;
 
 namespace QueryNinja.Sources.AspNetCore.Tests
@@ -18,7 +20,7 @@ namespace QueryNinja.Sources.AspNetCore.Tests
     public class QueryNinjaModelBinderTests
     {
         [Test]
-        public async Task BindModelTest()
+        public async Task BindQueryModelTest()
         {
             var component = new TestComponent();
 
@@ -32,7 +34,12 @@ namespace QueryNinja.Sources.AspNetCore.Tests
 
             var queryNinjaModelBinder = new QueryNinjaModelBinder();
 
-            var bindingContext = CreateModelBindingContext();
+            var queryString = new Dictionary<string, StringValues>
+            {
+                ["test.component"] = "value"
+            };
+
+            var bindingContext = CreateModelBindingContext(typeof(IQuery), queryString);
 
             await queryNinjaModelBinder.BindModelAsync(bindingContext);
 
@@ -43,20 +50,52 @@ namespace QueryNinja.Sources.AspNetCore.Tests
 
             Assert.AreSame(query?.GetComponents().First(), component);
         }
-        
-        private static ModelBindingContext CreateModelBindingContext()
+
+        [Test]
+        public async Task BindDynamicQueryTest()
         {
-            var queryCollection = new QueryCollection(new Dictionary<string, StringValues>
+            var queryNinjaModelBinder = new QueryNinjaModelBinder();
+
+            var queryString = new Dictionary<string, StringValues>
             {
-                ["test.component"] = "value"
-            });
+                ["select"] = "Property",
+                ["select.AnotherProperty"] = "Another Property"
+            };
+
+            var bindingContext = CreateModelBindingContext(typeof(IDynamicQuery), queryString);
+
+            await queryNinjaModelBinder.BindModelAsync(bindingContext);
+
+            Assert.True(bindingContext.Result.IsModelSet);
+            Assert.IsInstanceOf<IQuery>(bindingContext.Result.Model);
+
+            var query = bindingContext.Result.Model as IDynamicQuery;
+
+            var selectors = query?.GetSelectors();
+
+            Assert.NotNull(selectors);
+            Assert.AreEqual(expected: 2, selectors.Count);
+
+            var selector = selectors.OfType<Selector>().First();
+            Assert.AreEqual("Property", selector.Target);
+
+            var renameSelector = selectors.OfType<RenameSelector>().First();
+            Assert.AreEqual("AnotherProperty", renameSelector.Source);
+            Assert.AreEqual("Another Property", renameSelector.Target);
+        }
+
+        private static ModelBindingContext CreateModelBindingContext(Type modelType,
+            Dictionary<string, StringValues> query)
+        {
+            var queryCollection = new QueryCollection(query);
             var httpRequest = Mock.Of<HttpRequest>(request => request.Query == queryCollection);
             var httpContext = Mock.Of<HttpContext>(context => context.Request == httpRequest);
-            var bindingContext = Mock.Of<ModelBindingContext>(context => context.HttpContext == httpContext);
+            var bindingContext = Mock.Of<ModelBindingContext>(context =>
+                context.HttpContext == httpContext && context.ModelType == modelType);
             return bindingContext;
         }
 
-        public class TestComponent : IFilter
+        private class TestComponent : IFilter
         {
         }
     }

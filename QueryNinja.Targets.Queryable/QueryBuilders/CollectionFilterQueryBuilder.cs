@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
+using QueryNinja.Core;
 using QueryNinja.Core.Filters;
 using QueryNinja.Targets.Queryable.Exceptions;
+using QueryNinja.Targets.Queryable.Reflection;
 
 namespace QueryNinja.Targets.Queryable.QueryBuilders
 {
     internal class CollectionFilterQueryBuilder : AbstractQueryBuilder<CollectionFilter>
     {
-        protected override IQueryable<TEntity> AppendImplementation<TEntity>(IQueryable<TEntity> source,
+                protected override IQueryable<TEntity> AppendImplementation<TEntity>(IQueryable<TEntity> source,
             CollectionFilter component)
         {
             var propertyLambda = component.Property.From<TEntity>();
-
             var collectionInterface = propertyLambda.ReturnType.GetInterface("IEnumerable`1");
 
             if (collectionInterface == null)
@@ -33,12 +35,9 @@ namespace QueryNinja.Targets.Queryable.QueryBuilders
 
             var filterExpression = Expression.Lambda(body, propertyLambda.Parameters);
 
-            var queryBody = Expression.Call(typeof(System.Linq.Queryable),
-                "Where",
-                new[]
-                {
-                    typeof(TEntity)
-                },
+            var genericWhere = FastReflection.ForQueryable.Where<TEntity>();
+
+            var queryBody = Expression.Call(genericWhere,
                 source.Expression, Expression.Quote(filterExpression));
 
             return source.Provider.CreateQuery<TEntity>(queryBody);
@@ -46,26 +45,17 @@ namespace QueryNinja.Targets.Queryable.QueryBuilders
 
         private static Expression IsEmpty(Expression property, Expression constant, Type elementType)
         {
-            var anyCall = Expression.Call(typeof(Enumerable),
-                "Any",
-                new[]
-                {
-                    elementType
-                },
-                property);
+            var any = FastReflection.ForEnumerable.Any(elementType);
+
+            var anyCall = Expression.Call(any, property);
 
             return Expression.Equal(anyCall, Expression.Not(constant));
         }
 
         private static Expression Contains(Expression property, Expression constant)
         {
-            return Expression.Call(typeof(Enumerable),
-                "Contains",
-                new[]
-                {
-                    constant.Type
-                },
-                property, constant);
+            var contains = FastReflection.ForEnumerable.Contains(constant.Type);
+            return Expression.Call(contains, property, constant);
         }
     }
 }
