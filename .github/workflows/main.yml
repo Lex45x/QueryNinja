@@ -62,6 +62,7 @@ jobs:
       
     - name: Archive Benchmarking Results
       if: ${{ startsWith(github.ref, 'refs/heads/release/') }}
+      uses: actions/upload-artifact@v2
       with:
         name: Benchmarking Results
         path: ./QueryNinja.Benchmarking/bin/Release/net5.0/BenchmarkDotNet.Artifacts
