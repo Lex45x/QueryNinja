@@ -55,6 +55,17 @@ jobs:
       with:
         name: NuGet Packages
         path: ./nuget 
+        
+    - name: Run Benchmarking
+      if: ${{ startsWith(github.ref, 'refs/heads/release/') }}
+      run: dotnet run -c Release --project .\QueryNinja.Benchmarking\QueryNinja.Benchmarking.csproj --filter * --maxIterationCount 50
+      
+    - name: Archive Benchmarking Results
+      if: ${{ startsWith(github.ref, 'refs/heads/release/') }}
+      with:
+        name: Benchmarking Results
+        path: ./QueryNinja.Benchmarking/bin/Release/net5.0/BenchmarkDotNet.Artifacts
+    
     
   nuget_push:
     name: Nuget Push
