@@ -14,7 +14,7 @@ namespace QueryNinja.Sources.AspNetCore.ModelBinding
     /// ModelBinder that can create <see cref="IQuery"/> instance from request parameters. <br/>
     /// Currently, only binding from <see cref="BindingSource.Query"/> is supported.
     /// </summary>
-    public class QueryNinjaModelBinderLINQ : IModelBinder
+    public class QueryNinjaModelBinderObsolete : IModelBinder
     {
         /// <inheritdoc />
         public Task BindModelAsync(ModelBindingContext bindingContext)

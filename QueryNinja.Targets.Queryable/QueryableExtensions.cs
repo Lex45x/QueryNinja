@@ -6,6 +6,7 @@ using QueryNinja.Core.Extensibility;
 using QueryNinja.Targets.Queryable.Exceptions;
 using QueryNinja.Targets.Queryable.Projection;
 using QueryNinja.Targets.Queryable.QueryBuilders;
+// ReSharper disable ForCanBeConvertedToForeach
 
 namespace QueryNinja.Targets.Queryable
 {
@@ -34,8 +35,10 @@ namespace QueryNinja.Targets.Queryable
         /// <returns></returns>
         public static IQueryable<T> WithQuery<T>(this IQueryable<T> queryable, IQuery query)
         {
-            foreach (var component in query.GetComponents())
+            var components = query.GetComponents();
+            for (var componentIndex = 0; componentIndex < components.Count; componentIndex++)
             {
+                var component = components[componentIndex];
                 // for the typed query builders we have a quicker execution path with constant access time.
                 if (QueryBuilders.TryGetValue(component.GetType(), out var typedBuilder))
                 {
@@ -43,14 +46,22 @@ namespace QueryNinja.Targets.Queryable
                 }
                 else
                 {
-                    var builder = QueryNinjaExtensions
-                        .Extensions<IQueryBuilder>()
-                        .FirstOrDefault(item => item.CanAppend(component));
+                    IQueryBuilder? builder = null;
+                    var list = QueryNinjaExtensions.Extensions<IQueryBuilder>();
+                    for (var builderIndex = 0; builderIndex < list.Count; builderIndex++)
+                    {
+                        var item = list[builderIndex];
+                        if (item.CanAppend(component))
+                        {
+                            builder = item;
+                            break;
+                        }
+                    }
 
                     if (builder == null)
                     {
                         throw new NoMatchingExtensionsException(component,
-                            QueryNinjaExtensions.Extensions<IQueryBuilder>().ToList());
+                            QueryNinjaExtensions.Extensions<IQueryBuilder>());
                     }
 
                     queryable = builder.Append(queryable, component);

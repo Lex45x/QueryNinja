@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace QueryNinja.Core.Extensibility
@@ -10,17 +9,32 @@ namespace QueryNinja.Core.Extensibility
     /// </summary>
     public static class QueryNinjaExtensions
     {
-        //prevents any extension to be registered twice
-        private static readonly HashSet<IQueryComponentExtension> ExtensionsSet =
-            new HashSet<IQueryComponentExtension>(new TypeBasedEqualityComparer());
+        private static class ExtensionsCollection<TExtension>
+            where TExtension : IQueryComponentExtension
+        {
+            private static readonly List<TExtension> ExtensionsList = new List<TExtension>();
 
+            //prevents any extension to be registered twice
+            internal static IReadOnlyList<TExtension> Extensions => ExtensionsList;
+
+            internal static void AddExtension(TExtension extension)
+            {
+                if (Extensions.Any(componentExtension => componentExtension.GetType() == extension.GetType()))
+                {
+                    return;
+                }
+
+                ExtensionsList.Add(extension);
+            }
+        }
+        
         private static readonly HashSet<Type> KnownQueryComponentsSet = new HashSet<Type>();
 
         /// <summary>
         /// Allows to get all known Types of <see cref="IQueryComponent"/>. <br/>
         /// Intended only for extensibility purposes.
         /// </summary>
-        public static IReadOnlyCollection<Type> KnownQueryComponents => KnownQueryComponentsSet; 
+        public static IReadOnlyCollection<Type> KnownQueryComponents => KnownQueryComponentsSet;
 
         /// <summary>
         /// Allows to get all extensions of Desired type. <br/>
@@ -28,10 +42,10 @@ namespace QueryNinja.Core.Extensibility
         /// </summary>
         /// <typeparam name="TExtension">In most cases, interface or abstract class that registered extensions may derive from or implement.</typeparam>
         /// <returns></returns>
-        public static IEnumerable<TExtension> Extensions<TExtension>()
+        public static IReadOnlyList<TExtension> Extensions<TExtension>()
             where TExtension : IQueryComponentExtension
         {
-            return ExtensionsSet.OfType<TExtension>();
+            return ExtensionsCollection<TExtension>.Extensions;
         }
 
         /// <summary>
@@ -40,27 +54,63 @@ namespace QueryNinja.Core.Extensibility
         /// </summary>
         public static IExtensionsSettings Configure { get; } = new ExtensionsSettings();
 
+        private class ExtensionTypeSettings<TExtension> : IExtensionTypeSettings<TExtension>
+            where TExtension : IQueryComponentExtension
+        {
+            private readonly IExtensionsSettings nestedSettings;
+
+            public ExtensionTypeSettings(IExtensionsSettings nestedSettings)
+            {
+                this.nestedSettings = nestedSettings;
+            }
+
+            /// <inheritdoc />
+            public IExtensionTypeSettings<TOther> ForType<TOther>()
+                where TOther : IQueryComponentExtension
+            {
+                return nestedSettings.ForType<TOther>();
+            }
+
+            /// <inheritdoc />
+            public IExtensionsSettings RegisterComponent(Type componentType)
+            {
+                return nestedSettings.RegisterComponent(componentType);
+            }
+
+            /// <inheritdoc />
+            public IExtensionsSettings RegisterComponent<TComponent>()
+                where TComponent : IQueryComponent
+            {
+                return nestedSettings.RegisterComponent<TComponent>();
+            }
+
+            /// <inheritdoc />
+            public IExtensionTypeSettings<TExtension> Register<TNewExtension>()
+                where TNewExtension : TExtension, new()
+            {
+                Register(new TNewExtension());
+                return this;
+            }
+
+            /// <inheritdoc />
+            public IExtensionTypeSettings<TExtension> Register(TExtension instance)
+            {
+                ExtensionsCollection<TExtension>.AddExtension(instance);
+                KnownQueryComponentsSet.Add(instance.QueryComponent);
+                return this;
+            }
+        }
 
         /// <inheritdoc/>
         private class ExtensionsSettings
             : IExtensionsSettings
         {
-            /// <inheritdoc/>
-            public IExtensionsSettings Register(IQueryComponentExtension extension)
+            public IExtensionTypeSettings<TExtension> ForType<TExtension>()
+                where TExtension : IQueryComponentExtension
             {
-                ExtensionsSet.Add(extension);
-                RegisterComponent(extension.QueryComponent);
-                return this;
+                return new ExtensionTypeSettings<TExtension>(this);
             }
-
-            /// <inheritdoc/>
-            public IExtensionsSettings Register<TExtension>()
-                where TExtension : IQueryComponentExtension, new()
-            {
-                Register(new TExtension());
-                return this;
-            }
-
+            
             /// <inheritdoc />
             public IExtensionsSettings RegisterComponent(Type componentType)
             {
@@ -86,32 +136,18 @@ namespace QueryNinja.Core.Extensibility
                 return this;
             }
         }
+    }
 
-        /// <summary>
-        /// Compares <see cref="IQueryComponentExtension"/> by Type.
-        /// </summary>
-        private class TypeBasedEqualityComparer : IEqualityComparer<IQueryComponentExtension>
-        {
-            public bool Equals(IQueryComponentExtension x, IQueryComponentExtension y)
-            {
-                return x.GetType() == y.GetType();
-            }
+    /// <summary>
+    /// Settings related to specific <see cref="IQueryComponentExtension"/> type. <br/>
+    /// Used to configure collections of Extensions with same parent.
+    /// </summary>
+    /// <typeparam name="TExtension"></typeparam>
+    public interface IExtensionTypeSettings<in TExtension> : IExtensionsSettings
+    {
+        public IExtensionTypeSettings<TExtension> Register<TNewExtension>()
+            where TNewExtension : TExtension, new();
 
-            public int GetHashCode(IQueryComponentExtension obj)
-            {
-                return obj.GetType().GetHashCode();
-            }
-        }
-
-        /// <summary>
-        /// Clears <see cref="Extensions{TExtension}"/> and <see cref="KnownQueryComponents"/>. <br/>
-        /// Usage intended only for testing purposes to reset static state.
-        /// </summary>
-        [SuppressMessage("ReSharper", "UnusedMember.Global", Justification = "Nice to have.")]
-        public static void Clear()
-        {
-            ExtensionsSet.Clear();
-            KnownQueryComponentsSet.Clear();
-        }
+        public IExtensionTypeSettings<TExtension> Register(TExtension instance);
     }
 }

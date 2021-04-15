@@ -14,7 +14,10 @@ namespace QueryNinja.Targets.EntityFrameworkCore.Tests
         {
             QueryNinjaExtensions.Configure.WithEntityFrameworkTarget();
 
-            var registeredQueryBuilders = QueryNinjaExtensions.Extensions<DefaultFilterQueryBuilder<DatabaseFunctionFilter, DatabaseFunction>>().ToList();
+            var registeredQueryBuilders = QueryNinjaExtensions
+                .Extensions<IQueryBuilder>()
+                .OfType<DefaultFilterQueryBuilder<DatabaseFunctionFilter, DatabaseFunction>>()
+                .ToList();
             
             Assert.AreEqual(expected: 1, registeredQueryBuilders.Count);
 

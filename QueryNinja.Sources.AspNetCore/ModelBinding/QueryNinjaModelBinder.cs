@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using QueryNinja.Core;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using QueryNinja.Core.Extensibility;
@@ -87,18 +86,20 @@ namespace QueryNinja.Sources.AspNetCore.ModelBinding
         {
             var queryComponents = new List<IQueryComponent>();
 
-            var factories = QueryNinjaExtensions.Extensions<IQueryComponentFactory>().ToList();
+            var factories = QueryNinjaExtensions.Extensions<IQueryComponentFactory>();
             
             foreach (var (key, value) in queryParameters)
             {
                 for (var factoryIndex = 0; factoryIndex < factories.Count; factoryIndex++)
                 {
-                    if (!factories[factoryIndex].CanApply(key, value))
+                    var factory = factories[factoryIndex];
+
+                    if (!factory.CanApply(key, value))
                     {
                         continue;
                     }
 
-                    var queryComponent = factories[factoryIndex].Create(key, value);
+                    var queryComponent = factory.Create(key, value);
                     queryComponents.Add(queryComponent);
                     break;
                 }

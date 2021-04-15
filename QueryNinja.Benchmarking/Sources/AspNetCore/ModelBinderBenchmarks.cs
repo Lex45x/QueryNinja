@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Code;
-using BenchmarkDotNet.Diagnosers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -23,7 +20,7 @@ namespace QueryNinja.Benchmarking.Sources.AspNetCore
     public class ModelBinderBenchmarks
     {
         private static readonly QueryNinjaModelBinder QueryNinjaModelBinder = new();
-        private static readonly QueryNinjaModelBinderLINQ QueryNinjaModelBinderLINQ = new();
+        private static readonly QueryNinjaModelBinderObsolete QueryNinjaModelBinderObsolete = new();
 
         [GlobalSetup]
         public void GlobalSetup()
@@ -112,7 +109,7 @@ namespace QueryNinja.Benchmarking.Sources.AspNetCore
         [Benchmark(Baseline = true)]
         public async Task<ModelBindingContext> ModelBindingLINQ()
         {
-            await QueryNinjaModelBinderLINQ.BindModelAsync(Scenario.Context);
+            await QueryNinjaModelBinderObsolete.BindModelAsync(Scenario.Context);
 
             return Scenario.Context;
         }

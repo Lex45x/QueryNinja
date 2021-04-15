@@ -319,10 +319,7 @@
             <param name="settings"></param>
             <returns></returns>
         </member>
-        <member name="M:QueryNinja.Targets.Queryable.RegistrationExtensions.ExtensionSettings.Register(QueryNinja.Core.Extensibility.IQueryComponentExtension)">
-            <inheritdoc />
-        </member>
-        <member name="M:QueryNinja.Targets.Queryable.RegistrationExtensions.ExtensionSettings.Register``1">
+        <member name="M:QueryNinja.Targets.Queryable.RegistrationExtensions.ExtensionSettings.ForType``1">
             <inheritdoc />
         </member>
         <member name="M:QueryNinja.Targets.Queryable.RegistrationExtensions.ExtensionSettings.RegisterComponent(System.Type)">
