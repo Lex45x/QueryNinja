@@ -18,9 +18,12 @@ namespace QueryNinja.Targets.Queryable
         /// <returns></returns>
         public static IQueryableExtensionsSettings WithQueryableTarget(this IExtensionsSettings settings)
         {
-            settings.Register<CollectionFilterQueryBuilder>();
-            settings.Register<ComparisonFilterQueryBuilder>();
-            settings.Register<OrderQueryBuilder>();
+            settings.ForType<IQueryBuilder>()
+                .Register<CollectionFilterQueryBuilder>()
+                .Register<ComparisonFilterQueryBuilder>()
+                .Register<ArrayEntryFilterQueryBuilder>()
+                .Register<OrderQueryBuilder>();
+                
 
             return new ExtensionSettings(settings);
         }
@@ -35,16 +38,10 @@ namespace QueryNinja.Targets.Queryable
             }
 
             /// <inheritdoc />
-            public IExtensionsSettings Register(IQueryComponentExtension extension)
+            public IExtensionTypeSettings<TExtension> ForType<TExtension>()
+                where TExtension : IQueryComponentExtension
             {
-                return extensionsSettings.Register(extension);
-            }
-
-            /// <inheritdoc />
-            public IExtensionsSettings Register<TExtension>()
-                where TExtension : IQueryComponentExtension, new()
-            {
-                return extensionsSettings.Register<TExtension>();
+                return extensionsSettings.ForType<TExtension>();
             }
 
             /// <inheritdoc />
@@ -61,7 +58,8 @@ namespace QueryNinja.Targets.Queryable
             }
 
             /// <inheritdoc />
-            public IQueryableExtensionsSettings AddFilter<TFilter, TOperation>(Action<DefaultFilterQueryBuilder<TFilter, TOperation>> configure)
+            public IQueryableExtensionsSettings AddFilter<TFilter, TOperation>(
+                Action<DefaultFilterQueryBuilder<TFilter, TOperation>> configure)
                 where TFilter : IDefaultFilter<TOperation> where TOperation : Enum
             {
                 var queryBuilder = new DefaultFilterQueryBuilder<TFilter, TOperation>();
@@ -69,7 +67,7 @@ namespace QueryNinja.Targets.Queryable
                 configure(queryBuilder);
 
                 RegisterComponent<TFilter>();
-                Register(queryBuilder);
+                ForType<IQueryBuilder>().Register(queryBuilder);
 
                 return this;
             }

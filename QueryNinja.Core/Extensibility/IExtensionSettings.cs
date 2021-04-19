@@ -8,20 +8,12 @@ namespace QueryNinja.Core.Extensibility
     public interface IExtensionsSettings
     {
         /// <summary>
-        /// Add new instance of the <see cref="IQueryComponentExtension"/> to extensions collection. <br/>
-        /// Also, will automatically add <see cref="IQueryComponentExtension.QueryComponent"/> to known components. <br/>
-        /// <b>It is not possible to register two instances of the extension with the same Type. This type of actions will be ignored.</b>
+        /// Allows configuration for specific <see cref="IQueryComponentExtension"/> descendant.
         /// </summary>
-        /// <param name="extension"></param>
-        IExtensionsSettings Register(IQueryComponentExtension extension);
-
-        /// <summary>
-        /// Creates and adds new instance of the <typeparamref name="TExtension"/> to extensions collection <br/>
-        /// <b>It is not possible to register two instances of the extension with the same Type. This type of actions will be ignored.</b>
-        /// </summary>
-        /// <typeparam name="TExtension"></typeparam>
-        IExtensionsSettings Register<TExtension>()
-            where TExtension : IQueryComponentExtension, new();
+        /// <typeparam name="TExtension">Extension to configure.</typeparam>
+        /// <returns>Settings related to specific Extension.</returns>
+        public IExtensionTypeSettings<TExtension> ForType<TExtension>()
+            where TExtension : IQueryComponentExtension;
 
         /// <summary>
         /// Registers existence of a specific query component type. <br/>

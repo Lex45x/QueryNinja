@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Code;
-using BenchmarkDotNet.Diagnosers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -64,7 +61,7 @@ namespace QueryNinja.Benchmarking.Sources.AspNetCore
                 ["filters.F.Greater"] = "3",
                 ["filters.G.Like"] = "another pattern",
                 ["filters.H.NotEquals"] = "4",
-                ["filters.I.GreaterOrEquals"] = "5",
+                ["filters.I.In"] = "5|6|7",
                 ["filters.J.Equals"] = "string"
             };
 
@@ -95,7 +92,7 @@ namespace QueryNinja.Benchmarking.Sources.AspNetCore
                 ["select.E"] = "Some E Value",
                 ["select.F"] = "F",
                 ["select.G"] = "Values.G",
-                ["select"] = new[] {"H", "I", "J"}
+                ["select"] = new[] { "H", "I", "J" }
             };
 
             yield return CreateModelBindingScenario(tenSelects, "10 Selects");
@@ -107,7 +104,7 @@ namespace QueryNinja.Benchmarking.Sources.AspNetCore
 
         [ParamsSource(nameof(UsageScenarios))]
         public ModelBindingScenario Scenario { get; set; }
-
+        
         [Benchmark]
         public async Task<ModelBindingContext> ModelBinding()
         {

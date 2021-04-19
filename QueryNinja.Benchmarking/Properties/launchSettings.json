@@ -2,7 +2,7 @@
   "profiles": {
     "QueryNinja.Benchmarking": {
       "commandName": "Project",
-      "commandLineArgs": ""
+      "commandLineArgs": "--maxIterationCount 30"
     }
   }
 }

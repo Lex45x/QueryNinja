@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Diagnosers;
 using Microsoft.EntityFrameworkCore;
 using QueryNinja.Benchmarking.ExampleDomain;
 using QueryNinja.Core;
@@ -42,6 +41,13 @@ namespace QueryNinja.Benchmarking.Targets.Queryable
                 QueryBuilder = new CollectionFilterQueryBuilder(),
                 Component = new CollectionFilter(CollectionOperation.IsEmpty, "Orders", "true"),
                 Description = "Collection Filter"
+            };
+
+            yield return new QueryBuildingScenario
+            {
+                QueryBuilder = new ArrayEntryFilterQueryBuilder(),
+                Component = new ArrayEntryFilter(ArrayEntryOperations.In, "Id", "1|2|3"),
+                Description = "Array Entry Filter"
             };
 
             var defaultFilterQueryBuilder = new DefaultFilterQueryBuilder<DatabaseFunctionFilter, DatabaseFunction>();

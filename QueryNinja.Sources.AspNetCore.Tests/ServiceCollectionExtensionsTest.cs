@@ -27,7 +27,10 @@ namespace QueryNinja.Sources.AspNetCore.Tests
                 factory.RegisterFilterFactory<TestOperation>(TestFilterFactory);
             });
 
-            var defaultFilterFactory = QueryNinjaExtensions.Extensions<DefaultFilterFactory>().Single();
+            var defaultFilterFactory = QueryNinjaExtensions
+                .Extensions<IQueryComponentFactory>()
+                .OfType<DefaultFilterFactory>()
+                .Single();
 
             var instance = defaultFilterFactory.Create("filter.Property.DoSmth", "Value");
 

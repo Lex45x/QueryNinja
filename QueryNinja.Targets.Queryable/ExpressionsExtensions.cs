@@ -34,7 +34,7 @@ namespace QueryNinja.Targets.Queryable
                 throw new TypeConversionException(value, type, e);
             }
 
-            var constantExpression = Expression.Constant(converted, converted?.GetType() ?? type);
+            var constantExpression = Expression.Constant(converted, type);
 
             return constantExpression;
         }

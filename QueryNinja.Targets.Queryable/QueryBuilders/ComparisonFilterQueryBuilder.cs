@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using QueryNinja.Core.Filters;
 using QueryNinja.Targets.Queryable.Reflection;
 
@@ -33,7 +32,7 @@ namespace QueryNinja.Targets.Queryable.QueryBuilders
 
             var filterExpression = Expression.Lambda(body, propertyLambda.Parameters);
 
-            var genericWhere = FastReflection.ForQueryable.Where<TEntity>();
+            var genericWhere = FastReflection.ForQueryable<TEntity>.Where();
 
             var queryBody = Expression.Call(genericWhere,
                 source.Expression, Expression.Quote(filterExpression));

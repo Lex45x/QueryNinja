@@ -22,9 +22,10 @@ namespace QueryNinja.Sources.AspNetCore
         public static IAspNetCoreExtensionSettings AddQueryNinja(this IServiceCollection collection)
         {
             var factory = new DefaultFilterFactory();
-            QueryNinjaExtensions.Configure.Register(factory);
-
-            QueryNinjaExtensions.Configure.Register<OrderingRuleFactory>();
+            QueryNinjaExtensions.Configure
+                .ForType<IQueryComponentFactory>()
+                .Register(factory)
+                .Register<OrderingRuleFactory>();
 
             collection.Configure<MvcOptions>(options =>
                 options.ModelBinderProviders.Insert(index: 0, new QueryNinjaModelBinderProvider()));
@@ -41,9 +42,9 @@ namespace QueryNinja.Sources.AspNetCore
         internal static IAspNetCoreExtensionSettings WithAspNetCoreSource(this IExtensionsSettings settings)
         {
             var factory = new DefaultFilterFactory();
-            settings.Register(factory);
-
-            settings.Register<OrderingRuleFactory>();
+            settings.ForType<IQueryComponentFactory>()
+                .Register(factory)
+                .Register<OrderingRuleFactory>();
 
             return new ExtensionSettings(QueryNinjaExtensions.Configure, factory);
         }
@@ -58,20 +59,12 @@ namespace QueryNinja.Sources.AspNetCore
                 this.parent = parent;
                 this.factory = factory;
             }
-
+            
             /// <inheritdoc />
-            public IExtensionsSettings Register(IQueryComponentExtension extension)
+            public IExtensionTypeSettings<TExtension> ForType<TExtension>()
+                where TExtension : IQueryComponentExtension
             {
-                parent.Register(extension);
-                return parent;
-            }
-
-            /// <inheritdoc />
-            public IExtensionsSettings Register<TExtension>()
-                where TExtension : IQueryComponentExtension, new()
-            {
-                parent.Register<TExtension>();
-                return parent;
+                return parent.ForType<TExtension>();
             }
 
             /// <inheritdoc />

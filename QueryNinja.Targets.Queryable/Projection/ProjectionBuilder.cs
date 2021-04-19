@@ -53,7 +53,7 @@ namespace QueryNinja.Targets.Queryable.Projection
 
             var lambda = Expression.Lambda(zeroLayer, parameter);
 
-            var genericSelect = FastReflection.ForQueryable.Select<T, Dictionary<string, object>>();
+            var genericSelect = FastReflection.ForQueryable<T>.Select();
 
             var queryBody = Expression.Call(genericSelect,
                 source.Expression, Expression.Quote(lambda));

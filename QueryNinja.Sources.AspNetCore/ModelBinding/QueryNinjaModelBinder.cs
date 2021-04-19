@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using QueryNinja.Core;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using QueryNinja.Core.Extensibility;
 using QueryNinja.Core.Projection;
+// ReSharper disable ForCanBeConvertedToForeach
+// ReSharper disable LoopCanBeConvertedToQuery
 
 namespace QueryNinja.Sources.AspNetCore.ModelBinding
 {
@@ -19,7 +20,7 @@ namespace QueryNinja.Sources.AspNetCore.ModelBinding
         /// <inheritdoc />
         public Task BindModelAsync(ModelBindingContext bindingContext)
         {
-            var components = GetQueryComponents(bindingContext.HttpContext.Request.Query).ToList();
+            var components = GetQueryComponents(bindingContext.HttpContext.Request.Query);
 
             if (bindingContext.ModelType == typeof(IQuery))
             {
@@ -32,7 +33,7 @@ namespace QueryNinja.Sources.AspNetCore.ModelBinding
 
             if (bindingContext.ModelType == typeof(IDynamicQuery))
             {
-                var selectors = GetSelectors(bindingContext.HttpContext.Request.Query).ToList();
+                var selectors = GetSelectors(bindingContext.HttpContext.Request.Query);
 
                 var result = new DynamicQuery(components, selectors);
 
@@ -44,15 +45,23 @@ namespace QueryNinja.Sources.AspNetCore.ModelBinding
             return Task.CompletedTask;
         }
 
-        private static IEnumerable<ISelector> GetSelectors(IQueryCollection queryParameters)
+        private static IReadOnlyList<ISelector> GetSelectors(IQueryCollection queryParameters)
         {
-            foreach (var (key, value) in queryParameters.Where(parameter => parameter.Key.Contains("select")))
+            var selectors = new List<ISelector>();
+
+            foreach (var (key, value) in queryParameters)
             {
+                if (!key.Contains("select"))
+                {
+                    continue;
+                }
+
                 if (string.Equals(key, "select", StringComparison.OrdinalIgnoreCase))
                 {
-                    foreach (var sourceProperty in value)
+                    for (var valueIndex = 0; valueIndex < value.Count; valueIndex++)
                     {
-                        yield return new Selector(sourceProperty);
+                        var selector = new Selector(value[valueIndex]);
+                        selectors.Add(selector);
                     }
                 }
                 else
@@ -62,27 +71,41 @@ namespace QueryNinja.Sources.AspNetCore.ModelBinding
                     var propertyNameStart = keySpan.IndexOf(value: '.') + 1;
                     var sourceProperty = keySpan.Slice(propertyNameStart).ToString();
 
-                    foreach (var targetProperty in value)
+                    for (var valueIndex = 0; valueIndex < value.Count; valueIndex++)
                     {
-                        yield return new RenameSelector(sourceProperty, targetProperty);
+                        var selector = new RenameSelector(sourceProperty, value[valueIndex]);
+                        selectors.Add(selector);
                     }
                 }
             }
+
+            return selectors;
         }
 
-        private static IEnumerable<IQueryComponent> GetQueryComponents(IQueryCollection queryParameters)
+        private static IReadOnlyList<IQueryComponent> GetQueryComponents(IQueryCollection queryParameters)
         {
-            var factories = QueryNinjaExtensions.Extensions<IQueryComponentFactory>().ToList();
+            var queryComponents = new List<IQueryComponent>();
 
+            var factories = QueryNinjaExtensions.Extensions<IQueryComponentFactory>();
+            
             foreach (var (key, value) in queryParameters)
             {
-                var suitableFactory = factories.FirstOrDefault(factory => factory.CanApply(key, value));
-
-                if (suitableFactory != null)
+                for (var factoryIndex = 0; factoryIndex < factories.Count; factoryIndex++)
                 {
-                    yield return suitableFactory.Create(key, value);
+                    var factory = factories[factoryIndex];
+
+                    if (!factory.CanApply(key, value))
+                    {
+                        continue;
+                    }
+
+                    var queryComponent = factory.Create(key, value);
+                    queryComponents.Add(queryComponent);
+                    break;
                 }
             }
+
+            return queryComponents;
         }
     }
 }

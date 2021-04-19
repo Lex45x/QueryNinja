@@ -131,10 +131,7 @@
             <param name="settings"></param>
             <returns></returns>
         </member>
-        <member name="M:QueryNinja.Sources.AspNetCore.ServiceCollectionExtensions.ExtensionSettings.Register(QueryNinja.Core.Extensibility.IQueryComponentExtension)">
-            <inheritdoc />
-        </member>
-        <member name="M:QueryNinja.Sources.AspNetCore.ServiceCollectionExtensions.ExtensionSettings.Register``1">
+        <member name="M:QueryNinja.Sources.AspNetCore.ServiceCollectionExtensions.ExtensionSettings.ForType``1">
             <inheritdoc />
         </member>
         <member name="M:QueryNinja.Sources.AspNetCore.ServiceCollectionExtensions.ExtensionSettings.RegisterComponent(System.Type)">

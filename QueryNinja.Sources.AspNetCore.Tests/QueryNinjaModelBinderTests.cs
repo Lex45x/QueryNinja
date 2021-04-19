@@ -30,7 +30,9 @@ namespace QueryNinja.Sources.AspNetCore.Tests
                 factory.Create(It.IsAny<string>(), It.IsAny<string>()) == component &&
                 factory.QueryComponent == component.GetType());
 
-            QueryNinjaExtensions.Configure.Register(componentFactory);
+            QueryNinjaExtensions.Configure
+                .ForType<IQueryComponentFactory>()
+                .Register(componentFactory);
 
             var queryNinjaModelBinder = new QueryNinjaModelBinder();
 

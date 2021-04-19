@@ -37,20 +37,12 @@
             Interface that allow to configure <see cref="T:QueryNinja.Core.Extensibility.QueryNinjaExtensions"/>
             </summary>
         </member>
-        <member name="M:QueryNinja.Core.Extensibility.IExtensionsSettings.Register(QueryNinja.Core.Extensibility.IQueryComponentExtension)">
+        <member name="M:QueryNinja.Core.Extensibility.IExtensionsSettings.ForType``1">
             <summary>
-            Add new instance of the <see cref="T:QueryNinja.Core.Extensibility.IQueryComponentExtension"/> to extensions collection. <br/>
-            Also, will automatically add <see cref="P:QueryNinja.Core.Extensibility.IQueryComponentExtension.QueryComponent"/> to known components. <br/>
-            <b>It is not possible to register two instances of the extension with the same Type. This type of actions will be ignored.</b>
+            Allows configuration for specific <see cref="T:QueryNinja.Core.Extensibility.IQueryComponentExtension"/> descendant.
             </summary>
-            <param name="extension"></param>
-        </member>
-        <member name="M:QueryNinja.Core.Extensibility.IExtensionsSettings.Register``1">
-            <summary>
-            Creates and adds new instance of the <typeparamref name="TExtension"/> to extensions collection <br/>
-            <b>It is not possible to register two instances of the extension with the same Type. This type of actions will be ignored.</b>
-            </summary>
-            <typeparam name="TExtension"></typeparam>
+            <typeparam name="TExtension">Extension to configure.</typeparam>
+            <returns>Settings related to specific Extension.</returns>
         </member>
         <member name="M:QueryNinja.Core.Extensibility.IExtensionsSettings.RegisterComponent(System.Type)">
             <summary>
@@ -102,13 +94,22 @@
             <b>It is not possible to register two instances of the extension with the same Type. This type of actions will be ignored.</b>
             </summary>
         </member>
+        <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionTypeSettings`1.ForType``1">
+            <inheritdoc />
+        </member>
+        <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionTypeSettings`1.RegisterComponent(System.Type)">
+            <inheritdoc />
+        </member>
+        <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionTypeSettings`1.RegisterComponent``1">
+            <inheritdoc />
+        </member>
+        <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionTypeSettings`1.Register``1">
+            <inheritdoc />
+        </member>
+        <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionTypeSettings`1.Register(`0)">
+            <inheritdoc />
+        </member>
         <member name="T:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionsSettings">
-            <inheritdoc/>
-        </member>
-        <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionsSettings.Register(QueryNinja.Core.Extensibility.IQueryComponentExtension)">
-            <inheritdoc/>
-        </member>
-        <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionsSettings.Register``1">
             <inheritdoc/>
         </member>
         <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionsSettings.RegisterComponent(System.Type)">
@@ -117,16 +118,12 @@
         <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionsSettings.RegisterComponent``1">
             <inheritdoc />
         </member>
-        <member name="T:QueryNinja.Core.Extensibility.QueryNinjaExtensions.TypeBasedEqualityComparer">
+        <member name="T:QueryNinja.Core.Extensibility.IExtensionTypeSettings`1">
             <summary>
-            Compares <see cref="T:QueryNinja.Core.Extensibility.IQueryComponentExtension"/> by Type.
+            Settings related to specific <see cref="T:QueryNinja.Core.Extensibility.IQueryComponentExtension"/> type. <br/>
+            Used to configure collections of Extensions with same parent.
             </summary>
-        </member>
-        <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.Clear">
-            <summary>
-            Clears <see cref="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.Extensions``1"/> and <see cref="P:QueryNinja.Core.Extensibility.QueryNinjaExtensions.KnownQueryComponents"/>. <br/>
-            Usage intended only for testing purposes to reset static state.
-            </summary>
+            <typeparam name="TExtension"></typeparam>
         </member>
         <member name="T:QueryNinja.Core.Filters.AbstractDefaultFilter`1">
             <summary>
@@ -155,6 +152,25 @@
             Debug-friendly implementation. Return string representation of filter operation.
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:QueryNinja.Core.Filters.ArrayEntryFilter">
+            <summary>
+            Checks whether target property is contained inside array
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Core.Filters.ArrayEntryFilter.#ctor(QueryNinja.Core.Filters.ArrayEntryOperations,System.String,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="T:QueryNinja.Core.Filters.ArrayEntryOperations">
+            <summary>
+            Contains set of operations defined for <see cref="T:QueryNinja.Core.Filters.ArrayEntryFilter"/>
+            </summary>
+        </member>
+        <member name="F:QueryNinja.Core.Filters.ArrayEntryOperations.In">
+            <summary>
+            Checks whether target property is contained in desired array. <br/>
+            Similar to Array.Contains.
+            </summary>
         </member>
         <member name="T:QueryNinja.Core.Filters.CollectionFilter">
             <summary>
