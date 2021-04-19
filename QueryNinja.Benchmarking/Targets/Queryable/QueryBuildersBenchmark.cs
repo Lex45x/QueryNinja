@@ -43,6 +43,13 @@ namespace QueryNinja.Benchmarking.Targets.Queryable
                 Description = "Collection Filter"
             };
 
+            yield return new QueryBuildingScenario
+            {
+                QueryBuilder = new ArrayEntryFilterQueryBuilder(),
+                Component = new ArrayEntryFilter(ArrayEntryOperations.In, "Id", "1|2|3"),
+                Description = "Array Entry Filter"
+            };
+
             var defaultFilterQueryBuilder = new DefaultFilterQueryBuilder<DatabaseFunctionFilter, DatabaseFunction>();
             defaultFilterQueryBuilder.Define<string>(DatabaseFunction.Like,
                 (property, value) => EF.Functions.Like(property, value)

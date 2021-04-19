@@ -61,7 +61,7 @@ namespace QueryNinja.Benchmarking.Sources.AspNetCore
                 ["filters.F.Greater"] = "3",
                 ["filters.G.Like"] = "another pattern",
                 ["filters.H.NotEquals"] = "4",
-                ["filters.I.GreaterOrEquals"] = "5",
+                ["filters.I.In"] = "5|6|7",
                 ["filters.J.Equals"] = "string"
             };
 

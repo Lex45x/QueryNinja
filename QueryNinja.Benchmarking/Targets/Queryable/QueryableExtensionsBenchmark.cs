@@ -39,7 +39,7 @@ namespace QueryNinja.Benchmarking.Targets.Queryable
             {
                 new DatabaseFunctionFilter(DatabaseFunction.Like, "FullName", "Oleks%"),
                 new ComparisonFilter(ComparisonOperation.NotEquals, "Id", "10"),
-                new ComparisonFilter(ComparisonOperation.Equals, "Country", "Ukraine"),
+                new ArrayEntryFilter(ArrayEntryOperations.In, "Id", "1|2|3"),
                 new CollectionFilter(CollectionOperation.IsEmpty, "Orders", "false"),
                 new ComparisonFilter(ComparisonOperation.Greater, "Orders.Count", "5")
             };

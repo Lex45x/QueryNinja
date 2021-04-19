@@ -16,15 +16,15 @@ namespace QueryNinja.Targets.Queryable.Tests
     {
         private static readonly IQueryable<Example> SourceData = new[]
         {
-            new Example(id: 1, "First", intValue: 15),
-            new Example(id: 2, "Second", intValue: 21),
-            new Example(id: 3, "Third", intValue: 73),
-            new Example(id: 4, "Fourth", intValue: 90),
-            new Example(id: 5, "Fifth", intValue: 45),
-            new Example(id: 6, "Sixth", intValue: 22),
-            new Example(id: 7, "Seventh", intValue: 65),
-            new Example(id: 8, "Eighth", intValue: 34),
-            new Example(id: 9, "Ninth", intValue: 8)
+            new Example(id: 1, "First", intValue: 15, nullableIntValue: 15),
+            new Example(id: 2, "Second", intValue: 21, nullableIntValue: null),
+            new Example(id: 3, "Third", intValue: 73, nullableIntValue: 6),
+            new Example(id: 4, "Fourth", intValue: 90, nullableIntValue: 12),
+            new Example(id: 5, "Fifth", intValue: 45, nullableIntValue: null),
+            new Example(id: 6, "Sixth", intValue: 22, nullableIntValue: 15),
+            new Example(id: 7, "Seventh", intValue: 65, nullableIntValue: 33),
+            new Example(id: 8, "Eighth", intValue: 34, nullableIntValue: null),
+            new Example(id: 9, "Ninth", intValue: 8, nullableIntValue: null)
         }.AsQueryable();
 
         public static IEnumerable<TestCaseData> SuccessScenarios = new List<TestCaseData>
@@ -35,16 +35,28 @@ namespace QueryNinja.Targets.Queryable.Tests
                         {
                             new ComparisonFilter(ComparisonOperation.Equals, "StringValue.Length", "5"),
                             new ComparisonFilter(ComparisonOperation.GreaterOrEquals, "IntValue", "10"),
+                            new ComparisonFilter(ComparisonOperation.NotEquals, "NullableIntValue", ""),
                             new OrderingRule("Id", OrderDirection.Ascending)
                         }))
-                .Returns(new[] {1, 3, 5, 6}),
+                .Returns(new[] {1, 3, 6}),
+            new TestCaseData(SourceData,
+                    new Query(
+                        new IQueryComponent[]
+                        {
+                            new ComparisonFilter(ComparisonOperation.Equals, "StringValue.Length", "5"),
+                            new ComparisonFilter(ComparisonOperation.GreaterOrEquals, "IntValue", "10"),
+                            new ComparisonFilter(ComparisonOperation.Equals, "NullableIntValue", "15"),
+                            new OrderingRule("Id", OrderDirection.Ascending)
+                        }))
+                .Returns(new[] {1, 6}),
             new TestCaseData(SourceData,
                     new Query(
                         new IQueryComponent[]
                         {
                             new ComparisonFilter(ComparisonOperation.Equals, "StringValue.Length", "6"),
                             new ComparisonFilter(ComparisonOperation.Less, "IntValue", "40"),
-                            new OrderingRule("StringValue", OrderDirection.Ascending)
+                            new OrderingRule("StringValue", OrderDirection.Ascending),
+                            new ArrayEntryFilter(ArrayEntryOperations.In, "Id", "8|2|15")
                         }))
                 .Returns(new[] {8, 2}),
             new TestCaseData(SourceData,
@@ -174,16 +186,18 @@ namespace QueryNinja.Targets.Queryable.Tests
 
         public class Example
         {
-            public Example(int id, string stringValue, int intValue)
+            public Example(int id, string stringValue, int intValue, int? nullableIntValue)
             {
                 Id = id;
                 StringValue = stringValue;
                 IntValue = intValue;
+                NullableIntValue = nullableIntValue;
             }
 
             public int Id { get; }
             public string StringValue { get; }
             public int IntValue { get; }
+            public int? NullableIntValue { get; }
         }
     }
 }
