@@ -168,3 +168,6 @@ $RECYCLE.BIN/
 # dotCover reports
 QueryNinjaCoverageReport.html
 QueryNinjaCoverageReport/**
+
+#BenchmarkDotNet Artifacts
+**/BenchmarkDotNet.Artifacts/**

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Reflection;
-using BenchmarkDotNet.Running;
-using QueryNinja.Benchmarking.Sources.AspNetCore;
-using QueryNinja.Benchmarking.Targets.Queryable;
+﻿using BenchmarkDotNet.Running;
 
 namespace QueryNinja.Benchmarking
 {

@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Diagnosers;
 using QueryNinja.Benchmarking.ExampleDomain;
 using QueryNinja.Core;
 using QueryNinja.Core.Extensibility;
@@ -10,7 +8,6 @@ using QueryNinja.Core.Filters;
 using QueryNinja.Core.OrderingRules;
 using QueryNinja.Core.Projection;
 using QueryNinja.Sources.AspNetCore;
-using QueryNinja.Sources.AspNetCore.ModelBinding;
 using QueryNinja.Targets.EntityFrameworkCore;
 using QueryNinja.Targets.EntityFrameworkCore.Filters;
 using QueryNinja.Targets.Queryable;

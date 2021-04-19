@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Diagnosers;
 using Microsoft.EntityFrameworkCore;
 using QueryNinja.Benchmarking.ExampleDomain;
 using QueryNinja.Core;

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Code;
-using BenchmarkDotNet.Diagnosers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -23,6 +20,7 @@ namespace QueryNinja.Benchmarking.Sources.AspNetCore
     public class ModelBinderBenchmarks
     {
         private static readonly QueryNinjaModelBinder QueryNinjaModelBinder = new();
+        private static readonly QueryNinjaModelBinderObsolete QueryNinjaModelBinderObsolete = new();
 
         [GlobalSetup]
         public void GlobalSetup()
@@ -95,7 +93,7 @@ namespace QueryNinja.Benchmarking.Sources.AspNetCore
                 ["select.E"] = "Some E Value",
                 ["select.F"] = "F",
                 ["select.G"] = "Values.G",
-                ["select"] = new[] {"H", "I", "J"}
+                ["select"] = new[] { "H", "I", "J" }
             };
 
             yield return CreateModelBindingScenario(tenSelects, "10 Selects");
@@ -107,6 +105,14 @@ namespace QueryNinja.Benchmarking.Sources.AspNetCore
 
         [ParamsSource(nameof(UsageScenarios))]
         public ModelBindingScenario Scenario { get; set; }
+
+        [Benchmark(Baseline = true)]
+        public async Task<ModelBindingContext> ModelBindingLINQ()
+        {
+            await QueryNinjaModelBinderObsolete.BindModelAsync(Scenario.Context);
+
+            return Scenario.Context;
+        }
 
         [Benchmark]
         public async Task<ModelBindingContext> ModelBinding()

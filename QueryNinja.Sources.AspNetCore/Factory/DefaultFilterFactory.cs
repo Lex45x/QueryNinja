@@ -105,9 +105,8 @@ namespace QueryNinja.Sources.AspNetCore.Factory
         {
             // find all implementations of IDefaultFilter
             var knownDefaultFilters = QueryNinjaExtensions.KnownQueryComponents
-                .Where(@interface => @interface.GetInterface("IDefaultFilter`1") != null)
-                .Where(defaultFilter => defaultFilter.GetInterface("IDefaultFilter`1").GetGenericArguments()[0]
-                    .IsEnumDefined(operation))
+                .Where(defaultFilter => defaultFilter.GetInterface("IDefaultFilter`1")?.GetGenericArguments()[0]
+                    .IsEnumDefined(operation) ?? false)
                 .ToList();
 
             if (knownDefaultFilters.Count == 0)
