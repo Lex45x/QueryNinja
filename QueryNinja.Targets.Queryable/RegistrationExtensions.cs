@@ -21,7 +21,9 @@ namespace QueryNinja.Targets.Queryable
             settings.ForType<IQueryBuilder>()
                 .Register<CollectionFilterQueryBuilder>()
                 .Register<ComparisonFilterQueryBuilder>()
+                .Register<ArrayEntryFilterQueryBuilder>()
                 .Register<OrderQueryBuilder>();
+                
 
             return new ExtensionSettings(settings);
         }

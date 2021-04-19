@@ -27,6 +27,7 @@ namespace QueryNinja.Targets.Queryable.Tests
         {
             new(arg1: 1, arg2: null),
             new(arg1: 1.1, arg2: null),
+            new((int?)1, arg2: null),
             new(arg1: 1.1m, arg2: null),
             new("test", arg2: null),
             new(arg1: 'a', arg2: null),

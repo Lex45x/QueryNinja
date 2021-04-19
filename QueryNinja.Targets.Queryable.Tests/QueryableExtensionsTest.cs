@@ -46,7 +46,16 @@ namespace QueryNinja.Targets.Queryable.Tests
                             new ComparisonFilter(ComparisonOperation.Less, "IntValue", "40"),
                             new OrderingRule("StringValue", OrderDirection.Ascending)
                         }))
-                .Returns(new[] {8, 2})
+                .Returns(new[] {8, 2}),
+            new TestCaseData(SourceData,
+                    new Query(
+                        new IQueryComponent[]
+                        {
+                            new ComparisonFilter(ComparisonOperation.Equals, "StringValue.Length", "6"),
+                            new ArrayEntryFilter(ArrayEntryOperations.In, "Id", "1|2|3"),
+                            new OrderingRule("StringValue", OrderDirection.Ascending)
+                        }))
+                .Returns(new[] {2})
         };
 
         public static IEnumerable<TestCaseData> SuccessDynamicScenarios = new List<TestCaseData>

@@ -153,6 +153,25 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:QueryNinja.Core.Filters.ArrayEntryFilter">
+            <summary>
+            Checks whether target property is contained inside array
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Core.Filters.ArrayEntryFilter.#ctor(QueryNinja.Core.Filters.ArrayEntryOperations,System.String,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="T:QueryNinja.Core.Filters.ArrayEntryOperations">
+            <summary>
+            Contains set of operations defined for <see cref="T:QueryNinja.Core.Filters.ArrayEntryFilter"/>
+            </summary>
+        </member>
+        <member name="F:QueryNinja.Core.Filters.ArrayEntryOperations.In">
+            <summary>
+            Checks whether target property is contained in desired array. <br/>
+            Similar to Array.Contains.
+            </summary>
+        </member>
         <member name="T:QueryNinja.Core.Filters.CollectionFilter">
             <summary>
             Filter with collection-related operations. Operations are defined in <see cref="T:QueryNinja.Core.Filters.CollectionOperation"/>

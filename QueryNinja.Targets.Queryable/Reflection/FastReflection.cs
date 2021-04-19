@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -44,7 +45,7 @@ namespace QueryNinja.Targets.Queryable.Reflection
             }
         }
 
-        public static class ForQueryable
+        public static class ForQueryable<T>
         {
             private static readonly MethodInfo WhereMethod = typeof(System.Linq.Queryable)
                 .GetMethods(BindingFlags.Static | BindingFlags.Public)
@@ -53,38 +54,22 @@ namespace QueryNinja.Targets.Queryable.Reflection
                     .ParameterType.GetGenericArguments()
                     .Last()
                     .GetGenericArguments()
-                    .Length == 2);
+                    .Length == 2)
+                .MakeGenericMethod(typeof(T));
 
             private static readonly MethodInfo SelectMethod = typeof(System.Linq.Queryable)
                 .GetMethods(BindingFlags.Static | BindingFlags.Public)
-                .First(methodInfo => methodInfo.Name == "Select" && methodInfo.GetParameters().Length == 2);
-
-            private static readonly ConcurrentDictionary<Type, MethodInfo> GenericWhereCache = new ConcurrentDictionary<Type, MethodInfo>();
-            private static readonly ConcurrentDictionary<(Type,Type), MethodInfo> GenericSelectCache = new ConcurrentDictionary<(Type, Type), MethodInfo>();
-
-
-            public static MethodInfo Where<T>()
+                .First(methodInfo => methodInfo.Name == "Select" && methodInfo.GetParameters().Length == 2)
+                .MakeGenericMethod(typeof(T), typeof(Dictionary<string, object>));
+            
+            public static MethodInfo Where()
             {
-                if (GenericWhereCache.TryGetValue(typeof(T), out var result))
-                {
-                    return result;
-                }
-
-                var genericWhere = WhereMethod.MakeGenericMethod(typeof(T));
-                GenericWhereCache.TryAdd(typeof(T), genericWhere);
-                return genericWhere;
+                return WhereMethod;
             }
 
-            public static MethodInfo Select<TSource,TResult>()
+            public static MethodInfo Select()
             {
-                if (GenericSelectCache.TryGetValue((typeof(TSource), typeof(TResult)), out var result))
-                {
-                    return result;
-                }
-
-                var genericSelect = SelectMethod.MakeGenericMethod(typeof(TSource), typeof(TResult));
-                GenericSelectCache.TryAdd((typeof(TSource), typeof(TResult)), genericSelect);
-                return genericSelect;
+                return SelectMethod;
             }
         }
     }
