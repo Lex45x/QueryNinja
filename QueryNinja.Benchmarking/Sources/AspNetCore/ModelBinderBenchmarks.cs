@@ -20,7 +20,6 @@ namespace QueryNinja.Benchmarking.Sources.AspNetCore
     public class ModelBinderBenchmarks
     {
         private static readonly QueryNinjaModelBinder QueryNinjaModelBinder = new();
-        private static readonly QueryNinjaModelBinderObsolete QueryNinjaModelBinderObsolete = new();
 
         [GlobalSetup]
         public void GlobalSetup()
@@ -105,15 +104,7 @@ namespace QueryNinja.Benchmarking.Sources.AspNetCore
 
         [ParamsSource(nameof(UsageScenarios))]
         public ModelBindingScenario Scenario { get; set; }
-
-        [Benchmark(Baseline = true)]
-        public async Task<ModelBindingContext> ModelBindingLINQ()
-        {
-            await QueryNinjaModelBinderObsolete.BindModelAsync(Scenario.Context);
-
-            return Scenario.Context;
-        }
-
+        
         [Benchmark]
         public async Task<ModelBindingContext> ModelBinding()
         {

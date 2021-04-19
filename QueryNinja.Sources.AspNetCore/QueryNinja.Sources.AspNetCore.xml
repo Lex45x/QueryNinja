@@ -102,15 +102,6 @@
         <member name="M:QueryNinja.Sources.AspNetCore.ModelBinding.QueryNinjaModelBinder.BindModelAsync(Microsoft.AspNetCore.Mvc.ModelBinding.ModelBindingContext)">
             <inheritdoc />
         </member>
-        <member name="T:QueryNinja.Sources.AspNetCore.ModelBinding.QueryNinjaModelBinderObsolete">
-            <summary>
-            ModelBinder that can create <see cref="T:QueryNinja.Core.IQuery"/> instance from request parameters. <br/>
-            Currently, only binding from <see cref="F:Microsoft.AspNetCore.Mvc.ModelBinding.BindingSource.Query"/> is supported.
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Sources.AspNetCore.ModelBinding.QueryNinjaModelBinderObsolete.BindModelAsync(Microsoft.AspNetCore.Mvc.ModelBinding.ModelBindingContext)">
-            <inheritdoc />
-        </member>
         <member name="T:QueryNinja.Sources.AspNetCore.ModelBinding.QueryNinjaModelBinderProvider">
             <summary>
             Allows to determine when <see cref="T:QueryNinja.Sources.AspNetCore.ModelBinding.QueryNinjaModelBinder"/> should be used.
