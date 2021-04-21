@@ -7,19 +7,14 @@ namespace QueryNinja.Core.Filters
     /// Represent a rule to filter Target collection with selected <see cref="Operation"/>.
     /// </summary>
     [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global", Justification = "For public extensions development")]
-    public interface IDefaultFilter<out TOperation> : IFilter
+    public interface IDefaultFilter<out TOperation> : IFilter, ISpecificQueryComponent
         where TOperation : Enum
     {
         /// <summary>
         /// Enum that will describe all possible operations in this filter.
         /// </summary>
         TOperation Operation { get; }
-
-        /// <summary>
-        /// Target property name
-        /// </summary>
-        string Property { get; }
-
+        
         /// <summary>
         /// Value to use for the <see cref="Operation"/> with property
         /// </summary>

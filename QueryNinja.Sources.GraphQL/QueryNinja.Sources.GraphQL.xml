@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>QueryNinja.Sources.GraphQL</name>
+    </assembly>
+    <members>
+        <member name="T:QueryNinja.Sources.GraphQL.IQueryComponentDescriptor">
+            <summary>
+            Allows schema generation and creating instances of <see cref="T:QueryNinja.Core.IQueryComponent"/>
+            </summary>
+        </member>
+        <member name="P:QueryNinja.Sources.GraphQL.IQueryComponentDescriptor.DefinedOn">
+            <summary>
+            Get list of Types for which desired IQueryComponent is defined.
+            </summary>
+        </member>
+        <member name="T:QueryNinja.Sources.GraphQL.SchemaGenerator">
+            <summary>
+            
+            </summary>
+        </member>
+    </members>
+</doc>

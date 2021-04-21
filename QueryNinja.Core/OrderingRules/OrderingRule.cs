@@ -6,7 +6,7 @@ namespace QueryNinja.Core.OrderingRules
     /// Represent a rule to define Target collection order.
     /// </summary>
     [DefinedForPrimitives]
-    public sealed class OrderingRule : IQueryComponent
+    public sealed class OrderingRule : ISpecificQueryComponent
     {
         /// <summary>
         /// Creates ordering rule.

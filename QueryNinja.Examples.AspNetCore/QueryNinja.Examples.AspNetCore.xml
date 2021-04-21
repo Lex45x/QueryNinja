@@ -10,7 +10,7 @@
             
             </summary>
         </member>
-        <member name="M:QueryNinja.Examples.AspNetCore.Controllers.StudentsController.#ctor(QueryNinja.Examples.AspNetCore.DbContext.UniversityDbContext,Microsoft.AspNetCore.Mvc.Infrastructure.IActionInvokerFactory)">
+        <member name="M:QueryNinja.Examples.AspNetCore.Controllers.StudentsController.#ctor(QueryNinja.Examples.AspNetCore.DbContext.UniversityDbContext)">
             <summary>
             Creates instance of a controller with dbContext.
             </summary>

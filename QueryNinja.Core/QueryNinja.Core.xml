@@ -312,11 +312,6 @@
             Enum that will describe all possible operations in this filter.
             </summary>
         </member>
-        <member name="P:QueryNinja.Core.Filters.IDefaultFilter`1.Property">
-            <summary>
-            Target property name
-            </summary>
-        </member>
         <member name="P:QueryNinja.Core.Filters.IDefaultFilter`1.Value">
             <summary>
             Value to use for the <see cref="P:QueryNinja.Core.Filters.IDefaultFilter`1.Operation"/> with property
@@ -363,6 +358,16 @@
         <member name="T:QueryNinja.Core.IQueryComponent">
             <summary>
             Represent a generic query component such as <see cref="T:QueryNinja.Core.Filters.IFilter"/> or <see cref="T:QueryNinja.Core.OrderingRules.OrderingRule"/>
+            </summary>
+        </member>
+        <member name="T:QueryNinja.Core.ISpecificQueryComponent">
+            <summary>
+            Represent a query component that targets at specific model <see cref="P:QueryNinja.Core.ISpecificQueryComponent.Property"/>.
+            </summary>
+        </member>
+        <member name="P:QueryNinja.Core.ISpecificQueryComponent.Property">
+            <summary>
+            Property of the model
             </summary>
         </member>
         <member name="T:QueryNinja.Core.OrderingRules.OrderDirection">
