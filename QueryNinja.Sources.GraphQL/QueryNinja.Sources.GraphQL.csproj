@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Users\redka\Source\Repos\QueryNinja\QueryNinja.Sources.GraphQL\QueryNinja.Sources.GraphQL.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>C:\Users\redka\Source\Repos\QueryNinja\QueryNinja.Sources.GraphQL\QueryNinja.Sources.GraphQL.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\QueryNinja.Core\QueryNinja.Core.csproj" />
+  </ItemGroup>
+
+</Project>

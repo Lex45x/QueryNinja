@@ -1,10 +1,12 @@
-﻿using QueryNinja.Core.Filters;
+﻿using QueryNinja.Core.Attributes;
+using QueryNinja.Core.Filters;
 
 namespace QueryNinja.Targets.EntityFrameworkCore.Filters
 {
     /// <summary>
     /// Allows to use DB-related filters inside IQuery.
     /// </summary>
+    [DefinedFor(typeof(string))]
     public class DatabaseFunctionFilter : IDefaultFilter<DatabaseFunction>
     {
         /// <summary>

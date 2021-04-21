@@ -3,9 +3,7 @@ using QueryNinja.Core.Projection;
 
 namespace QueryNinja.Core
 {
-    /// <summary>
-    /// Represent default query class with filters, ordering rules and selectors. <br/>
-    /// </summary>
+    /// <inheritdoc cref="IDynamicQuery" />
     public class DynamicQuery : Query, IDynamicQuery
     {
         private readonly IReadOnlyList<ISelector> selectors;
@@ -21,6 +19,16 @@ namespace QueryNinja.Core
         public IReadOnlyList<ISelector> GetSelectors()
         {
             return selectors;
+        }
+    }
+
+    /// <inheritdoc cref="IDynamicQuery{TEntity}" />
+    public class DynamicQuery<TEntity> : DynamicQuery, IDynamicQuery<TEntity>
+    {
+        /// <inheritdoc />
+        public DynamicQuery(IReadOnlyList<IQueryComponent> components, IReadOnlyList<ISelector> selectors)
+            : base(components, selectors)
+        {
         }
     }
 }

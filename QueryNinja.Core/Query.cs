@@ -7,9 +7,7 @@ using QueryNinja.Core.OrderingRules;
 
 namespace QueryNinja.Core
 {
-    /// <summary>
-    /// Represent default query class with filters and ordering rules. <br/>
-    /// </summary>
+    /// <inheritdoc cref="IQuery" />
     public class Query : IQuery
     {
         private readonly IReadOnlyList<IQueryComponent> components;
@@ -52,6 +50,16 @@ namespace QueryNinja.Core
                 .Aggregate(new StringBuilder(), (builder, component) => builder.Append($"| {component} |"))
                 .ToString();
             return result;
+        }
+    }
+
+    /// <inheritdoc cref="IQuery{TEntity}" />
+    public class Query<TEntity> : Query, IQuery<TEntity>
+    {
+        /// <inheritdoc />
+        public Query(IReadOnlyList<IQueryComponent> components)
+            : base(components)
+        {
         }
     }
 }

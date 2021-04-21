@@ -36,7 +36,7 @@ namespace QueryNinja.Benchmarking.Sources.AspNetCore
             var httpRequest = Mock.Of<HttpRequest>(request => request.Query == queryCollection);
             var httpContext = Mock.Of<HttpContext>(context => context.Request == httpRequest);
             var bindingContext = Mock.Of<ModelBindingContext>(context =>
-                context.HttpContext == httpContext && context.ModelType == typeof(IDynamicQuery));
+                context.HttpContext == httpContext && context.ModelType == typeof(IDynamicQuery<object>));
 
             return new ModelBindingScenario
             {

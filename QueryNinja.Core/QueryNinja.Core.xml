@@ -4,15 +4,78 @@
         <name>QueryNinja.Core</name>
     </assembly>
     <members>
-        <member name="T:QueryNinja.Core.DynamicQuery">
+        <member name="T:QueryNinja.Core.Attributes.DefinedForAttribute">
             <summary>
-            Represent default query class with filters, ordering rules and selectors. <br/>
+            Specify that usage of the <see cref="T:QueryNinja.Core.IQueryComponent"/> is defined on specific type and his descendants.
             </summary>
+        </member>
+        <member name="P:QueryNinja.Core.Attributes.DefinedForAttribute.TargetType">
+            <summary>
+            Type suitable for <see cref="T:QueryNinja.Core.IQueryComponent"/>
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Core.Attributes.DefinedForAttribute.#ctor(System.Type)">
+            <summary>
+            Defines types that suitable for <see cref="T:QueryNinja.Core.IQueryComponent"/> 
+            </summary>
+            <param name="targetType"></param>
+        </member>
+        <member name="M:QueryNinja.Core.Attributes.DefinedForAttribute.IsDefinedFor(System.Type)">
+            <inheritdoc />
+        </member>
+        <member name="T:QueryNinja.Core.Attributes.DefinedForGeneric">
+            <summary>
+            Specify that usage of the <see cref="T:QueryNinja.Core.IQueryComponent"/> is defined on constructed generic types. <br/>
+            Will compare <see cref="P:QueryNinja.Core.Attributes.DefinedForGeneric.GenericTypeDefinition"/> with Definition of Type, Definition of implemented interfaces and definition of BaseType.
+            </summary>
+        </member>
+        <member name="P:QueryNinja.Core.Attributes.DefinedForGeneric.GenericTypeDefinition">
+            <summary>
+            Type suitable for <see cref="T:QueryNinja.Core.IQueryComponent"/>
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Core.Attributes.DefinedForGeneric.#ctor(System.Type)">
+            <summary>
+            Defines Generic Type Definition that suitable for <see cref="T:QueryNinja.Core.IQueryComponent"/> 
+            </summary>
+            <param name="genericTypeDefinition"></param>
+        </member>
+        <member name="M:QueryNinja.Core.Attributes.DefinedForGeneric.IsDefinedFor(System.Type)">
+            <inheritdoc />
+        </member>
+        <member name="T:QueryNinja.Core.Attributes.DefinedForPrimitivesAttribute">
+            <summary>
+            Specify that usage of the <see cref="T:QueryNinja.Core.IQueryComponent"/> is defined on Primitive types.
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Core.Attributes.DefinedForPrimitivesAttribute.IsDefinedFor(System.Type)">
+            <inheritdoc />
+        </member>
+        <member name="T:QueryNinja.Core.Attributes.DefinitionAttribute">
+            <summary>
+            Base class for all Attributes that can describe defined types for <see cref="T:QueryNinja.Core.IQueryComponent"/>.
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Core.Attributes.DefinitionAttribute.IsDefinedFor(System.Type)">
+            <summary>
+            Allows to check whether <paramref name="type"/> is defined for <see cref="T:QueryNinja.Core.IQueryComponent"/>.
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="T:QueryNinja.Core.DynamicQuery">
+            <inheritdoc cref="T:QueryNinja.Core.IDynamicQuery" />
         </member>
         <member name="M:QueryNinja.Core.DynamicQuery.#ctor(System.Collections.Generic.IReadOnlyList{QueryNinja.Core.IQueryComponent},System.Collections.Generic.IReadOnlyList{QueryNinja.Core.Projection.ISelector})">
             <inheritdoc />
         </member>
         <member name="M:QueryNinja.Core.DynamicQuery.GetSelectors">
+            <inheritdoc />
+        </member>
+        <member name="T:QueryNinja.Core.DynamicQuery`1">
+            <inheritdoc cref="T:QueryNinja.Core.IDynamicQuery`1" />
+        </member>
+        <member name="M:QueryNinja.Core.DynamicQuery`1.#ctor(System.Collections.Generic.IReadOnlyList{QueryNinja.Core.IQueryComponent},System.Collections.Generic.IReadOnlyList{QueryNinja.Core.Projection.ISelector})">
             <inheritdoc />
         </member>
         <member name="T:QueryNinja.Core.Exceptions.QueryNinjaException">
@@ -275,6 +338,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:QueryNinja.Core.IDynamicQuery`1">
+            <summary>
+            This is core interface for queries that allows to select desired properties from original result aka projection. <br/>
+            This interface implies model type to be <typeparamref name="TEntity"/>
+            </summary>
+        </member>
         <member name="T:QueryNinja.Core.IQuery">
             <summary>
               This is core interface for all types of queries
@@ -285,6 +354,11 @@
               Returns a single collections with all query components.
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:QueryNinja.Core.IQuery`1">
+            <summary>
+              This is core interface for all types of queries with implication that model type is <typeparamref name="TEntity"/>
+            </summary>
         </member>
         <member name="T:QueryNinja.Core.IQueryComponent">
             <summary>
@@ -385,9 +459,7 @@
             <inheritdoc />
         </member>
         <member name="T:QueryNinja.Core.Query">
-            <summary>
-            Represent default query class with filters and ordering rules. <br/>
-            </summary>
+            <inheritdoc cref="T:QueryNinja.Core.IQuery" />
         </member>
         <member name="M:QueryNinja.Core.Query.#ctor(System.Collections.Generic.IReadOnlyList{QueryNinja.Core.IQueryComponent})">
             <summary>
@@ -414,6 +486,12 @@
             Debug-friendly implementation. Represent whole query.
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:QueryNinja.Core.Query`1">
+            <inheritdoc cref="T:QueryNinja.Core.IQuery`1" />
+        </member>
+        <member name="M:QueryNinja.Core.Query`1.#ctor(System.Collections.Generic.IReadOnlyList{QueryNinja.Core.IQueryComponent})">
+            <inheritdoc />
         </member>
     </members>
 </doc>

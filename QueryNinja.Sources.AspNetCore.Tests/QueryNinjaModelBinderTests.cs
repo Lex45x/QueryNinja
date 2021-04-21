@@ -41,7 +41,7 @@ namespace QueryNinja.Sources.AspNetCore.Tests
                 ["test.component"] = "value"
             };
 
-            var bindingContext = CreateModelBindingContext(typeof(IQuery), queryString);
+            var bindingContext = CreateModelBindingContext(typeof(IQuery<object>), queryString);
 
             await queryNinjaModelBinder.BindModelAsync(bindingContext);
 
@@ -64,7 +64,7 @@ namespace QueryNinja.Sources.AspNetCore.Tests
                 ["select.AnotherProperty"] = "Another Property"
             };
 
-            var bindingContext = CreateModelBindingContext(typeof(IDynamicQuery), queryString);
+            var bindingContext = CreateModelBindingContext(typeof(IDynamicQuery<object>), queryString);
 
             await queryNinjaModelBinder.BindModelAsync(bindingContext);
 

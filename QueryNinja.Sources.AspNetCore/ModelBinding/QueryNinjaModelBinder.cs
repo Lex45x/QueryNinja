@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using QueryNinja.Core.Extensibility;
 using QueryNinja.Core.Projection;
+using QueryNinja.Sources.AspNetCore.Reflection;
+
 // ReSharper disable ForCanBeConvertedToForeach
 // ReSharper disable LoopCanBeConvertedToQuery
 
@@ -22,20 +24,24 @@ namespace QueryNinja.Sources.AspNetCore.ModelBinding
         {
             var components = GetQueryComponents(bindingContext.HttpContext.Request.Query);
 
-            if (bindingContext.ModelType == typeof(IQuery))
+            if (typeof(IDynamicQuery).IsAssignableFrom(bindingContext.ModelType))
             {
-                var result = new Query(components);
+                var selectors = GetSelectors(bindingContext.HttpContext.Request.Query);
+
+                var result = bindingContext.ModelType.IsGenericType
+                    ? GenericQueryFactory.DynamicQuery(bindingContext.ModelType, components, selectors)
+                    : new DynamicQuery(components, selectors);
 
                 bindingContext.Result = ModelBindingResult.Success(result);
 
                 return Task.CompletedTask;
             }
 
-            if (bindingContext.ModelType == typeof(IDynamicQuery))
+            if (typeof(IQuery).IsAssignableFrom(bindingContext.ModelType))
             {
-                var selectors = GetSelectors(bindingContext.HttpContext.Request.Query);
-
-                var result = new DynamicQuery(components, selectors);
+                var result = bindingContext.ModelType.IsGenericType
+                    ? GenericQueryFactory.Query(bindingContext.ModelType, components)
+                    : new Query(components);
 
                 bindingContext.Result = ModelBindingResult.Success(result);
 
@@ -87,7 +93,7 @@ namespace QueryNinja.Sources.AspNetCore.ModelBinding
             var queryComponents = new List<IQueryComponent>();
 
             var factories = QueryNinjaExtensions.Extensions<IQueryComponentFactory>();
-            
+
             foreach (var (key, value) in queryParameters)
             {
                 for (var factoryIndex = 0; factoryIndex < factories.Count; factoryIndex++)

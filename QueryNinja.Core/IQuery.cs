@@ -13,4 +13,11 @@ namespace QueryNinja.Core
         /// <returns></returns>
         IReadOnlyList<IQueryComponent> GetComponents();
     }
+
+    /// <summary>
+    ///   This is core interface for all types of queries with implication that model type is <typeparamref name="TEntity"/>
+    /// </summary>
+    public interface IQuery<TEntity> : IQuery
+    {
+    }
 }

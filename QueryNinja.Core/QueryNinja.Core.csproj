@@ -13,4 +13,8 @@
     <DocumentationFile>C:\Users\redka\Source\Repos\QueryNinja\QueryNinja.Core\QueryNinja.Core.xml</DocumentationFile>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Attributes\" />
+  </ItemGroup>
+
 </Project>

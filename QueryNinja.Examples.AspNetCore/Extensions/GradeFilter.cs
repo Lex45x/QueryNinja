@@ -1,4 +1,6 @@
-﻿using QueryNinja.Core.Filters;
+﻿using System.Collections.Generic;
+using QueryNinja.Core.Attributes;
+using QueryNinja.Core.Filters;
 using QueryNinja.Examples.AspNetCore.DbContext.Entities;
 
 namespace QueryNinja.Examples.AspNetCore.Extensions
@@ -6,6 +8,7 @@ namespace QueryNinja.Examples.AspNetCore.Extensions
     /// <summary>
     /// Allows to filter on top of <see cref="Student.Grades"/>
     /// </summary>
+    [DefinedFor(typeof(ICollection<Grade>))]
     public class GradeFilter : IDefaultFilter<GradeOperations>
     {
         /// <summary>

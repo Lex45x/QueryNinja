@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <Folder Include="Factory\" />
+    <Folder Include="Reflection\" />
   </ItemGroup>
 
 

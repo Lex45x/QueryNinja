@@ -1,8 +1,11 @@
-﻿namespace QueryNinja.Core.OrderingRules
+﻿using QueryNinja.Core.Attributes;
+
+namespace QueryNinja.Core.OrderingRules
 {
     /// <summary>
     /// Represent a rule to define Target collection order.
     /// </summary>
+    [DefinedForPrimitives]
     public sealed class OrderingRule : IQueryComponent
     {
         /// <summary>
