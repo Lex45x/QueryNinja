@@ -13,6 +13,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="nbec5myd.xbe~" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.4" />
@@ -27,6 +31,7 @@
     <ProjectReference Include="..\QueryNinja.Core\QueryNinja.Core.csproj" />
     <ProjectReference Include="..\QueryNinja.Extensions.AspNetCore.Swagger\QueryNinja.Extensions.AspNetCore.Swagger.csproj" />
     <ProjectReference Include="..\QueryNinja.Sources.AspNetCore\QueryNinja.Sources.AspNetCore.csproj" />
+    <ProjectReference Include="..\QueryNinja.Sources.GraphQL\QueryNinja.Sources.GraphQL.csproj" />
     <ProjectReference Include="..\QueryNinja.Targets.EntityFrameworkCore\QueryNinja.Targets.EntityFrameworkCore.csproj" />
   </ItemGroup>
 

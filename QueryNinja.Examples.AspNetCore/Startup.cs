@@ -13,6 +13,7 @@ using QueryNinja.Examples.AspNetCore.DbContext.Entities;
 using QueryNinja.Examples.AspNetCore.Extensions;
 using QueryNinja.Extensions.AspNetCore.Swagger;
 using QueryNinja.Sources.AspNetCore;
+using QueryNinja.Sources.GraphQL;
 using QueryNinja.Targets.EntityFrameworkCore;
 
 namespace QueryNinja.Examples.AspNetCore
@@ -36,7 +37,7 @@ namespace QueryNinja.Examples.AspNetCore
             });
 
             services
-                .AddQueryNinja()
+                .AddQueryNinjaGraphQL()
                 .WithEntityFrameworkTarget()
                 .AddFilter<GradeFilter, GradeOperations>(configure =>
                 {
@@ -50,8 +51,8 @@ namespace QueryNinja.Examples.AspNetCore
                 {
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                     options.SerializerSettings.Converters.Add(new StringEnumConverter());
-                });
-
+                });                 
+            
             services.AddDbContext<UniversityDbContext>(options => options.UseSqlite("Data Source=University.db"));
         }
 
@@ -73,7 +74,11 @@ namespace QueryNinja.Examples.AspNetCore
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapGraphQL();
+                endpoints.MapControllers();
+            });
         }
     }
 }

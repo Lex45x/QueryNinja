@@ -10,9 +10,6 @@ namespace QueryNinja.Sources.GraphQL
     /// </summary>
     public interface IQueryComponentDescriptor : IQueryComponentExtension
     {
-        /// <summary>
-        /// Get list of Types for which desired IQueryComponent is defined.
-        /// </summary>
-        IReadOnlyList<Type> DefinedOn { get; }
+        
     }
 }
