@@ -1,12 +1,14 @@
 ﻿// ReSharper disable InconsistentNaming as reserved '__' prefix for GraphQL internals
 // https://spec.graphql.org/June2018/#sec-Introspection
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace QueryNinja.Sources.GraphQL.Introspection
 {
-    internal class __Type
+    internal class __Type : IEquatable<__Type>
     {
         public static __Type Scalar(string name, string description = null)
         {
@@ -48,6 +50,85 @@ namespace QueryNinja.Sources.GraphQL.Introspection
             return new(name, __TypeKind.INPUT_OBJECT, description, inputFields: inputFields);
         }
 
+        private static readonly Dictionary<Type, __Type> TypeToTypeCache = new();
+
+        private static readonly HashSet<__Type> TypesSet = new();
+        public static IReadOnlySet<__Type> All => TypesSet;
+
+        public static __Type FromType(Type source)
+        {
+            if (TypeToTypeCache.ContainsKey(source))
+            {
+                return TypeToTypeCache[source];
+            }
+
+            if (source.IsPrimitive)
+            {
+                return Scalar(source.Name);
+            }
+
+            if (source.IsEnum)
+            {
+                //todo: enable deprecation
+                var values = source.GetEnumNames()
+                    .Select(name => new __EnumValue(name, isDeprecated: false, deprecationReason: null))
+                    .ToList();
+
+                return Enum(source.Name, values);
+            }
+
+            var enumerableInterface = source.GetInterface("IEnumerable`1");
+
+            if (enumerableInterface != null)
+            {
+                return List(FromType(enumerableInterface.GetGenericArguments()[0]));
+            }
+
+            var fields = new List<__Field>();
+
+            var type = Object(source.Name, fields);
+            TypeToTypeCache[source] = type;
+
+            foreach (var member in source.GetMembers(BindingFlags.Instance | BindingFlags.Public))
+            {
+                List<__InputValue> arguments = null;
+
+                Type fieldType;
+                
+                switch (member)
+                {
+                    case MethodInfo methodInfo:
+
+                        if (methodInfo.IsSpecialName || methodInfo.DeclaringType == typeof(object))
+                        {
+                            continue;
+                        }
+
+                        fieldType = methodInfo.ReturnType;
+                        arguments = (from parameter in methodInfo.GetParameters()
+                                select new __InputValue(parameter.Name, FromType(parameter.ParameterType),
+                                    parameter.DefaultValue?.ToString()))
+                            .ToList();
+                        break;
+                    case PropertyInfo propertyInfo:
+                        fieldType = propertyInfo.PropertyType;
+                        break;
+                    default:
+                        continue;
+                }
+
+
+                Console.WriteLine($"Field {member.Name} {fieldType} for type {source.Name}");
+
+                //todo: allow deprecation
+                var field = new __Field(member.Name, arguments, FromType(fieldType), false, null);
+
+                fields.Add(field);
+            }
+
+            return type;
+        }
+
         public static __Type List(__Type ofType)
         {
             return new(name: null, __TypeKind.LIST, ofType: ofType);
@@ -77,6 +158,11 @@ namespace QueryNinja.Sources.GraphQL.Introspection
             PossibleTypes = possibleTypes;
             InputFields = inputFields;
             OfType = ofType;
+
+            if (Kind != __TypeKind.LIST && Kind != __TypeKind.NON_NULL)
+            {
+                TypesSet.Add(this);
+            }
         }
 
         public __TypeKind Kind { get; }
@@ -129,5 +215,53 @@ namespace QueryNinja.Sources.GraphQL.Introspection
         /// Works for NonNull and Lists only
         /// </summary>
         public __Type OfType { get; }
+
+        /// <inheritdoc />
+        public bool Equals(__Type other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            return Kind switch
+            {
+                __TypeKind.LIST => false,
+                __TypeKind.NON_NULL => false,
+                _ => Name == other.Name
+            };
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+
+            return Equals((__Type) obj);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return HashCode.Combine((int) Kind, Name);
+        }
     }
 }

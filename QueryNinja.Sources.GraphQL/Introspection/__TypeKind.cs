@@ -7,11 +7,12 @@ namespace QueryNinja.Sources.GraphQL.Introspection
     {
         SCALAR = 0,
         OBJECT = 1,
-        INTERFACE = 2,
-        UNION = 3,
-        ENUM = 4,
+        ENUM = 2,
+        LIST = 3,
+        NON_NULL = 4,
+        //todo: types below are not supported
         INPUT_OBJECT = 5,
-        LIST = 6,
-        NON_NULL = 7
+        INTERFACE = 6,
+        UNION = 7
     }
 }

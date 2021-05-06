@@ -8,6 +8,8 @@ using QueryNinja.Sources.AspNetCore;
 using QueryNinja.Sources.AspNetCore.Factory;
 using QueryNinja.Sources.GraphQL.Middleware;
 using QueryNinja.Sources.GraphQL.SchemaGeneration;
+using QueryNinja.Sources.GraphQL.Serializers;
+using QueryNinja.Targets.Queryable;
 
 namespace QueryNinja.Sources.GraphQL
 {
@@ -24,12 +26,16 @@ namespace QueryNinja.Sources.GraphQL
         public static IGraphQLExtensionSettings AddQueryNinjaGraphQL(this IServiceCollection collection)
         {
             var extensionSettings = collection.AddQueryNinja();
+            extensionSettings.WithQueryableTarget();
+
+            collection.Add(ServiceDescriptor.Singleton<IQuerySerializer<IDynamicQuery>>(_ =>
+                new DynamicQuerySerializer()));
 
             collection.Add(ServiceDescriptor.Singleton<IActionsScanner>(provider =>
                 new ActionsScanner(provider.GetRequiredService<IActionDescriptorCollectionProvider>())));
 
             collection.Add(ServiceDescriptor.Singleton<IGraphQLQueriesSource>(provider =>
-                new GraphQLQueriesSource(provider.GetRequiredService<IActionsScanner>())));
+                new GraphQLQueriesSource(provider.GetRequiredService<IActionsScanner>(), provider.GetRequiredService<IQuerySerializer<IDynamicQuery>>())));
 
             collection.Add(ServiceDescriptor.Singleton<IGraphQLRequestHandler>(provider =>
                 new GraphQLRequestHandler(provider.GetRequiredService<IGraphQLQueriesSource>())));

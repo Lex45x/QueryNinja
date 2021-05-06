@@ -7,9 +7,17 @@ namespace QueryNinja.Sources.GraphQL.Introspection
 {
     internal class __Directive
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public IReadOnlyList<__DirectiveLocation> Locations { get; set; }
-        public IReadOnlyList<__InputValue> Args { get; set; }
+        public __Directive(string name, IReadOnlyList<__DirectiveLocation> locations, IReadOnlyList<__InputValue> args, string description = null)
+        {
+            Name = name;
+            Description = description;
+            Locations = locations;
+            Args = args;
+        }
+
+        public string Name { get; }
+        public string Description { get; }
+        public IReadOnlyList<__DirectiveLocation> Locations { get; }
+        public IReadOnlyList<__InputValue> Args { get; }
     }
 }

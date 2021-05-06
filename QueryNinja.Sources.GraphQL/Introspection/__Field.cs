@@ -7,11 +7,22 @@ namespace QueryNinja.Sources.GraphQL.Introspection
 {
     internal class __Field
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public IReadOnlyList<__InputValue> Arguments { get; set; }
-        public __Type Type { get; set; }
-        public bool IsDeprecated { get; set; }
-        public string DeprecationReason { get; set; }
+        public __Field(string name, IReadOnlyList<__InputValue> arguments, __Type type, bool isDeprecated,
+            string deprecationReason, string description = null)
+        {
+            Name = name;
+            Arguments = arguments;
+            Type = type;
+            IsDeprecated = isDeprecated;
+            DeprecationReason = deprecationReason;
+            Description = description;
+        }
+
+        public string Name { get; }
+        public string Description { get; }
+        public IReadOnlyList<__InputValue> Arguments { get; }
+        public __Type Type { get; }
+        public bool IsDeprecated { get; }
+        public string DeprecationReason { get; }
     }
 }

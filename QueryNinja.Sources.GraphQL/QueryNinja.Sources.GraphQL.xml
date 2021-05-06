@@ -4,12 +4,77 @@
         <name>QueryNinja.Sources.GraphQL</name>
     </assembly>
     <members>
+        <member name="T:QueryNinja.Sources.GraphQL.EndpointRouteBuilderExtensions">
+            <summary>
+            Contains extensions needed to setup GraphQL endpoint.
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Sources.GraphQL.Introspection.__Type.Fields(System.Boolean)">
+            <summary>
+            Works for Objects and Interfaces
+            </summary>
+            <param name="includeDeprecated"></param>
+            <returns></returns>
+        </member>
+        <member name="P:QueryNinja.Sources.GraphQL.Introspection.__Type.Interfaces">
+            <summary>
+            Works for Objects only
+            </summary>
+        </member>
+        <member name="P:QueryNinja.Sources.GraphQL.Introspection.__Type.PossibleTypes">
+            <summary>
+            Works for interfaces and Unions
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Sources.GraphQL.Introspection.__Type.EnumValues(System.Boolean)">
+            <summary>
+            Works on Enums only
+            </summary>
+            <param name="includeDeprecated"></param>
+            <returns></returns>
+        </member>
+        <member name="P:QueryNinja.Sources.GraphQL.Introspection.__Type.InputFields">
+            <summary>
+            Works on InputObjects only
+            </summary>
+        </member>
+        <member name="P:QueryNinja.Sources.GraphQL.Introspection.__Type.OfType">
+            <summary>
+            Works for NonNull and Lists only
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Sources.GraphQL.Introspection.__Type.Equals(QueryNinja.Sources.GraphQL.Introspection.__Type)">
+            <inheritdoc />
+        </member>
+        <member name="M:QueryNinja.Sources.GraphQL.Introspection.__Type.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:QueryNinja.Sources.GraphQL.Introspection.__Type.GetHashCode">
+            <inheritdoc />
+        </member>
         <member name="T:QueryNinja.Sources.GraphQL.IQueryComponentDescriptor">
             <summary>
             Allows schema generation and creating instances of <see cref="T:QueryNinja.Core.IQueryComponent"/>
             </summary>
         </member>
         <member name="P:QueryNinja.Sources.GraphQL.Middleware.GraphQLQueriesSource.QueryHandlers">
+            <inheritdoc />
+        </member>
+        <member name="T:QueryNinja.Sources.GraphQL.Middleware.IGraphQLQueryHandler">
+            <summary>
+            Contains logic of handling specific GraphQL Query Operation
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Sources.GraphQL.Middleware.IGraphQLQueryHandler.Handle(Microsoft.AspNetCore.Http.HttpContext,GraphQLParser.AST.GraphQLDocument,Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Handles GraphQL Query Operation based on <see cref="T:Microsoft.AspNetCore.Http.HttpContext"/>, <see cref="T:GraphQLParser.AST.GraphQLDocument"/> and additional GraphQL variables.
+            </summary>
+            <param name="context"></param>
+            <param name="document"></param>
+            <param name="variables"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QueryNinja.Sources.GraphQL.Middleware.IntrospectionQueryHandler.Handle(Microsoft.AspNetCore.Http.HttpContext,GraphQLParser.AST.GraphQLDocument,Newtonsoft.Json.Linq.JObject)">
             <inheritdoc />
         </member>
         <member name="M:QueryNinja.Sources.GraphQL.SchemaGeneration.ActionsScanner.GetQueryRoots">
@@ -59,6 +124,22 @@
             <summary>
             
             </summary>
+        </member>
+        <member name="T:QueryNinja.Sources.GraphQL.Serializers.IQuerySerializer`1">
+            <summary>
+            Allows to serialize specific <see cref="T:QueryNinja.Core.IQuery"/> instance from <see cref="T:GraphQLParser.AST.GraphQLDocument"/>
+            </summary>
+            <typeparam name="TQuery"></typeparam>
+        </member>
+        <member name="M:QueryNinja.Sources.GraphQL.Serializers.IQuerySerializer`1.Serialize(GraphQLParser.AST.GraphQLDocument)">
+            <summary>
+            Creates instance of <typeparamref name="TQuery"/> based on <paramref name="document"/>
+            </summary>
+            <param name="document"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QueryNinja.Sources.GraphQL.Serializers.DynamicQuerySerializer.Serialize(GraphQLParser.AST.GraphQLDocument)">
+            <inheritdoc />
         </member>
         <member name="T:QueryNinja.Sources.GraphQL.ServiceCollectionExtensions">
             <summary>

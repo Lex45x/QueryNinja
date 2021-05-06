@@ -16,7 +16,7 @@
             </summary>
             <param name="dbContext"></param>
         </member>
-        <member name="M:QueryNinja.Examples.AspNetCore.Controllers.StudentsController.Get(QueryNinja.Core.IDynamicQuery)">
+        <member name="M:QueryNinja.Examples.AspNetCore.Controllers.StudentsController.GetStudents(QueryNinja.Core.IDynamicQuery{QueryNinja.Examples.AspNetCore.DbContext.Entities.Student})">
             <summary>
             Allows to get list of students with QueryNinja query.
             </summary>

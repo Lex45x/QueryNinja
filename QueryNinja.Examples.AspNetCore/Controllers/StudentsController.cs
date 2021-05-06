@@ -5,6 +5,7 @@ using QueryNinja.Examples.AspNetCore.DbContext;
 using QueryNinja.Targets.Queryable;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using QueryNinja.Examples.AspNetCore.DbContext.Entities;
 
 namespace QueryNinja.Examples.AspNetCore.Controllers
 {
@@ -33,7 +34,7 @@ namespace QueryNinja.Examples.AspNetCore.Controllers
         /// <param name="query">QueryNinja query. Send empty to see all students.</param>
         /// <returns>List of students</returns>
         [HttpGet]
-        public async Task<IEnumerable<dynamic>> Get([FromQuery] IDynamicQuery query)
+        public async Task<IEnumerable<dynamic>> GetStudents([FromQuery] IDynamicQuery<Student> query)
         {
             var result = await dbContext.Students
                 .AsNoTracking()

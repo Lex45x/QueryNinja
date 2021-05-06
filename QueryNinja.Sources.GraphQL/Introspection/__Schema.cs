@@ -7,10 +7,16 @@ namespace QueryNinja.Sources.GraphQL.Introspection
 {
     internal class __Schema
     {
-        public IReadOnlyList<__Type> Types { get; set; }
-        public __Type QueryType { get; set; }
-        public __Type MutationType { get; set; }
-        public __Type SubscriptionType { get; set; }
-        public IReadOnlyList<__Directive> Directives { get; set; }
+        public __Schema(IReadOnlySet<__Type> types, __Type queryType)
+        {
+            Types = types;
+            QueryType = queryType;
+        }
+
+        public IReadOnlySet<__Type> Types { get; }
+        public __Type QueryType { get; }
+        public __Type MutationType { get; } = null;
+        public __Type SubscriptionType { get; } = null;
+        public IReadOnlyList<__Directive> Directives { get; } = new List<__Directive>();
     }
 }

@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\QueryNinja.Core\QueryNinja.Core.csproj" />
     <ProjectReference Include="..\QueryNinja.Sources.AspNetCore\QueryNinja.Sources.AspNetCore.csproj" />
+    <ProjectReference Include="..\QueryNinja.Targets.Queryable\QueryNinja.Targets.Queryable.csproj" />
   </ItemGroup>
 
 </Project>

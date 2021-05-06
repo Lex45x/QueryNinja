@@ -8,7 +8,12 @@ namespace QueryNinja.Sources.GraphQL.Introspection
 {
     internal class IntrospectionModel
     {
-        public __Schema __Schema { get; set; }
+        public IntrospectionModel(__Schema schema)
+        {
+            __Schema = schema;
+        }
+
+        public __Schema __Schema { get; }
 
         public __Type __Type(string name)
         {

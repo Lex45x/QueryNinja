@@ -5,9 +5,17 @@ namespace QueryNinja.Sources.GraphQL.Introspection
 {
     internal class __EnumValue
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public bool IsDeprecated { get; set; }
-        public string DeprecationReason { get; set; }
+        public __EnumValue(string name, bool isDeprecated, string deprecationReason, string description = null)
+        {
+            Name = name;
+            Description = description;
+            IsDeprecated = isDeprecated;
+            DeprecationReason = deprecationReason;
+        }
+
+        public string Name { get; }
+        public string Description { get; }
+        public bool IsDeprecated { get; }
+        public string DeprecationReason { get; }
     }
 }
