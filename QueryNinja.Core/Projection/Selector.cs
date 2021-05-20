@@ -19,5 +19,11 @@
 
         /// <inheritdoc />
         public string Target => Source;
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return $"{Source} -> {Target}";
+        }
     }
 }

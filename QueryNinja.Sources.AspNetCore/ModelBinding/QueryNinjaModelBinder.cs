@@ -62,26 +62,10 @@ namespace QueryNinja.Sources.AspNetCore.ModelBinding
                     continue;
                 }
 
-                if (string.Equals(key, "select", StringComparison.OrdinalIgnoreCase))
+                for (var valueIndex = 0; valueIndex < value.Count; valueIndex++)
                 {
-                    for (var valueIndex = 0; valueIndex < value.Count; valueIndex++)
-                    {
-                        var selector = new Selector(value[valueIndex]);
-                        selectors.Add(selector);
-                    }
-                }
-                else
-                {
-                    var keySpan = key.AsSpan();
-
-                    var propertyNameStart = keySpan.IndexOf(value: '.') + 1;
-                    var sourceProperty = keySpan.Slice(propertyNameStart).ToString();
-
-                    for (var valueIndex = 0; valueIndex < value.Count; valueIndex++)
-                    {
-                        var selector = new RenameSelector(sourceProperty, value[valueIndex]);
-                        selectors.Add(selector);
-                    }
+                    var selector = new Selector(value[valueIndex]);
+                    selectors.Add(selector);
                 }
             }
 

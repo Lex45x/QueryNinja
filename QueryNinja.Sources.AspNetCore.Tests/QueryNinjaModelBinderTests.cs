@@ -60,8 +60,7 @@ namespace QueryNinja.Sources.AspNetCore.Tests
 
             var queryString = new Dictionary<string, StringValues>
             {
-                ["select"] = "Property",
-                ["select.AnotherProperty"] = "Another Property"
+                ["select"] = "Property"
             };
 
             var bindingContext = CreateModelBindingContext(typeof(IDynamicQuery<object>), queryString);
@@ -76,14 +75,10 @@ namespace QueryNinja.Sources.AspNetCore.Tests
             var selectors = query?.GetSelectors();
 
             Assert.NotNull(selectors);
-            Assert.AreEqual(expected: 2, selectors.Count);
+            Assert.AreEqual(expected: 1, selectors.Count);
 
             var selector = selectors.OfType<Selector>().First();
             Assert.AreEqual("Property", selector.Target);
-
-            var renameSelector = selectors.OfType<RenameSelector>().First();
-            Assert.AreEqual("AnotherProperty", renameSelector.Source);
-            Assert.AreEqual("Another Property", renameSelector.Target);
         }
 
         private static ModelBindingContext CreateModelBindingContext(Type modelType,

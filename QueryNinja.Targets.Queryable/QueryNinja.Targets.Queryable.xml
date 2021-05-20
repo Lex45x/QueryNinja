@@ -176,6 +176,12 @@
             <param name="selectors">Collection of selectors.</param>
             <returns>Dynamic <see cref="T:System.Linq.IQueryable`1"/>.</returns>
         </member>
+        <member name="M:QueryNinja.Targets.Queryable.Projection.ProjectionBuilder.LayeredSelector.ToString">
+            <summary>
+            Builds path for all layers.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:QueryNinja.Targets.Queryable.QueryableExtensions">
             <summary>
             Extensions that allow to use QueryNinja on <see cref="T:System.Linq.IQueryable`1"/> interface.

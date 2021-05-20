@@ -16,15 +16,23 @@ namespace QueryNinja.Targets.Queryable.Tests
     {
         private static readonly IQueryable<Example> SourceData = new[]
         {
-            new Example(id: 1, "First", intValue: 15, nullableIntValue: 15),
-            new Example(id: 2, "Second", intValue: 21, nullableIntValue: null),
-            new Example(id: 3, "Third", intValue: 73, nullableIntValue: 6),
-            new Example(id: 4, "Fourth", intValue: 90, nullableIntValue: 12),
-            new Example(id: 5, "Fifth", intValue: 45, nullableIntValue: null),
-            new Example(id: 6, "Sixth", intValue: 22, nullableIntValue: 15),
-            new Example(id: 7, "Seventh", intValue: 65, nullableIntValue: 33),
-            new Example(id: 8, "Eighth", intValue: 34, nullableIntValue: null),
-            new Example(id: 9, "Ninth", intValue: 8, nullableIntValue: null)
+            new Example(id: 1, "First", intValue: 15, nullableIntValue: 15,
+                new[]
+                {
+                    new Example(id: 10, "Tenth", intValue: 10, nullableIntValue: null, new List<Example>())
+                }),
+            new Example(id: 2, "Second", intValue: 21, nullableIntValue: null, new List<Example>()),
+            new Example(id: 3, "Third", intValue: 73, nullableIntValue: 6, new List<Example>()),
+            new Example(id: 4, "Fourth", intValue: 90, nullableIntValue: 12, new List<Example>()),
+            new Example(id: 5, "Fifth", intValue: 45, nullableIntValue: null, new List<Example>()),
+            new Example(id: 6, "Sixth", intValue: 22, nullableIntValue: 15,
+                new[]
+                {
+                    new Example(id: 11, "Eleventh", intValue: 53, nullableIntValue: 22, new List<Example>())
+                }),
+            new Example(id: 7, "Seventh", intValue: 65, nullableIntValue: 33, new List<Example>()),
+            new Example(id: 8, "Eighth", intValue: 34, nullableIntValue: null, new List<Example>()),
+            new Example(id: 9, "Ninth", intValue: 8, nullableIntValue: null, new List<Example>())
         }.AsQueryable();
 
         public static IEnumerable<TestCaseData> SuccessScenarios = new List<TestCaseData>
@@ -83,56 +91,49 @@ namespace QueryNinja.Targets.Queryable.Tests
                         new ISelector[]
                         {
                             new Selector("Id"),
-                            new RenameSelector("StringValue", "Values.String"),
-                            new RenameSelector("IntValue", "Values.Numbers.Int")
+                            new Selector("StringValue"),
+                            new Selector("IntValue"),
+                            new Selector("ChildValues.Id")
                         }))
                 .Returns(new[]
                 {
                     new Dictionary<string, object>
                     {
                         ["Id"] = 1,
-                        ["Values"] = new Dictionary<string, object>
+                        ["StringValue"] = "First",
+                        ["IntValue"] = 15,
+                        ["ChildValues"] = new List<Dictionary<string, object>>
                         {
-                            ["String"] = "First",
-                            ["Numbers"] = new Dictionary<string, object>
+                            new()
                             {
-                                ["Int"] = 15
+                                ["Id"] = 10
                             }
-                        }
+                        } 
                     },
                     new Dictionary<string, object>
                     {
                         ["Id"] = 3,
-                        ["Values"] = new Dictionary<string, object>
-                        {
-                            ["String"] = "Third",
-                            ["Numbers"] = new Dictionary<string, object>
-                            {
-                                ["Int"] = 73
-                            }
-                        }
+                        ["StringValue"] = "Third",
+                        ["IntValue"] = 73,
+                        ["ChildValues"] = new List<Dictionary<string, object>>()
                     },
                     new Dictionary<string, object>
                     {
                         ["Id"] = 5,
-                        ["Values"] = new Dictionary<string, object>
-                        {
-                            ["String"] = "Fifth",
-                            ["Numbers"] = new Dictionary<string, object>
-                            {
-                                ["Int"] = 45
-                            }
-                        }
+                        ["StringValue"] = "Fifth",
+                        ["IntValue"] = 45,
+                        ["ChildValues"] = new List<Dictionary<string, object>>()
                     },
                     new Dictionary<string, object>
                     {
                         ["Id"] = 6,
-                        ["Values"] = new Dictionary<string, object>
+                        ["StringValue"] = "Sixth",
+                        ["IntValue"] = 22,
+                        ["ChildValues"] = new List<Dictionary<string, object>>
                         {
-                            ["String"] = "Sixth",
-                            ["Numbers"] = new Dictionary<string, object>
+                            new()
                             {
-                                ["Int"] = 22
+                                ["Id"] = 11
                             }
                         }
                     }
@@ -186,18 +187,21 @@ namespace QueryNinja.Targets.Queryable.Tests
 
         public class Example
         {
-            public Example(int id, string stringValue, int intValue, int? nullableIntValue)
+            public Example(int id, string stringValue, int intValue, int? nullableIntValue,
+                IReadOnlyList<Example> childValues)
             {
                 Id = id;
                 StringValue = stringValue;
                 IntValue = intValue;
                 NullableIntValue = nullableIntValue;
+                ChildValues = childValues;
             }
 
             public int Id { get; }
             public string StringValue { get; }
             public int IntValue { get; }
             public int? NullableIntValue { get; }
+            public IReadOnlyList<Example> ChildValues { get; }
         }
     }
 }

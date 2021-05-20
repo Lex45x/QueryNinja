@@ -131,14 +131,14 @@
             </summary>
             <typeparam name="TQuery"></typeparam>
         </member>
-        <member name="M:QueryNinja.Sources.GraphQL.Serializers.IQuerySerializer`1.Serialize(GraphQLParser.AST.GraphQLDocument)">
+        <member name="M:QueryNinja.Sources.GraphQL.Serializers.IQuerySerializer`1.Deserialize(GraphQLParser.AST.GraphQLDocument)">
             <summary>
             Creates instance of <typeparamref name="TQuery"/> based on <paramref name="document"/>
             </summary>
             <param name="document"></param>
             <returns></returns>
         </member>
-        <member name="M:QueryNinja.Sources.GraphQL.Serializers.DynamicQuerySerializer.Serialize(GraphQLParser.AST.GraphQLDocument)">
+        <member name="M:QueryNinja.Sources.GraphQL.Serializers.DynamicQuerySerializer.Deserialize(GraphQLParser.AST.GraphQLDocument)">
             <inheritdoc />
         </member>
         <member name="T:QueryNinja.Sources.GraphQL.ServiceCollectionExtensions">

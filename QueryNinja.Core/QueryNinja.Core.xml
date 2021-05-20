@@ -413,6 +413,34 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:QueryNinja.Core.Projection.ExecuteSelector">
+            <summary>
+            Allows to execute <see cref="P:QueryNinja.Core.Projection.ExecuteSelector.Source"/> method and write result to <see cref="P:QueryNinja.Core.Projection.ExecuteSelector.Target"/> property.
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Core.Projection.ExecuteSelector.#ctor(System.String,System.String,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object})">
+            <summary>
+            Creates new instance of selector.
+            </summary>
+            <param name="source">Source method to call.</param>
+            <param name="target">Target property to write results.</param>
+            <param name="arguments">Arguments for <paramref name="source"/> method.</param>
+        </member>
+        <member name="P:QueryNinja.Core.Projection.ExecuteSelector.Source">
+            <inheritdoc />
+        </member>
+        <member name="P:QueryNinja.Core.Projection.ExecuteSelector.Target">
+            <inheritdoc />
+        </member>
+        <member name="P:QueryNinja.Core.Projection.ExecuteSelector.Arguments">
+            <summary>
+            Arguments to be passed into <see cref="P:QueryNinja.Core.Projection.ExecuteSelector.Source"/> method. <br/>
+            If <see cref="P:System.Collections.Generic.KeyValuePair`2.Value"/> is not matching expected parameter type then <see cref="T:System.ComponentModel.TypeDescriptor"/> will be used for conversion.
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Core.Projection.ExecuteSelector.ToString">
+            <inheritdoc />
+        </member>
         <member name="T:QueryNinja.Core.Projection.ISelector">
             <summary>
             Allows to specify how the original properties should be selected into result projection.
@@ -427,24 +455,6 @@
             <summary>
             Path to the target property
             </summary>
-        </member>
-        <member name="T:QueryNinja.Core.Projection.RenameSelector">
-            <summary>
-            Represent selector that allows to place selected properties to different path.
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Core.Projection.RenameSelector.#ctor(System.String,System.String)">
-            <summary>
-            Creates instance of <see cref="T:QueryNinja.Core.Projection.RenameSelector"/>
-            </summary>
-            <param name="source"></param>
-            <param name="target"></param>
-        </member>
-        <member name="P:QueryNinja.Core.Projection.RenameSelector.Source">
-            <inheritdoc />
-        </member>
-        <member name="P:QueryNinja.Core.Projection.RenameSelector.Target">
-            <inheritdoc />
         </member>
         <member name="T:QueryNinja.Core.Projection.Selector">
             <summary>
@@ -461,6 +471,9 @@
             <inheritdoc />
         </member>
         <member name="P:QueryNinja.Core.Projection.Selector.Target">
+            <inheritdoc />
+        </member>
+        <member name="M:QueryNinja.Core.Projection.Selector.ToString">
             <inheritdoc />
         </member>
         <member name="T:QueryNinja.Core.Query">

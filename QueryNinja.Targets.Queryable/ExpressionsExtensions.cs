@@ -86,19 +86,18 @@ namespace QueryNinja.Targets.Queryable
             var properties = name.Split(separator: '.');
 
             Expression result = instance;
-
+            
             result = properties.Aggregate(result, (expression, property) =>
             {
                 try
                 {
                     return Expression.Property(expression, property);
                 }
-                catch (Exception)
+                catch
                 {
                     throw new InvalidPropertyException(name, instance.Type, property);
                 }
             });
-
 
             return result;
         }

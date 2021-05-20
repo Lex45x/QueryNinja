@@ -18,8 +18,14 @@ namespace QueryNinja.Targets.Queryable.Reflection
                 .GetMethods(BindingFlags.Static | BindingFlags.Public)
                 .First(methodInfo => methodInfo.Name == "Any" && methodInfo.GetParameters().Length == 1);
 
+            private static readonly MethodInfo SelectMethod = typeof(Enumerable)
+                .GetMethods(BindingFlags.Static | BindingFlags.Public)
+                .First(methodInfo => methodInfo.Name == "Select" && methodInfo.GetParameters().Length == 2);
+
             private static readonly ConcurrentDictionary<Type, MethodInfo> GenericAnyCache = new ConcurrentDictionary<Type, MethodInfo>();
             private static readonly ConcurrentDictionary<Type, MethodInfo> GenericContainsCache = new ConcurrentDictionary<Type, MethodInfo>();
+            private static readonly ConcurrentDictionary<Type, MethodInfo> GenericSelectCache = new ConcurrentDictionary<Type, MethodInfo>();
+
             public static MethodInfo Any(Type elementType)
             {
                 if (GenericAnyCache.TryGetValue(elementType, out var result))
@@ -38,9 +44,19 @@ namespace QueryNinja.Targets.Queryable.Reflection
                 {
                     return result;
                 }
-
                 var genericContains = ContainsMethod.MakeGenericMethod(elementType);
                 GenericContainsCache.TryAdd(elementType, genericContains);
+                return genericContains;
+            }
+
+            public static MethodInfo Select(Type elementType)
+            {
+                if (GenericSelectCache.TryGetValue(elementType, out var result))
+                {
+                    return result;
+                }
+                var genericContains = SelectMethod.MakeGenericMethod(elementType, typeof(Dictionary<string, object>));
+                GenericSelectCache.TryAdd(elementType, genericContains);
                 return genericContains;
             }
         }
