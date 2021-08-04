@@ -120,7 +120,7 @@ namespace QueryNinja.Sources.GraphQL.Introspection
 
                 Console.WriteLine($"Field {member.Name} {fieldType} for type {source.Name}");
 
-                //todo: allow deprecation
+                //todo: enable deprecation
                 var field = new __Field(member.Name, arguments, FromType(fieldType), false, null);
 
                 fields.Add(field);

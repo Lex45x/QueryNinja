@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -22,6 +24,11 @@ namespace QueryNinja.Targets.Queryable
         /// <returns></returns>
         public static Expression AsConstant(this string value, Type type)
         {
+            if (type == typeof(string))
+            {
+                return Expression.Constant(value);
+            }
+
             var typeConverter = TypeDescriptor.GetConverter(type);
 
             object? converted;
@@ -100,6 +107,39 @@ namespace QueryNinja.Targets.Queryable
             });
 
             return result;
+        }
+
+        /// <summary>
+        /// Allows to call <paramref name="method"/> on <paramref name="instance"/> with supplied <paramref name="arguments"/>
+        /// </summary>
+        /// <param name="instance">Instance that contains desired method.</param>
+        /// <param name="method">Method name</param>
+        /// <param name="arguments">Parameters with proper naming</param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        [SuppressMessage("ReSharper", "ForCanBeConvertedToForeach", Justification = "Performance optimizations")]
+        public static Expression Call(this Expression instance, string method, IReadOnlyDictionary<string, string> arguments)
+        {
+            var methodInfo = instance.Type.GetMethod(method, BindingFlags.Public | BindingFlags.Instance);
+
+            if (methodInfo == null)
+            {
+                throw new NotImplementedException();
+            }
+
+            var parameters = methodInfo.GetParameters();
+            var constants = new List<Expression>(parameters.Length);
+            
+            for (var parameterIndex = 0; parameterIndex < parameters.Length; parameterIndex++)
+            {
+                var parameter = parameters[parameterIndex];
+
+                var value = arguments[parameter.Name];
+
+                constants.Add(value.AsConstant(parameter.ParameterType));
+            }
+
+            return Expression.Call(instance, methodInfo, constants);
         }
 
         /// <summary>

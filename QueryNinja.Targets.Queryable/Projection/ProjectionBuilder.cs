@@ -11,7 +11,6 @@ namespace QueryNinja.Targets.Queryable.Projection
     /// <summary>
     /// Applies a projection from <see cref="IQueryable{T}"/> to structure defined by <see cref="ISelector"/>
     /// </summary>
-    // todo: selectors model refactoring? as currently selectors are not hierarchical, which create problems.
     internal static class ProjectionBuilder
     {
         private static readonly Type DictionaryType;
@@ -30,25 +29,18 @@ namespace QueryNinja.Targets.Queryable.Projection
         /// <param name="source">Source IQueryable</param>
         /// <param name="selectors">Collection of selectors.</param>
         /// <returns>Dynamic <see cref="IQueryable{T}"/>.</returns>
-        internal static IQueryable<dynamic> Project<T>(this IQueryable<T> source, IEnumerable<ISelector> selectors)
+        internal static IQueryable<dynamic> Project<T>(this IQueryable<T> source, IReadOnlyList<ISelector> selectors)
         {
             var parameter = Expression.Parameter(typeof(T));
 
-            //for selecting through lists layers should be built over source
-            var layeredSelectors = selectors.Select(selector => new LayeredSelector
-                (
-                    selector.Source.Split(separator: '.')
-                ))
-                .ToList();
-
-            if (layeredSelectors.Count == 0)
+            if (selectors.Count == 0)
             {
                 return source.Cast<object>();
             }
 
             var dictionary = Expression.New(DictionaryType);
 
-            var zeroLayer = InitializeLayer(parameter, dictionary, layeredSelectors, layer: 0);
+            var zeroLayer = InitializeLayer(parameter, dictionary, selectors);
 
             var lambda = Expression.Lambda(zeroLayer, parameter);
 
@@ -61,45 +53,32 @@ namespace QueryNinja.Targets.Queryable.Projection
 
             return result;
         }
-
+        
         private static ListInitExpression InitializeLayer(
             Expression source,
             NewExpression dictionary,
-            IEnumerable<LayeredSelector> layeredSelectors,
-            int layer)
+            IEnumerable<ISelector> selectors)
         {
-            var groupedSelectors = layeredSelectors.GroupBy(selector => selector.Layers[layer]);
-
             var elementInits = new List<ElementInit>();
 
-            foreach (var group in groupedSelectors)
+            foreach (var selector in selectors)
             {
-                var selectors = @group.ToList();
                 Expression value;
 
-                if (selectors.Count == 1 && selectors[index: 0].Layers.Length == layer + 1)
+                if (selector.NestedSelectors.Count == 0)
                 {
-                    //here selector should be executed. In this place method call selector should be used.
-                    value = source.Property(selectors[index: 0].ToString());
+                    value = BuildExpression(source, selector);
                 }
                 else
                 {
-                    //get property of the next layer
-                    var pathSegments = selectors[index: 0]
-                        .Layers
-                        .AsSpan()
-                        .Slice(start: 0, layer + 1);
-
-                    var pathToLayer = string.Join(separator: '.', pathSegments.ToArray());
-
-                    var propertyExpression = source.Property(pathToLayer);
+                    var propertyExpression = BuildExpression(source, selector);
 
                     var collectionInterface = propertyExpression.Type.GetInterface("IEnumerable`1");
 
                     if (collectionInterface == null)
                     {
                         var nestedDictionary = Expression.New(DictionaryType);
-                        value = InitializeLayer(source, nestedDictionary, selectors, layer + 1);
+                        value = InitializeLayer(source, nestedDictionary, selector.NestedSelectors);
                     }
                     else
                     {
@@ -110,11 +89,7 @@ namespace QueryNinja.Targets.Queryable.Projection
 
                         var nestedDictionary = Expression.New(DictionaryType);
 
-                        var nestedSelectors = selectors
-                            .Select(selector => selector.Slice(layer))
-                            .ToList();
-
-                        value = InitializeLayer(nestedParameter, nestedDictionary, nestedSelectors, layer: 0);
+                        value = InitializeLayer(nestedParameter, nestedDictionary, selector.NestedSelectors);
 
                         var selectExpression = Expression.Lambda(value, nestedParameter);
 
@@ -124,7 +99,7 @@ namespace QueryNinja.Targets.Queryable.Projection
                 }
 
                 value = Expression.Convert(value, typeof(object));
-                var targetPropertyName = Expression.Constant(@group.Key);
+                var targetPropertyName = Expression.Constant(selector.Source);
                 var init = Expression.ElementInit(AddMethod, targetPropertyName, value);
                 elementInits.Add(init);
             }
@@ -134,29 +109,17 @@ namespace QueryNinja.Targets.Queryable.Projection
             return dictionaryInit;
         }
 
-        private class LayeredSelector
+        private static Expression BuildExpression(Expression source, ISelector selector)
         {
-            public LayeredSelector(string[] layers)
+            Expression value = (selector) switch
             {
-                Layers = layers;
-            }
+                ExecuteSelector executeSelector => source.Call(executeSelector.Source, executeSelector.Arguments),
+                Selector _ => source.Property(selector.Source),
+                _ => throw new ArgumentOutOfRangeException(nameof(selector), selector,
+                    "This type of selectors is currently not supported.")
+            };
 
-            internal string[] Layers { get; }
-
-            public LayeredSelector Slice(int layer)
-            {
-                var slicedLayers = Layers.AsSpan().Slice(layer + 1).ToArray();
-                return new LayeredSelector(slicedLayers);
-            }
-
-            /// <summary>
-            /// Builds path for all layers.
-            /// </summary>
-            /// <returns></returns>
-            public override string ToString()
-            {
-                return string.Join(separator: '.', Layers);
-            }
+            return value;
         }
     }
 }

@@ -93,7 +93,11 @@ namespace QueryNinja.Targets.Queryable.Tests
                             new Selector("Id"),
                             new Selector("StringValue"),
                             new Selector("IntValue"),
-                            new Selector("ChildValues.Id")
+                            new Selector("ChildValues", new[] {new Selector("Id")}),
+                            new ExecuteSelector("AppendToId", new Dictionary<string, string>
+                            {
+                                ["value"] = "text"
+                            })
                         }))
                 .Returns(new[]
                 {
@@ -108,21 +112,24 @@ namespace QueryNinja.Targets.Queryable.Tests
                             {
                                 ["Id"] = 10
                             }
-                        } 
+                        },
+                        ["AppendToId"] = "1_text"
                     },
                     new Dictionary<string, object>
                     {
                         ["Id"] = 3,
                         ["StringValue"] = "Third",
                         ["IntValue"] = 73,
-                        ["ChildValues"] = new List<Dictionary<string, object>>()
+                        ["ChildValues"] = new List<Dictionary<string, object>>(),
+                        ["AppendToId"] = "3_text"
                     },
                     new Dictionary<string, object>
                     {
                         ["Id"] = 5,
                         ["StringValue"] = "Fifth",
                         ["IntValue"] = 45,
-                        ["ChildValues"] = new List<Dictionary<string, object>>()
+                        ["ChildValues"] = new List<Dictionary<string, object>>(),
+                        ["AppendToId"] = "5_text"
                     },
                     new Dictionary<string, object>
                     {
@@ -135,7 +142,8 @@ namespace QueryNinja.Targets.Queryable.Tests
                             {
                                 ["Id"] = 11
                             }
-                        }
+                        },
+                        ["AppendToId"] = "6_text"
                     }
                 })
         };
@@ -202,6 +210,11 @@ namespace QueryNinja.Targets.Queryable.Tests
             public int IntValue { get; }
             public int? NullableIntValue { get; }
             public IReadOnlyList<Example> ChildValues { get; }
+
+            public string AppendToId(string value)
+            {
+                return $"{Id}_{value}";
+            }
         }
     }
 }

@@ -142,6 +142,16 @@
             <param name="name"></param>
             <returns></returns>
         </member>
+        <member name="M:QueryNinja.Targets.Queryable.ExpressionsExtensions.Call(System.Linq.Expressions.Expression,System.String,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})">
+            <summary>
+            Allows to call <paramref name="method"/> on <paramref name="instance"/> with supplied <paramref name="arguments"/>
+            </summary>
+            <param name="instance">Instance that contains desired method.</param>
+            <param name="method">Method name</param>
+            <param name="arguments">Parameters with proper naming</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
         <member name="M:QueryNinja.Targets.Queryable.ExpressionsExtensions.IsOrderExpressionDefined(System.Linq.IQueryable)">
             <summary>
             Checks whether Queryable already contains order expressions defined.
@@ -167,7 +177,7 @@
             Applies a projection from <see cref="T:System.Linq.IQueryable`1"/> to structure defined by <see cref="T:QueryNinja.Core.Projection.ISelector"/>
             </summary>
         </member>
-        <member name="M:QueryNinja.Targets.Queryable.Projection.ProjectionBuilder.Project``1(System.Linq.IQueryable{``0},System.Collections.Generic.IEnumerable{QueryNinja.Core.Projection.ISelector})">
+        <member name="M:QueryNinja.Targets.Queryable.Projection.ProjectionBuilder.Project``1(System.Linq.IQueryable{``0},System.Collections.Generic.IReadOnlyList{QueryNinja.Core.Projection.ISelector})">
             <summary>
             Applies <paramref name="selectors"/> on top of <paramref name="source"/>.
             </summary>
@@ -175,12 +185,6 @@
             <param name="source">Source IQueryable</param>
             <param name="selectors">Collection of selectors.</param>
             <returns>Dynamic <see cref="T:System.Linq.IQueryable`1"/>.</returns>
-        </member>
-        <member name="M:QueryNinja.Targets.Queryable.Projection.ProjectionBuilder.LayeredSelector.ToString">
-            <summary>
-            Builds path for all layers.
-            </summary>
-            <returns></returns>
         </member>
         <member name="T:QueryNinja.Targets.Queryable.QueryableExtensions">
             <summary>

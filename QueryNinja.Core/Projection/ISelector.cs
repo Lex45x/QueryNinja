@@ -1,4 +1,6 @@
-﻿namespace QueryNinja.Core.Projection
+﻿using System.Collections.Generic;
+
+namespace QueryNinja.Core.Projection
 {
     /// <summary>
     /// Allows to specify how the original properties should be selected into result projection.
@@ -6,13 +8,13 @@
     public interface ISelector
     {
         /// <summary>
-        /// Path to the source property.
+        /// Name of the source property
         /// </summary>
         string Source { get; }
-
+        
         /// <summary>
-        /// Path to the target property
+        /// Optionally represents selectors applied after to property selected in <see cref="Source"/>
         /// </summary>
-        string Target { get; }
+        IReadOnlyList<ISelector> NestedSelectors { get; }
     }
 }

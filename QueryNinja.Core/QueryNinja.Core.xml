@@ -78,6 +78,18 @@
         <member name="M:QueryNinja.Core.DynamicQuery`1.#ctor(System.Collections.Generic.IReadOnlyList{QueryNinja.Core.IQueryComponent},System.Collections.Generic.IReadOnlyList{QueryNinja.Core.Projection.ISelector})">
             <inheritdoc />
         </member>
+        <member name="T:QueryNinja.Core.Exceptions.CompatibilityException">
+            <summary>
+            Exception is thrown in case of attempt to use behavior that is no loner supported. <br/>
+            This type of exception has to be used for cases when compatibility change will not invoke compilation errors.
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Core.Exceptions.CompatibilityException.#ctor(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:QueryNinja.Core.Exceptions.CompatibilityException.#ctor(System.String,System.Exception)">
+            <inheritdoc />
+        </member>
         <member name="T:QueryNinja.Core.Exceptions.QueryNinjaException">
             <summary>
             Base exception for all QueryNinja exceptions.
@@ -415,21 +427,21 @@
         </member>
         <member name="T:QueryNinja.Core.Projection.ExecuteSelector">
             <summary>
-            Allows to execute <see cref="P:QueryNinja.Core.Projection.ExecuteSelector.Source"/> method and write result to <see cref="P:QueryNinja.Core.Projection.ExecuteSelector.Target"/> property.
+            Allows to execute <see cref="P:QueryNinja.Core.Projection.ExecuteSelector.Source"/> method and write result to <see cref="P:QueryNinja.Core.Projection.ExecuteSelector.Source"/> property.
             </summary>
         </member>
-        <member name="M:QueryNinja.Core.Projection.ExecuteSelector.#ctor(System.String,System.String,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object})">
+        <member name="M:QueryNinja.Core.Projection.ExecuteSelector.#ctor(System.String,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String},System.Collections.Generic.IReadOnlyList{QueryNinja.Core.Projection.ISelector})">
             <summary>
             Creates new instance of selector.
             </summary>
             <param name="source">Source method to call.</param>
-            <param name="target">Target property to write results.</param>
             <param name="arguments">Arguments for <paramref name="source"/> method.</param>
+            <param name="nestedSelectors"></param>
         </member>
         <member name="P:QueryNinja.Core.Projection.ExecuteSelector.Source">
             <inheritdoc />
         </member>
-        <member name="P:QueryNinja.Core.Projection.ExecuteSelector.Target">
+        <member name="P:QueryNinja.Core.Projection.ExecuteSelector.NestedSelectors">
             <inheritdoc />
         </member>
         <member name="P:QueryNinja.Core.Projection.ExecuteSelector.Arguments">
@@ -448,12 +460,12 @@
         </member>
         <member name="P:QueryNinja.Core.Projection.ISelector.Source">
             <summary>
-            Path to the source property.
+            Name of the source property
             </summary>
         </member>
-        <member name="P:QueryNinja.Core.Projection.ISelector.Target">
+        <member name="P:QueryNinja.Core.Projection.ISelector.NestedSelectors">
             <summary>
-            Path to the target property
+            Optionally represents selectors applied after to property selected in <see cref="P:QueryNinja.Core.Projection.ISelector.Source"/>
             </summary>
         </member>
         <member name="T:QueryNinja.Core.Projection.Selector">
@@ -461,16 +473,17 @@
             Represent selector that leaves path to properties as-is.
             </summary>
         </member>
-        <member name="M:QueryNinja.Core.Projection.Selector.#ctor(System.String)">
+        <member name="M:QueryNinja.Core.Projection.Selector.#ctor(System.String,System.Collections.Generic.IReadOnlyList{QueryNinja.Core.Projection.ISelector})">
             <summary>
             Creates instance of Selector.
             </summary>
             <param name="source"></param>
+            <param name="nestedSelectors"></param>
         </member>
         <member name="P:QueryNinja.Core.Projection.Selector.Source">
             <inheritdoc />
         </member>
-        <member name="P:QueryNinja.Core.Projection.Selector.Target">
+        <member name="P:QueryNinja.Core.Projection.Selector.NestedSelectors">
             <inheritdoc />
         </member>
         <member name="M:QueryNinja.Core.Projection.Selector.ToString">

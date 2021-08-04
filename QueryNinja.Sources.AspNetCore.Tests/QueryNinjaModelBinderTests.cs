@@ -60,7 +60,7 @@ namespace QueryNinja.Sources.AspNetCore.Tests
 
             var queryString = new Dictionary<string, StringValues>
             {
-                ["select"] = "Property"
+                ["select"] = new[] {"PropertyA", "PropertyB.Value"}
             };
 
             var bindingContext = CreateModelBindingContext(typeof(IDynamicQuery<object>), queryString);
@@ -75,10 +75,22 @@ namespace QueryNinja.Sources.AspNetCore.Tests
             var selectors = query?.GetSelectors();
 
             Assert.NotNull(selectors);
-            Assert.AreEqual(expected: 1, selectors.Count);
+            Assert.AreEqual(expected: 2, selectors.Count);
 
             var selector = selectors.OfType<Selector>().First();
-            Assert.AreEqual("Property", selector.Target);
+            Assert.AreEqual("PropertyA", selector.Source);
+            Assert.IsNotNull(selector.NestedSelectors);
+            Assert.IsEmpty(selector.NestedSelectors);
+
+            var lastSelector = selectors.OfType<Selector>().Last();
+            Assert.AreEqual("PropertyB", lastSelector.Source);
+            Assert.IsNotNull(lastSelector.NestedSelectors);
+            Assert.AreEqual(expected: 1, lastSelector.NestedSelectors.Count);
+
+            var nestedSelector = lastSelector.NestedSelectors.First();
+            Assert.AreEqual("Value", nestedSelector.Source);
+            Assert.IsNotNull(nestedSelector.NestedSelectors);
+            Assert.IsEmpty(nestedSelector.NestedSelectors);
         }
 
         private static ModelBindingContext CreateModelBindingContext(Type modelType,

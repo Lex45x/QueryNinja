@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using QueryNinja.Core;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
 using QueryNinja.Core.Extensibility;
 using QueryNinja.Core.Projection;
 using QueryNinja.Sources.AspNetCore.Reflection;
@@ -26,7 +28,7 @@ namespace QueryNinja.Sources.AspNetCore.ModelBinding
 
             if (typeof(IDynamicQuery).IsAssignableFrom(bindingContext.ModelType))
             {
-                var selectors = GetSelectors(bindingContext.HttpContext.Request.Query);
+                var selectors = GetSelectors(bindingContext.HttpContext.Request.Query["select"]);
 
                 var result = bindingContext.ModelType.IsGenericType
                     ? GenericQueryFactory.DynamicQuery(bindingContext.ModelType, components, selectors)
@@ -51,25 +53,34 @@ namespace QueryNinja.Sources.AspNetCore.ModelBinding
             return Task.CompletedTask;
         }
 
-        private static IReadOnlyList<ISelector> GetSelectors(IQueryCollection queryParameters)
+        private static IReadOnlyList<ISelector> GetSelectors(IReadOnlyList<string> selects)
         {
-            var selectors = new List<ISelector>();
+            var selectorComponents = new string[selects.Count][];
 
-            foreach (var (key, value) in queryParameters)
+            for (var valueIndex = 0; valueIndex < selects.Count; valueIndex++)
             {
-                if (!key.Contains("select"))
-                {
-                    continue;
-                }
-
-                for (var valueIndex = 0; valueIndex < value.Count; valueIndex++)
-                {
-                    var selector = new Selector(value[valueIndex]);
-                    selectors.Add(selector);
-                }
+                selectorComponents[valueIndex] = selects[valueIndex].Split(separator: '.');
             }
 
-            return selectors;
+            var result = BuildSelectorsLayer(selectorComponents, layer: 0);
+            return result;
+        }
+
+        private static IReadOnlyList<ISelector> BuildSelectorsLayer(IEnumerable<string[]> selectors, int layer)
+        {
+            var result = new List<ISelector>();
+
+            var groupBy = selectors
+                .Where(selector => selector.Length >= layer + 1)
+                .GroupBy(selector => selector[layer]);
+
+            foreach (var group in groupBy)
+            {
+                var nestedSelectors = BuildSelectorsLayer(group, layer + 1);
+                result.Add(new Selector(group.Key, nestedSelectors));
+            }
+
+            return result;
         }
 
         private static IReadOnlyList<IQueryComponent> GetQueryComponents(IQueryCollection queryParameters)
