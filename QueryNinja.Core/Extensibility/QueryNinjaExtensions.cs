@@ -35,7 +35,7 @@ namespace QueryNinja.Core.Extensibility
         /// Intended only for extensibility purposes.
         /// </summary>
         public static IReadOnlyCollection<Type> KnownQueryComponents => KnownQueryComponentsSet;
-
+        
         /// <summary>
         /// Allows to get all extensions of Desired type. <br/>
         /// Should mainly be used by Targets or Sources to access required extensions.

@@ -31,9 +31,9 @@ namespace QueryNinja.Core.Attributes
         /// <inheritdoc />
         public override bool IsDefinedFor(Type type)
         {
-            return type.GetGenericTypeDefinition() == GenericTypeDefinition
-                   || type.GetInterface(type.Name).GetGenericTypeDefinition() == GenericTypeDefinition
-                   || type.BaseType?.GetGenericTypeDefinition() == GenericTypeDefinition;
+            return type.IsGenericType && (type.GetGenericTypeDefinition() == GenericTypeDefinition
+                   || type.GetInterface(GenericTypeDefinition.Name).GetGenericTypeDefinition() == GenericTypeDefinition
+                   || type.BaseType?.GetGenericTypeDefinition() == GenericTypeDefinition);
         }
     }
 }

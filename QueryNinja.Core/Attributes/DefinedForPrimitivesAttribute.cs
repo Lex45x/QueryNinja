@@ -11,7 +11,7 @@ namespace QueryNinja.Core.Attributes
         /// <inheritdoc />
         public override bool IsDefinedFor(Type type)
         {
-            return type.IsPrimitive;
+            return type.IsPrimitive || type == typeof(string) || type.IsEnum;
         }
     }
 }

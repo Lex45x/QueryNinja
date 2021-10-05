@@ -74,10 +74,15 @@
             <param name="variables"></param>
             <returns></returns>
         </member>
-        <member name="M:QueryNinja.Sources.GraphQL.Middleware.NullableFriendlyVisitor.VisitListInit(System.Linq.Expressions.ListInitExpression)">
+        <member name="M:QueryNinja.Sources.GraphQL.Middleware.IntrospectionQueryHandler.Handle(Microsoft.AspNetCore.Http.HttpContext,GraphQLParser.AST.GraphQLDocument,Newtonsoft.Json.Linq.JObject)">
             <inheritdoc />
         </member>
-        <member name="M:QueryNinja.Sources.GraphQL.Middleware.IntrospectionQueryHandler.Handle(Microsoft.AspNetCore.Http.HttpContext,GraphQLParser.AST.GraphQLDocument,Newtonsoft.Json.Linq.JObject)">
+        <member name="T:QueryNinja.Sources.GraphQL.Middleware.NullableFriendlyVisitor">
+            <summary>
+            Rebuilds given expression with null-handling for Linq calls and Dictionary construction.
+            </summary>
+        </member>
+        <member name="M:QueryNinja.Sources.GraphQL.Middleware.NullableFriendlyVisitor.VisitListInit(System.Linq.Expressions.ListInitExpression)">
             <inheritdoc />
         </member>
         <member name="M:QueryNinja.Sources.GraphQL.SchemaGeneration.ActionsScanner.GetQueryRoots">

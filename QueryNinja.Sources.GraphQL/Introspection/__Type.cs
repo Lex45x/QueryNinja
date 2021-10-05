@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using QueryNinja.Core;
 
 namespace QueryNinja.Sources.GraphQL.Introspection
 {
@@ -94,7 +95,7 @@ namespace QueryNinja.Sources.GraphQL.Introspection
                 List<__InputValue> arguments = null;
 
                 Type fieldType;
-                
+
                 switch (member)
                 {
                     case MethodInfo methodInfo:
@@ -116,9 +117,19 @@ namespace QueryNinja.Sources.GraphQL.Introspection
                     default:
                         continue;
                 }
+                
+                var success = FiltersInputObjectResolver.TryGetInputObject(fieldType, out var inputObject);
 
+                if (success)
+                {
+                    var list = List(inputObject);
 
-                Console.WriteLine($"Field {member.Name} {fieldType} for type {source.Name}");
+                    var queryArgument = new __InputValue("filters", list, defaultValue: null);
+
+                    arguments ??= new List<__InputValue>(capacity: 1);
+
+                    arguments.Add(queryArgument);
+                }
 
                 //todo: enable deprecation
                 var field = new __Field(member.Name, arguments, FromType(fieldType), false, null);
@@ -215,7 +226,7 @@ namespace QueryNinja.Sources.GraphQL.Introspection
         /// Works for NonNull and Lists only
         /// </summary>
         public __Type OfType { get; }
-        
+
         /// <inheritdoc />
         public bool Equals(__Type other)
         {
