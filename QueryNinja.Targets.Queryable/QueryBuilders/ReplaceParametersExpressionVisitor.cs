@@ -3,17 +3,20 @@
 namespace QueryNinja.Targets.Queryable.QueryBuilders
 {
     /// <summary>
-    /// This Expression Visitor is used to replace parameters in expression tree with predefined property and constant expressions. <br/>
-    /// This functionality is used by <see cref="DefaultFilterQueryBuilder{TFilter, TOperation}"/> to allow define expression in simplified way.
+    ///   This Expression Visitor is used to replace parameters in expression tree with predefined property and constant
+    ///   expressions. <br />
+    ///   This functionality is used by <see cref="DefaultFilterQueryBuilder{TFilter, TOperation}" /> to allow define
+    ///   expression in simplified way.
     /// </summary>
     internal class ReplaceParametersExpressionVisitor : ExpressionVisitor
     {
-        private readonly ParameterExpression propertyParameter;
-        private readonly Expression property;
-        private readonly ParameterExpression constantParameter;
         private readonly Expression constant;
-        
-        public ReplaceParametersExpressionVisitor(ParameterExpression propertyParameter, Expression property, ParameterExpression constantParameter, Expression constant)
+        private readonly ParameterExpression constantParameter;
+        private readonly Expression property;
+        private readonly ParameterExpression propertyParameter;
+
+        public ReplaceParametersExpressionVisitor(ParameterExpression propertyParameter, Expression property,
+            ParameterExpression constantParameter, Expression constant)
         {
             this.propertyParameter = propertyParameter;
             this.property = property;

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using GraphQLParser.AST;
 using Microsoft.AspNetCore.Http;
@@ -13,8 +12,8 @@ namespace QueryNinja.Sources.GraphQL.Middleware
 {
     internal class IntrospectionQueryHandler : IGraphQLQueryHandler
     {
-        private readonly IQuerySerializer<IDynamicQuery> serializer;
         private readonly IQueryable<IntrospectionModel> introspectionSource;
+        private readonly IQuerySerializer<IDynamicQuery> serializer;
 
         public IntrospectionQueryHandler(__Schema schema, IQuerySerializer<IDynamicQuery> serializer)
         {
@@ -33,7 +32,7 @@ namespace QueryNinja.Sources.GraphQL.Middleware
             var visitor = new NullableFriendlyVisitor();
 
             var resultQueryable = queryable.Provider.CreateQuery<object>(visitor.Visit(queryable.Expression));
-            
+
             var result = resultQueryable.FirstOrDefault();
 
             return Task.FromResult(result);

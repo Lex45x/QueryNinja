@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using GraphQLParser;
 using GraphQLParser.AST;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json.Converters;
 
 namespace QueryNinja.Sources.GraphQL.Middleware
 {

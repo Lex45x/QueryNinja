@@ -7,7 +7,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 namespace QueryNinja.Extensions.AspNetCore.Swagger
 {
     /// <summary>
-    /// Treats all <see cref="IQuery"/> implementations in query parameters as object.
+    ///   Treats all <see cref="IQuery" /> implementations in query parameters as object.
     /// </summary>
     public class QueryParameterFilter : IParameterFilter
     {

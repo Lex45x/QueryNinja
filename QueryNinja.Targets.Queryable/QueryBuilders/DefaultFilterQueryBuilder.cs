@@ -8,7 +8,7 @@ using QueryNinja.Targets.Queryable.Reflection;
 namespace QueryNinja.Targets.Queryable.QueryBuilders
 {
     /// <summary>
-    /// Allows to configure <see cref="IDefaultFilter{TOperation}"/> in simplified way.
+    ///   Allows to configure <see cref="IDefaultFilter{TOperation}" /> in simplified way.
     /// </summary>
     /// <typeparam name="TOperation"></typeparam>
     /// <typeparam name="TFilter"></typeparam>
@@ -16,37 +16,19 @@ namespace QueryNinja.Targets.Queryable.QueryBuilders
         where TFilter : IDefaultFilter<TOperation>
         where TOperation : Enum
     {
-        private class OperationBuilder
-        {
-            private readonly Func<Expression, Expression, Expression> bodyFactory;
-
-            public OperationBuilder(Type targetType, Type constantType,
-                Func<Expression, Expression, Expression> bodyFactory)
-            {
-                this.bodyFactory = bodyFactory;
-                TargetType = targetType;
-                ConstantType = constantType;
-            }
-
-            public Type TargetType { get; }
-            public Type ConstantType { get; }
-
-            public Expression CreateBody(Expression property, Expression constant)
-            {
-                return bodyFactory(property, constant);
-            }
-        }
-
         private readonly Dictionary<TOperation, OperationBuilder> operations =
             new Dictionary<TOperation, OperationBuilder>();
 
         /// <summary>
-        /// Allows to define <paramref name="operation"/> on <typeparamref name="TTarget"/> property type. <br/>
+        ///   Allows to define <paramref name="operation" /> on <typeparamref name="TTarget" /> property type. <br />
         /// </summary>
         /// <typeparam name="TTarget">Supported type of property.</typeparam>
         /// <param name="operation">Desired operation to define.</param>
-        /// <param name="expression">Expression that defines <paramref name="operation"/> on the property of type <typeparamref name="TTarget"/></param>
-        /// <returns>Configured instance of <see cref="DefaultFilterQueryBuilder{TFilter,TOperation}"/></returns>
+        /// <param name="expression">
+        ///   Expression that defines <paramref name="operation" /> on the property of type
+        ///   <typeparamref name="TTarget" />
+        /// </param>
+        /// <returns>Configured instance of <see cref="DefaultFilterQueryBuilder{TFilter,TOperation}" /></returns>
         public DefaultFilterQueryBuilder<TFilter, TOperation> Define<TTarget>(TOperation operation,
             Expression<Func<TTarget, TTarget, bool>> expression)
         {
@@ -54,13 +36,17 @@ namespace QueryNinja.Targets.Queryable.QueryBuilders
         }
 
         /// <summary>
-        /// Allows to define <paramref name="operation"/> on <typeparamref name="TTarget"/> property type with different constant type of <typeparamref name="TValue"/><br/>
+        ///   Allows to define <paramref name="operation" /> on <typeparamref name="TTarget" /> property type with different
+        ///   constant type of <typeparamref name="TValue" /><br />
         /// </summary>
         /// <typeparam name="TTarget">Supported type of property.</typeparam>
         /// <typeparam name="TValue">Supported type of the value.</typeparam>
         /// <param name="operation">Desired operation to define.</param>
-        /// <param name="expression">Expression that defines <paramref name="operation"/> on the property of type <typeparamref name="TTarget"/></param>
-        /// <returns>Configured instance of <see cref="DefaultFilterQueryBuilder{TFilter,TOperation}"/></returns>
+        /// <param name="expression">
+        ///   Expression that defines <paramref name="operation" /> on the property of type
+        ///   <typeparamref name="TTarget" />
+        /// </param>
+        /// <returns>Configured instance of <see cref="DefaultFilterQueryBuilder{TFilter,TOperation}" /></returns>
         public DefaultFilterQueryBuilder<TFilter, TOperation> Define<TTarget, TValue>(TOperation operation,
             Expression<Func<TTarget, TValue, bool>> expression)
         {
@@ -113,6 +99,27 @@ namespace QueryNinja.Targets.Queryable.QueryBuilders
                 source.Expression, Expression.Quote(filterExpression));
 
             return source.Provider.CreateQuery<TEntity>(queryBody);
+        }
+
+        private class OperationBuilder
+        {
+            private readonly Func<Expression, Expression, Expression> bodyFactory;
+
+            public OperationBuilder(Type targetType, Type constantType,
+                Func<Expression, Expression, Expression> bodyFactory)
+            {
+                this.bodyFactory = bodyFactory;
+                TargetType = targetType;
+                ConstantType = constantType;
+            }
+
+            public Type TargetType { get; }
+            public Type ConstantType { get; }
+
+            public Expression CreateBody(Expression property, Expression constant)
+            {
+                return bodyFactory(property, constant);
+            }
         }
     }
 }

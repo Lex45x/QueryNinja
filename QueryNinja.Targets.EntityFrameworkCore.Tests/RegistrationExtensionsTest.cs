@@ -18,7 +18,7 @@ namespace QueryNinja.Targets.EntityFrameworkCore.Tests
                 .Extensions<IQueryBuilder>()
                 .OfType<DefaultFilterQueryBuilder<DatabaseFunctionFilter, DatabaseFunction>>()
                 .ToList();
-            
+
             Assert.AreEqual(expected: 1, registeredQueryBuilders.Count);
 
             var queryBuilder = registeredQueryBuilders.Single();

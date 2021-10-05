@@ -1,79 +1,83 @@
 <?xml version="1.0"?>
+
 <doc>
-    <assembly>
-        <name>QueryNinja.Examples.AspNetCore</name>
-    </assembly>
-    <members>
-        <member name="T:QueryNinja.Examples.AspNetCore.Controllers.StudentsController">
-            <summary>
-            This controller allow to test QueryNinja. <br/>
-            
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Examples.AspNetCore.Controllers.StudentsController.#ctor(QueryNinja.Examples.AspNetCore.DbContext.UniversityDbContext)">
-            <summary>
-            Creates instance of a controller with dbContext.
-            </summary>
-            <param name="dbContext"></param>
-        </member>
-        <member name="M:QueryNinja.Examples.AspNetCore.Controllers.StudentsController.GetStudents(QueryNinja.Core.IDynamicQuery{QueryNinja.Examples.AspNetCore.DbContext.Entities.Student})">
-            <summary>
-            Allows to get list of students with QueryNinja query.
-            </summary>
-            <param name="query">QueryNinja query. Send empty to see all students.</param>
-            <returns>List of students</returns>
-        </member>
-        <member name="T:QueryNinja.Examples.AspNetCore.DbContext.Entities.Exam">
-            <summary>
-            Represent an exam.
-            </summary>
-        </member>
-        <member name="P:QueryNinja.Examples.AspNetCore.DbContext.Entities.Exam.Id">
-            <summary>
-            Id of Exam
-            </summary>
-        </member>
-        <member name="P:QueryNinja.Examples.AspNetCore.DbContext.Entities.Exam.Title">
-            <summary>
-            Exam title
-            </summary>
-        </member>
-        <member name="P:QueryNinja.Examples.AspNetCore.DbContext.Entities.Exam.Grades">
-            <summary>
-            All grades relate to this exam.
-            </summary>
-        </member>
-        <member name="T:QueryNinja.Examples.AspNetCore.Extensions.GradeFilter">
-            <summary>
-            Allows to filter on top of <see cref="P:QueryNinja.Examples.AspNetCore.DbContext.Entities.Student.Grades"/>
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Examples.AspNetCore.Extensions.GradeFilter.#ctor(QueryNinja.Examples.AspNetCore.Extensions.GradeOperations,System.String,System.String)">
-            <summary>
-            Default constructor.
-            </summary>
-            <param name="operation"></param>
-            <param name="property"></param>
-            <param name="value"></param>
-        </member>
-        <member name="P:QueryNinja.Examples.AspNetCore.Extensions.GradeFilter.Operation">
-            <inheritdoc />
-        </member>
-        <member name="P:QueryNinja.Examples.AspNetCore.Extensions.GradeFilter.Property">
-            <inheritdoc />
-        </member>
-        <member name="P:QueryNinja.Examples.AspNetCore.Extensions.GradeFilter.Value">
-            <inheritdoc />
-        </member>
-        <member name="T:QueryNinja.Examples.AspNetCore.Extensions.GradeOperations">
-            <summary>
-            Defines operations on top of grades collection.
-            </summary>
-        </member>
-        <member name="F:QueryNinja.Examples.AspNetCore.Extensions.GradeOperations.NoLowerThan">
-            <summary>
-            Get students with lowest grade greater or higher then value.
-            </summary>
-        </member>
-    </members>
+  <assembly>
+    <name>QueryNinja.Examples.AspNetCore</name>
+  </assembly>
+  <members>
+    <member name="T:QueryNinja.Examples.AspNetCore.Controllers.StudentsController">
+      <summary>
+        This controller allow to test QueryNinja. <br />
+
+      </summary>
+    </member>
+    <member
+      name="M:QueryNinja.Examples.AspNetCore.Controllers.StudentsController.#ctor(QueryNinja.Examples.AspNetCore.DbContext.UniversityDbContext)">
+      <summary>
+        Creates instance of a controller with dbContext.
+      </summary>
+      <param name="dbContext"></param>
+    </member>
+    <member
+      name="M:QueryNinja.Examples.AspNetCore.Controllers.StudentsController.GetStudents(QueryNinja.Core.IDynamicQuery{QueryNinja.Examples.AspNetCore.DbContext.Entities.Student})">
+      <summary>
+        Allows to get list of students with QueryNinja query.
+      </summary>
+      <param name="query">QueryNinja query. Send empty to see all students.</param>
+      <returns>List of students</returns>
+    </member>
+    <member name="T:QueryNinja.Examples.AspNetCore.DbContext.Entities.Exam">
+      <summary>
+        Represent an exam.
+      </summary>
+    </member>
+    <member name="P:QueryNinja.Examples.AspNetCore.DbContext.Entities.Exam.Id">
+      <summary>
+        Id of Exam
+      </summary>
+    </member>
+    <member name="P:QueryNinja.Examples.AspNetCore.DbContext.Entities.Exam.Title">
+      <summary>
+        Exam title
+      </summary>
+    </member>
+    <member name="P:QueryNinja.Examples.AspNetCore.DbContext.Entities.Exam.Grades">
+      <summary>
+        All grades relate to this exam.
+      </summary>
+    </member>
+    <member name="T:QueryNinja.Examples.AspNetCore.Extensions.GradeFilter">
+      <summary>
+        Allows to filter on top of <see cref="P:QueryNinja.Examples.AspNetCore.DbContext.Entities.Student.Grades" />
+      </summary>
+    </member>
+    <member
+      name="M:QueryNinja.Examples.AspNetCore.Extensions.GradeFilter.#ctor(QueryNinja.Examples.AspNetCore.Extensions.GradeOperations,System.String,System.String)">
+      <summary>
+        Default constructor.
+      </summary>
+      <param name="operation"></param>
+      <param name="property"></param>
+      <param name="value"></param>
+    </member>
+    <member name="P:QueryNinja.Examples.AspNetCore.Extensions.GradeFilter.Operation">
+      <inheritdoc />
+    </member>
+    <member name="P:QueryNinja.Examples.AspNetCore.Extensions.GradeFilter.Property">
+      <inheritdoc />
+    </member>
+    <member name="P:QueryNinja.Examples.AspNetCore.Extensions.GradeFilter.Value">
+      <inheritdoc />
+    </member>
+    <member name="T:QueryNinja.Examples.AspNetCore.Extensions.GradeOperations">
+      <summary>
+        Defines operations on top of grades collection.
+      </summary>
+    </member>
+    <member name="F:QueryNinja.Examples.AspNetCore.Extensions.GradeOperations.NoLowerThan">
+      <summary>
+        Get students with lowest grade greater or higher then value.
+      </summary>
+    </member>
+  </members>
 </doc>

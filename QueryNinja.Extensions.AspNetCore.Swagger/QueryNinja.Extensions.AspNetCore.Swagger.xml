@@ -1,27 +1,32 @@
 <?xml version="1.0"?>
+
 <doc>
-    <assembly>
-        <name>QueryNinja.Extensions.AspNetCore.Swagger</name>
-    </assembly>
-    <members>
-        <member name="T:QueryNinja.Extensions.AspNetCore.Swagger.QueryParameterFilter">
-            <summary>
-            Treats all <see cref="T:QueryNinja.Core.IQuery"/> implementations in query parameters as object.
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Extensions.AspNetCore.Swagger.QueryParameterFilter.Apply(Microsoft.OpenApi.Models.OpenApiParameter,Swashbuckle.AspNetCore.SwaggerGen.ParameterFilterContext)">
-            <inheritdoc />
-        </member>
-        <member name="T:QueryNinja.Extensions.AspNetCore.Swagger.SwaggerGenExtensions">
-            <summary>
-            Allows to extend Swagger Generator with extensions needed to properly display <see cref="T:QueryNinja.Core.IQuery"/> parameter.
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Extensions.AspNetCore.Swagger.SwaggerGenExtensions.WithQueryNinja(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions)">
-            <summary>
-            Adds <see cref="T:QueryNinja.Extensions.AspNetCore.Swagger.QueryParameterFilter"/> to <see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions"/>
-            </summary>
-            <param name="options"></param>
-        </member>
-    </members>
+  <assembly>
+    <name>QueryNinja.Extensions.AspNetCore.Swagger</name>
+  </assembly>
+  <members>
+    <member name="T:QueryNinja.Extensions.AspNetCore.Swagger.QueryParameterFilter">
+      <summary>
+        Treats all <see cref="T:QueryNinja.Core.IQuery" /> implementations in query parameters as object.
+      </summary>
+    </member>
+    <member
+      name="M:QueryNinja.Extensions.AspNetCore.Swagger.QueryParameterFilter.Apply(Microsoft.OpenApi.Models.OpenApiParameter,Swashbuckle.AspNetCore.SwaggerGen.ParameterFilterContext)">
+      <inheritdoc />
+    </member>
+    <member name="T:QueryNinja.Extensions.AspNetCore.Swagger.SwaggerGenExtensions">
+      <summary>
+        Allows to extend Swagger Generator with extensions needed to properly display
+        <see cref="T:QueryNinja.Core.IQuery" /> parameter.
+      </summary>
+    </member>
+    <member
+      name="M:QueryNinja.Extensions.AspNetCore.Swagger.SwaggerGenExtensions.WithQueryNinja(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions)">
+      <summary>
+        Adds <see cref="T:QueryNinja.Extensions.AspNetCore.Swagger.QueryParameterFilter" /> to
+        <see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions" />
+      </summary>
+      <param name="options"></param>
+    </member>
+  </members>
 </doc>

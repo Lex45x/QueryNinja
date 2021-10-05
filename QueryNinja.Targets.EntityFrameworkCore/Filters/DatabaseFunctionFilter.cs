@@ -4,13 +4,13 @@ using QueryNinja.Core.Filters;
 namespace QueryNinja.Targets.EntityFrameworkCore.Filters
 {
     /// <summary>
-    /// Allows to use DB-related filters inside IQuery.
+    ///   Allows to use DB-related filters inside IQuery.
     /// </summary>
     [DefinedFor(typeof(string))]
     public class DatabaseFunctionFilter : IDefaultFilter<DatabaseFunction>
     {
         /// <summary>
-        /// Creates filter instance.
+        ///   Creates filter instance.
         /// </summary>
         /// <param name="operation"></param>
         /// <param name="property"></param>

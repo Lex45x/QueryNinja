@@ -21,6 +21,9 @@ namespace QueryNinja.Benchmarking.Sources.AspNetCore
     {
         private static readonly QueryNinjaModelBinder QueryNinjaModelBinder = new();
 
+        [ParamsSource(nameof(UsageScenarios))]
+        public ModelBindingScenario Scenario { get; set; }
+
         [GlobalSetup]
         public void GlobalSetup()
         {
@@ -92,19 +95,17 @@ namespace QueryNinja.Benchmarking.Sources.AspNetCore
                 ["select.E"] = "Some E Value",
                 ["select.F"] = "F",
                 ["select.G"] = "Values.G",
-                ["select"] = new[] { "H", "I", "J" }
+                ["select"] = new[] {"H", "I", "J"}
             };
 
             yield return CreateModelBindingScenario(tenSelects, "10 Selects");
 
-            var tenOfEach = new Dictionary<string, StringValues>(tenFilters.Concat(tenSelects).Concat(tenOrderingRules));
+            var tenOfEach =
+                new Dictionary<string, StringValues>(tenFilters.Concat(tenSelects).Concat(tenOrderingRules));
 
             yield return CreateModelBindingScenario(tenOfEach, "10 of Each");
         }
 
-        [ParamsSource(nameof(UsageScenarios))]
-        public ModelBindingScenario Scenario { get; set; }
-        
         [Benchmark]
         public async Task<ModelBindingContext> ModelBinding()
         {

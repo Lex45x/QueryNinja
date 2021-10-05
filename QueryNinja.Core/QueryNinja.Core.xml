@@ -1,504 +1,530 @@
 <?xml version="1.0"?>
+
 <doc>
-    <assembly>
-        <name>QueryNinja.Core</name>
-    </assembly>
-    <members>
-        <member name="T:QueryNinja.Core.Attributes.DefinedForAttribute">
-            <summary>
-            Specify that usage of the <see cref="T:QueryNinja.Core.IQueryComponent"/> is defined on specific type and his descendants.
-            </summary>
-        </member>
-        <member name="P:QueryNinja.Core.Attributes.DefinedForAttribute.TargetType">
-            <summary>
-            Type suitable for <see cref="T:QueryNinja.Core.IQueryComponent"/>
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Core.Attributes.DefinedForAttribute.#ctor(System.Type)">
-            <summary>
-            Defines types that suitable for <see cref="T:QueryNinja.Core.IQueryComponent"/> 
-            </summary>
-            <param name="targetType"></param>
-        </member>
-        <member name="M:QueryNinja.Core.Attributes.DefinedForAttribute.IsDefinedFor(System.Type)">
-            <inheritdoc />
-        </member>
-        <member name="T:QueryNinja.Core.Attributes.DefinedForGeneric">
-            <summary>
-            Specify that usage of the <see cref="T:QueryNinja.Core.IQueryComponent"/> is defined on constructed generic types. <br/>
-            Will compare <see cref="P:QueryNinja.Core.Attributes.DefinedForGeneric.GenericTypeDefinition"/> with Definition of Type, Definition of implemented interfaces and definition of BaseType.
-            </summary>
-        </member>
-        <member name="P:QueryNinja.Core.Attributes.DefinedForGeneric.GenericTypeDefinition">
-            <summary>
-            Type suitable for <see cref="T:QueryNinja.Core.IQueryComponent"/>
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Core.Attributes.DefinedForGeneric.#ctor(System.Type)">
-            <summary>
-            Defines Generic Type Definition that suitable for <see cref="T:QueryNinja.Core.IQueryComponent"/> 
-            </summary>
-            <param name="genericTypeDefinition"></param>
-        </member>
-        <member name="M:QueryNinja.Core.Attributes.DefinedForGeneric.IsDefinedFor(System.Type)">
-            <inheritdoc />
-        </member>
-        <member name="T:QueryNinja.Core.Attributes.DefinedForPrimitivesAttribute">
-            <summary>
-            Specify that usage of the <see cref="T:QueryNinja.Core.IQueryComponent"/> is defined on Primitive types.
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Core.Attributes.DefinedForPrimitivesAttribute.IsDefinedFor(System.Type)">
-            <inheritdoc />
-        </member>
-        <member name="T:QueryNinja.Core.Attributes.DefinitionAttribute">
-            <summary>
-            Base class for all Attributes that can describe defined types for <see cref="T:QueryNinja.Core.IQueryComponent"/>.
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Core.Attributes.DefinitionAttribute.IsDefinedFor(System.Type)">
-            <summary>
-            Allows to check whether <paramref name="type"/> is defined for <see cref="T:QueryNinja.Core.IQueryComponent"/>.
-            </summary>
-            <param name="type"></param>
-            <returns></returns>
-        </member>
-        <member name="T:QueryNinja.Core.DynamicQuery">
-            <inheritdoc cref="T:QueryNinja.Core.IDynamicQuery" />
-        </member>
-        <member name="M:QueryNinja.Core.DynamicQuery.#ctor(System.Collections.Generic.IReadOnlyList{QueryNinja.Core.IQueryComponent},System.Collections.Generic.IReadOnlyList{QueryNinja.Core.Projection.ISelector})">
-            <inheritdoc />
-        </member>
-        <member name="M:QueryNinja.Core.DynamicQuery.GetSelectors">
-            <inheritdoc />
-        </member>
-        <member name="T:QueryNinja.Core.DynamicQuery`1">
-            <inheritdoc cref="T:QueryNinja.Core.IDynamicQuery`1" />
-        </member>
-        <member name="M:QueryNinja.Core.DynamicQuery`1.#ctor(System.Collections.Generic.IReadOnlyList{QueryNinja.Core.IQueryComponent},System.Collections.Generic.IReadOnlyList{QueryNinja.Core.Projection.ISelector})">
-            <inheritdoc />
-        </member>
-        <member name="T:QueryNinja.Core.Exceptions.CompatibilityException">
-            <summary>
-            Exception is thrown in case of attempt to use behavior that is no loner supported. <br/>
-            This type of exception has to be used for cases when compatibility change will not invoke compilation errors.
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Core.Exceptions.CompatibilityException.#ctor(System.String)">
-            <inheritdoc />
-        </member>
-        <member name="T:QueryNinja.Core.Exceptions.QueryNinjaException">
-            <summary>
-            Base exception for all QueryNinja exceptions.
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Core.Exceptions.QueryNinjaException.#ctor(System.String)">
-            <inheritdoc />
-        </member>
-        <member name="M:QueryNinja.Core.Exceptions.QueryNinjaException.#ctor(System.String,System.Exception)">
-            <inheritdoc />
-        </member>
-        <member name="T:QueryNinja.Core.Extensibility.AbstractComponentExtension`1">
-            <inheritdoc/>
-        </member>
-        <member name="P:QueryNinja.Core.Extensibility.AbstractComponentExtension`1.QueryComponent">
-            <inheritdoc/>
-        </member>
-        <member name="T:QueryNinja.Core.Extensibility.IExtensionsSettings">
-            <summary>
-            Interface that allow to configure <see cref="T:QueryNinja.Core.Extensibility.QueryNinjaExtensions"/>
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Core.Extensibility.IExtensionsSettings.ForType``1">
-            <summary>
-            Allows configuration for specific <see cref="T:QueryNinja.Core.Extensibility.IQueryComponentExtension"/> descendant.
-            </summary>
-            <typeparam name="TExtension">Extension to configure.</typeparam>
-            <returns>Settings related to specific Extension.</returns>
-        </member>
-        <member name="M:QueryNinja.Core.Extensibility.IExtensionsSettings.RegisterComponent(System.Type)">
-            <summary>
-            Registers existence of a specific query component type. <br/>
-            Later on, Sources or Targets <b>may</b> use this information.
-            </summary>
-            <param name="componentType">Type that implements <see cref="T:QueryNinja.Core.IQueryComponent"/></param>
-        </member>
-        <member name="M:QueryNinja.Core.Extensibility.IExtensionsSettings.RegisterComponent``1">
-            <summary>
-            Registers existence of a specific query component type. <br/>
-            Later on, Sources or Targets <b>may</b> use this information.
-            </summary>
-            <typeparam name="TComponent">Type that implements <see cref="T:QueryNinja.Core.IQueryComponent"/></typeparam>
-        </member>
-        <member name="T:QueryNinja.Core.Extensibility.IQueryComponentExtension">
-            <summary>
-            Interface that used to use <see cref="T:QueryNinja.Core.IQueryComponent"/> in Target or Source package <br/>
-            Do not use this interface directly. For developing own query components use interfaces defined in Target or Source package.
-            </summary>
-        </member>
-        <member name="P:QueryNinja.Core.Extensibility.IQueryComponentExtension.QueryComponent">
-            <summary>
-            Type of the component this extension is related to.
-            </summary>
-        </member>
-        <member name="T:QueryNinja.Core.Extensibility.QueryNinjaExtensions">
-            <summary>
-            Contains all descriptors related to all plugins.
-            </summary>
-        </member>
-        <member name="P:QueryNinja.Core.Extensibility.QueryNinjaExtensions.KnownQueryComponents">
-            <summary>
-            Allows to get all known Types of <see cref="T:QueryNinja.Core.IQueryComponent"/>. <br/>
-            Intended only for extensibility purposes.
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.Extensions``1">
-            <summary>
-            Allows to get all extensions of Desired type. <br/>
-            Should mainly be used by Targets or Sources to access required extensions.
-            </summary>
-            <typeparam name="TExtension">In most cases, interface or abstract class that registered extensions may derive from or implement.</typeparam>
-            <returns></returns>
-        </member>
-        <member name="P:QueryNinja.Core.Extensibility.QueryNinjaExtensions.Configure">
-            <summary>
-            Allows to modify Extensions List and develop extension methods to do it in a simple way. <br/>
-            <b>It is not possible to register two instances of the extension with the same Type. This type of actions will be ignored.</b>
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionTypeSettings`1.ForType``1">
-            <inheritdoc />
-        </member>
-        <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionTypeSettings`1.RegisterComponent(System.Type)">
-            <inheritdoc />
-        </member>
-        <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionTypeSettings`1.RegisterComponent``1">
-            <inheritdoc />
-        </member>
-        <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionTypeSettings`1.Register``1">
-            <inheritdoc />
-        </member>
-        <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionTypeSettings`1.Register(`0)">
-            <inheritdoc />
-        </member>
-        <member name="T:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionsSettings">
-            <inheritdoc/>
-        </member>
-        <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionsSettings.RegisterComponent(System.Type)">
-            <inheritdoc />
-        </member>
-        <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionsSettings.RegisterComponent``1">
-            <inheritdoc />
-        </member>
-        <member name="T:QueryNinja.Core.Extensibility.IExtensionTypeSettings`1">
-            <summary>
-            Settings related to specific <see cref="T:QueryNinja.Core.Extensibility.IQueryComponentExtension"/> type. <br/>
-            Used to configure collections of Extensions with same parent.
-            </summary>
-            <typeparam name="TExtension"></typeparam>
-        </member>
-        <member name="T:QueryNinja.Core.Filters.AbstractDefaultFilter`1">
-            <summary>
-            Applies filter defined by the <see cref="P:QueryNinja.Core.Filters.AbstractDefaultFilter`1.Operation"/>
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Core.Filters.AbstractDefaultFilter`1.#ctor(`0,System.String,System.String)">
-            <summary>
-            Default constructor for Filter instance creation.
-            </summary>
-            <param name="operation"></param>
-            <param name="property"></param>
-            <param name="value"></param>
-        </member>
-        <member name="P:QueryNinja.Core.Filters.AbstractDefaultFilter`1.Operation">
-            <inheritdoc/>
-        </member>
-        <member name="P:QueryNinja.Core.Filters.AbstractDefaultFilter`1.Property">
-            <inheritdoc/>
-        </member>
-        <member name="P:QueryNinja.Core.Filters.AbstractDefaultFilter`1.Value">
-            <inheritdoc/>
-        </member>
-        <member name="M:QueryNinja.Core.Filters.AbstractDefaultFilter`1.ToString">
-            <summary>
-            Debug-friendly implementation. Return string representation of filter operation.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:QueryNinja.Core.Filters.ArrayEntryFilter">
-            <summary>
-            Checks whether target property is contained inside array
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Core.Filters.ArrayEntryFilter.#ctor(QueryNinja.Core.Filters.ArrayEntryOperations,System.String,System.String)">
-            <inheritdoc />
-        </member>
-        <member name="T:QueryNinja.Core.Filters.ArrayEntryOperations">
-            <summary>
-            Contains set of operations defined for <see cref="T:QueryNinja.Core.Filters.ArrayEntryFilter"/>
-            </summary>
-        </member>
-        <member name="F:QueryNinja.Core.Filters.ArrayEntryOperations.In">
-            <summary>
-            Checks whether target property is contained in desired array. <br/>
-            Similar to Array.Contains.
-            </summary>
-        </member>
-        <member name="T:QueryNinja.Core.Filters.CollectionFilter">
-            <summary>
-            Filter with collection-related operations. Operations are defined in <see cref="T:QueryNinja.Core.Filters.CollectionOperation"/>
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Core.Filters.CollectionFilter.#ctor(QueryNinja.Core.Filters.CollectionOperation,System.String,System.String)">
-            <inheritdoc />
-        </member>
-        <member name="T:QueryNinja.Core.Filters.CollectionOperation">
-            <summary>
-            Represent operations applicable on the collection property.
-            </summary>
-        </member>
-        <member name="F:QueryNinja.Core.Filters.CollectionOperation.Contains">
-            <summary>
-            Checks that collection contains desired value
-            </summary>
-        </member>
-        <member name="F:QueryNinja.Core.Filters.CollectionOperation.IsEmpty">
-            <summary>
-            Allows to check collection emptiness.
-            </summary>
-        </member>
-        <member name="T:QueryNinja.Core.Filters.ComparisonFilter">
-            <summary>
-            Filter that works with primitive types and comparison operations. <br/>
-            List of supported operations could be fined here: <see cref="T:QueryNinja.Core.Filters.ComparisonOperation"/>.
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Core.Filters.ComparisonFilter.#ctor(QueryNinja.Core.Filters.ComparisonOperation,System.String,System.String)">
-            <inheritdoc />
-        </member>
-        <member name="T:QueryNinja.Core.Filters.ComparisonOperation">
-            <summary>
-            Represent desired filter operation for the <see cref="T:QueryNinja.Core.Filters.ComparisonFilter"/>
-            </summary>
-        </member>
-        <member name="F:QueryNinja.Core.Filters.ComparisonOperation.Equals">
-            <summary>
-            Applicable to primitive types. <br/>
-            </summary>
-        </member>
-        <member name="F:QueryNinja.Core.Filters.ComparisonOperation.NotEquals">
-            <summary>
-            Applicable to primitive types. <br/>
-            </summary>
-        </member>
-        <member name="F:QueryNinja.Core.Filters.ComparisonOperation.Greater">
-            <summary>
-            Applicable to primitive types. <br/>
-            </summary>
-        </member>
-        <member name="F:QueryNinja.Core.Filters.ComparisonOperation.GreaterOrEquals">
-            <summary>
-            Applicable to primitive types. <br/>
-            </summary>
-        </member>
-        <member name="F:QueryNinja.Core.Filters.ComparisonOperation.Less">
-            <summary>
-            Applicable to primitive types. <br/>
-            </summary>
-        </member>
-        <member name="F:QueryNinja.Core.Filters.ComparisonOperation.LessOrEquals">
-            <summary>
-            Applicable to primitive types. <br/>
-            </summary>
-        </member>
-        <member name="T:QueryNinja.Core.Filters.IDefaultFilter`1">
-            <summary>
-            Represent a rule to filter Target collection with selected <see cref="P:QueryNinja.Core.Filters.IDefaultFilter`1.Operation"/>.
-            </summary>
-        </member>
-        <member name="P:QueryNinja.Core.Filters.IDefaultFilter`1.Operation">
-            <summary>
-            Enum that will describe all possible operations in this filter.
-            </summary>
-        </member>
-        <member name="P:QueryNinja.Core.Filters.IDefaultFilter`1.Value">
-            <summary>
-            Value to use for the <see cref="P:QueryNinja.Core.Filters.IDefaultFilter`1.Operation"/> with property
-            </summary>
-        </member>
-        <member name="T:QueryNinja.Core.Filters.IFilter">
-            <summary>
-            Represent a rule to filter Target collection.
-            </summary>
-        </member>
-        <member name="T:QueryNinja.Core.IDynamicQuery">
-            <summary>
-            This is core interface for queries that allows to select desired properties from original result aka projection.
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Core.IDynamicQuery.GetSelectors">
-            <summary>
-            Returns a collection that defines how to construct result projection
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:QueryNinja.Core.IDynamicQuery`1">
-            <summary>
-            This is core interface for queries that allows to select desired properties from original result aka projection. <br/>
-            This interface implies model type to be <typeparamref name="TEntity"/>
-            </summary>
-        </member>
-        <member name="T:QueryNinja.Core.IQuery">
-            <summary>
-              This is core interface for all types of queries
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Core.IQuery.GetComponents">
-            <summary>
-              Returns a single collections with all query components.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:QueryNinja.Core.IQuery`1">
-            <summary>
-              This is core interface for all types of queries with implication that model type is <typeparamref name="TEntity"/>
-            </summary>
-        </member>
-        <member name="T:QueryNinja.Core.IQueryComponent">
-            <summary>
-            Represent a generic query component such as <see cref="T:QueryNinja.Core.Filters.IFilter"/> or <see cref="T:QueryNinja.Core.OrderingRules.OrderingRule"/>
-            </summary>
-        </member>
-        <member name="T:QueryNinja.Core.ISpecificQueryComponent">
-            <summary>
-            Represent a query component that targets at specific model <see cref="P:QueryNinja.Core.ISpecificQueryComponent.Property"/>.
-            </summary>
-        </member>
-        <member name="P:QueryNinja.Core.ISpecificQueryComponent.Property">
-            <summary>
-            Property of the model
-            </summary>
-        </member>
-        <member name="T:QueryNinja.Core.OrderingRules.OrderDirection">
-            <summary>
-            Represent desired order direction for the <see cref="T:QueryNinja.Core.OrderingRules.OrderingRule"/>
-            </summary>
-        </member>
-        <member name="F:QueryNinja.Core.OrderingRules.OrderDirection.Ascending">
-            <summary>
-            Ascending direction of order.
-            </summary>
-        </member>
-        <member name="F:QueryNinja.Core.OrderingRules.OrderDirection.Descending">
-            <summary>
-            Descending direction of order.
-            </summary>
-        </member>
-        <member name="T:QueryNinja.Core.OrderingRules.OrderingRule">
-            <summary>
-            Represent a rule to define Target collection order.
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Core.OrderingRules.OrderingRule.#ctor(System.String,QueryNinja.Core.OrderingRules.OrderDirection)">
-            <summary>
-            Creates ordering rule.
-            </summary>
-            <param name="property"></param>
-            <param name="direction"></param>
-        </member>
-        <member name="P:QueryNinja.Core.OrderingRules.OrderingRule.Property">
-            <summary>
-            Target property name
-            </summary>
-        </member>
-        <member name="P:QueryNinja.Core.OrderingRules.OrderingRule.Direction">
-            <summary>
-            Represent ordering direction for the selected property.
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Core.OrderingRules.OrderingRule.ToString">
-            <summary>
-            Debug-friendly implementation. Return string representation of <see cref="T:QueryNinja.Core.OrderingRules.OrderingRule"/>
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:QueryNinja.Core.Projection.ISelector">
-            <summary>
-            Allows to specify how the original properties should be selected into result projection.
-            </summary>
-        </member>
-        <member name="P:QueryNinja.Core.Projection.ISelector.Source">
-            <summary>
-            Name of the source property
-            </summary>
-        </member>
-        <member name="P:QueryNinja.Core.Projection.ISelector.NestedSelectors">
-            <summary>
-            Optionally represents selectors applied after to property selected in <see cref="P:QueryNinja.Core.Projection.ISelector.Source"/>
-            </summary>
-        </member>
-        <member name="T:QueryNinja.Core.Projection.Selector">
-            <summary>
-            Represent selector that leaves path to properties as-is.
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Core.Projection.Selector.#ctor(System.String,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String},System.Collections.Generic.IReadOnlyList{QueryNinja.Core.Projection.ISelector})">
-            <summary>
-            Creates instance of Selector.
-            </summary>
-            <param name="source"></param>
-            <param name="arguments"></param>
-            <param name="nestedSelectors"></param>
-        </member>
-        <member name="P:QueryNinja.Core.Projection.Selector.Source">
-            <inheritdoc />
-        </member>
-        <member name="P:QueryNinja.Core.Projection.Selector.NestedSelectors">
-            <inheritdoc />
-        </member>
-        <member name="P:QueryNinja.Core.Projection.Selector.Arguments">
-            <summary>
-            Arguments to be passed into <see cref="P:QueryNinja.Core.Projection.Selector.Source"/> method. <br/>
-            If <see cref="P:System.Collections.Generic.KeyValuePair`2.Value"/> is not matching expected parameter type then <see cref="T:System.ComponentModel.TypeDescriptor"/> will be used for conversion.
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Core.Projection.Selector.ToString">
-            <inheritdoc />
-        </member>
-        <member name="T:QueryNinja.Core.Query">
-            <inheritdoc cref="T:QueryNinja.Core.IQuery" />
-        </member>
-        <member name="M:QueryNinja.Core.Query.#ctor(System.Collections.Generic.IReadOnlyList{QueryNinja.Core.IQueryComponent})">
-            <summary>
-            Creates instance of <see cref="T:QueryNinja.Core.Query"/> with defined query components.
-            </summary>
-            <param name="components"></param>
-        </member>
-        <member name="P:QueryNinja.Core.Query.Filters">
-            <summary>
-            Represent a collection of filters to be applied on Target collection. <br/>
-            All filters are join with AND operator.
-            </summary>
-        </member>
-        <member name="P:QueryNinja.Core.Query.OrderingRules">
-            <summary>
-            Represent a collection of order rules to be applied on Target collection. <br/>
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Core.Query.GetComponents">
-            <inheritdoc/>
-        </member>
-        <member name="M:QueryNinja.Core.Query.ToString">
-            <summary>
-            Debug-friendly implementation. Represent whole query.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:QueryNinja.Core.Query`1">
-            <inheritdoc cref="T:QueryNinja.Core.IQuery`1" />
-        </member>
-        <member name="M:QueryNinja.Core.Query`1.#ctor(System.Collections.Generic.IReadOnlyList{QueryNinja.Core.IQueryComponent})">
-            <inheritdoc />
-        </member>
-    </members>
+  <assembly>
+    <name>QueryNinja.Core</name>
+  </assembly>
+  <members>
+    <member name="T:QueryNinja.Core.Attributes.DefinedForAttribute">
+      <summary>
+        Specify that usage of the <see cref="T:QueryNinja.Core.IQueryComponent" /> is defined on specific type and his descendants.
+      </summary>
+    </member>
+    <member name="P:QueryNinja.Core.Attributes.DefinedForAttribute.TargetType">
+      <summary>
+        Type suitable for <see cref="T:QueryNinja.Core.IQueryComponent" />
+      </summary>
+    </member>
+    <member name="M:QueryNinja.Core.Attributes.DefinedForAttribute.#ctor(System.Type)">
+      <summary>
+        Defines types that suitable for <see cref="T:QueryNinja.Core.IQueryComponent" />
+      </summary>
+      <param name="targetType"></param>
+    </member>
+    <member name="M:QueryNinja.Core.Attributes.DefinedForAttribute.IsDefinedFor(System.Type)">
+      <inheritdoc />
+    </member>
+    <member name="T:QueryNinja.Core.Attributes.DefinedForGeneric">
+      <summary>
+        Specify that usage of the <see cref="T:QueryNinja.Core.IQueryComponent" /> is defined on constructed generic types.
+        <br />
+        Will compare <see cref="P:QueryNinja.Core.Attributes.DefinedForGeneric.GenericTypeDefinition" /> with Definition of Type, Definition of implemented interfaces and definition of BaseType.
+      </summary>
+    </member>
+    <member name="P:QueryNinja.Core.Attributes.DefinedForGeneric.GenericTypeDefinition">
+      <summary>
+        Type suitable for <see cref="T:QueryNinja.Core.IQueryComponent" />
+      </summary>
+    </member>
+    <member name="M:QueryNinja.Core.Attributes.DefinedForGeneric.#ctor(System.Type)">
+      <summary>
+        Defines Generic Type Definition that suitable for <see cref="T:QueryNinja.Core.IQueryComponent" />
+      </summary>
+      <param name="genericTypeDefinition"></param>
+    </member>
+    <member name="M:QueryNinja.Core.Attributes.DefinedForGeneric.IsDefinedFor(System.Type)">
+      <inheritdoc />
+    </member>
+    <member name="T:QueryNinja.Core.Attributes.DefinedForPrimitivesAttribute">
+      <summary>
+        Specify that usage of the <see cref="T:QueryNinja.Core.IQueryComponent" /> is defined on Primitive types.
+      </summary>
+    </member>
+    <member name="M:QueryNinja.Core.Attributes.DefinedForPrimitivesAttribute.IsDefinedFor(System.Type)">
+      <inheritdoc />
+    </member>
+    <member name="T:QueryNinja.Core.Attributes.DefinitionAttribute">
+      <summary>
+        Base class for all Attributes that can describe defined types for
+        <see cref="T:QueryNinja.Core.IQueryComponent" />.
+      </summary>
+    </member>
+    <member name="M:QueryNinja.Core.Attributes.DefinitionAttribute.IsDefinedFor(System.Type)">
+      <summary>
+        Allows to check whether <paramref name="type" /> is defined for
+        <see cref="T:QueryNinja.Core.IQueryComponent" />.
+      </summary>
+      <param name="type"></param>
+      <returns></returns>
+    </member>
+    <member name="T:QueryNinja.Core.DynamicQuery">
+      <inheritdoc cref="T:QueryNinja.Core.IDynamicQuery" />
+    </member>
+    <member
+      name="M:QueryNinja.Core.DynamicQuery.#ctor(System.Collections.Generic.IReadOnlyList{QueryNinja.Core.IQueryComponent},System.Collections.Generic.IReadOnlyList{QueryNinja.Core.Projection.ISelector})">
+      <inheritdoc />
+    </member>
+    <member name="M:QueryNinja.Core.DynamicQuery.GetSelectors">
+      <inheritdoc />
+    </member>
+    <member name="T:QueryNinja.Core.DynamicQuery`1">
+      <inheritdoc cref="T:QueryNinja.Core.IDynamicQuery`1" />
+    </member>
+    <member
+      name="M:QueryNinja.Core.DynamicQuery`1.#ctor(System.Collections.Generic.IReadOnlyList{QueryNinja.Core.IQueryComponent},System.Collections.Generic.IReadOnlyList{QueryNinja.Core.Projection.ISelector})">
+      <inheritdoc />
+    </member>
+    <member name="T:QueryNinja.Core.Exceptions.CompatibilityException">
+      <summary>
+        Exception is thrown in case of attempt to use behavior that is no loner supported. <br />
+        This type of exception has to be used for cases when compatibility change will not invoke compilation errors.
+      </summary>
+    </member>
+    <member name="M:QueryNinja.Core.Exceptions.CompatibilityException.#ctor(System.String)">
+      <inheritdoc />
+    </member>
+    <member name="T:QueryNinja.Core.Exceptions.QueryNinjaException">
+      <summary>
+        Base exception for all QueryNinja exceptions.
+      </summary>
+    </member>
+    <member name="M:QueryNinja.Core.Exceptions.QueryNinjaException.#ctor(System.String)">
+      <inheritdoc />
+    </member>
+    <member name="M:QueryNinja.Core.Exceptions.QueryNinjaException.#ctor(System.String,System.Exception)">
+      <inheritdoc />
+    </member>
+    <member name="T:QueryNinja.Core.Extensibility.AbstractComponentExtension`1">
+      <inheritdoc />
+    </member>
+    <member name="P:QueryNinja.Core.Extensibility.AbstractComponentExtension`1.QueryComponent">
+      <inheritdoc />
+    </member>
+    <member name="T:QueryNinja.Core.Extensibility.IExtensionsSettings">
+      <summary>
+        Interface that allow to configure <see cref="T:QueryNinja.Core.Extensibility.QueryNinjaExtensions" />
+      </summary>
+    </member>
+    <member name="M:QueryNinja.Core.Extensibility.IExtensionsSettings.ForType``1">
+      <summary>
+        Allows configuration for specific <see cref="T:QueryNinja.Core.Extensibility.IQueryComponentExtension" />
+        descendant.
+      </summary>
+      <typeparam name="TExtension">Extension to configure.</typeparam>
+      <returns>Settings related to specific Extension.</returns>
+    </member>
+    <member name="M:QueryNinja.Core.Extensibility.IExtensionsSettings.RegisterComponent(System.Type)">
+      <summary>
+        Registers existence of a specific query component type. <br />
+        Later on, Sources or Targets <b>may</b> use this information.
+      </summary>
+      <param name="componentType">Type that implements <see cref="T:QueryNinja.Core.IQueryComponent" /></param>
+    </member>
+    <member name="M:QueryNinja.Core.Extensibility.IExtensionsSettings.RegisterComponent``1">
+      <summary>
+        Registers existence of a specific query component type. <br />
+        Later on, Sources or Targets <b>may</b> use this information.
+      </summary>
+      <typeparam name="TComponent">Type that implements <see cref="T:QueryNinja.Core.IQueryComponent" /></typeparam>
+    </member>
+    <member name="T:QueryNinja.Core.Extensibility.IQueryComponentExtension">
+      <summary>
+        Interface that used to use <see cref="T:QueryNinja.Core.IQueryComponent" /> in Target or Source package <br />
+        Do not use this interface directly. For developing own query components use interfaces defined in Target or Source package.
+      </summary>
+    </member>
+    <member name="P:QueryNinja.Core.Extensibility.IQueryComponentExtension.QueryComponent">
+      <summary>
+        Type of the component this extension is related to.
+      </summary>
+    </member>
+    <member name="T:QueryNinja.Core.Extensibility.QueryNinjaExtensions">
+      <summary>
+        Contains all descriptors related to all plugins.
+      </summary>
+    </member>
+    <member name="P:QueryNinja.Core.Extensibility.QueryNinjaExtensions.KnownQueryComponents">
+      <summary>
+        Allows to get all known Types of <see cref="T:QueryNinja.Core.IQueryComponent" />. <br />
+        Intended only for extensibility purposes.
+      </summary>
+    </member>
+    <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.Extensions``1">
+      <summary>
+        Allows to get all extensions of Desired type. <br />
+        Should mainly be used by Targets or Sources to access required extensions.
+      </summary>
+      <typeparam name="TExtension">In most cases, interface or abstract class that registered extensions may derive from or implement.</typeparam>
+      <returns></returns>
+    </member>
+    <member name="P:QueryNinja.Core.Extensibility.QueryNinjaExtensions.Configure">
+      <summary>
+        Allows to modify Extensions List and develop extension methods to do it in a simple way. <br />
+        <b>It is not possible to register two instances of the extension with the same Type. This type of actions will be ignored.</b>
+      </summary>
+    </member>
+    <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionTypeSettings`1.ForType``1">
+      <inheritdoc />
+    </member>
+    <member
+      name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionTypeSettings`1.RegisterComponent(System.Type)">
+      <inheritdoc />
+    </member>
+    <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionTypeSettings`1.RegisterComponent``1">
+      <inheritdoc />
+    </member>
+    <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionTypeSettings`1.Register``1">
+      <inheritdoc />
+    </member>
+    <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionTypeSettings`1.Register(`0)">
+      <inheritdoc />
+    </member>
+    <member name="T:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionsSettings">
+      <inheritdoc />
+    </member>
+    <member
+      name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionsSettings.RegisterComponent(System.Type)">
+      <inheritdoc />
+    </member>
+    <member name="M:QueryNinja.Core.Extensibility.QueryNinjaExtensions.ExtensionsSettings.RegisterComponent``1">
+      <inheritdoc />
+    </member>
+    <member name="T:QueryNinja.Core.Extensibility.IExtensionTypeSettings`1">
+      <summary>
+        Settings related to specific <see cref="T:QueryNinja.Core.Extensibility.IQueryComponentExtension" /> type.
+        <br />
+        Used to configure collections of Extensions with same parent.
+      </summary>
+      <typeparam name="TExtension"></typeparam>
+    </member>
+    <member name="T:QueryNinja.Core.Filters.AbstractDefaultFilter`1">
+      <summary>
+        Applies filter defined by the <see cref="P:QueryNinja.Core.Filters.AbstractDefaultFilter`1.Operation" />
+      </summary>
+    </member>
+    <member name="M:QueryNinja.Core.Filters.AbstractDefaultFilter`1.#ctor(`0,System.String,System.String)">
+      <summary>
+        Default constructor for Filter instance creation.
+      </summary>
+      <param name="operation"></param>
+      <param name="property"></param>
+      <param name="value"></param>
+    </member>
+    <member name="P:QueryNinja.Core.Filters.AbstractDefaultFilter`1.Operation">
+      <inheritdoc />
+    </member>
+    <member name="P:QueryNinja.Core.Filters.AbstractDefaultFilter`1.Property">
+      <inheritdoc />
+    </member>
+    <member name="P:QueryNinja.Core.Filters.AbstractDefaultFilter`1.Value">
+      <inheritdoc />
+    </member>
+    <member name="M:QueryNinja.Core.Filters.AbstractDefaultFilter`1.ToString">
+      <summary>
+        Debug-friendly implementation. Return string representation of filter operation.
+      </summary>
+      <returns></returns>
+    </member>
+    <member name="T:QueryNinja.Core.Filters.ArrayEntryFilter">
+      <summary>
+        Checks whether target property is contained inside array
+      </summary>
+    </member>
+    <member
+      name="M:QueryNinja.Core.Filters.ArrayEntryFilter.#ctor(QueryNinja.Core.Filters.ArrayEntryOperations,System.String,System.String)">
+      <inheritdoc />
+    </member>
+    <member name="T:QueryNinja.Core.Filters.ArrayEntryOperations">
+      <summary>
+        Contains set of operations defined for <see cref="T:QueryNinja.Core.Filters.ArrayEntryFilter" />
+      </summary>
+    </member>
+    <member name="F:QueryNinja.Core.Filters.ArrayEntryOperations.In">
+      <summary>
+        Checks whether target property is contained in desired array. <br />
+        Similar to Array.Contains.
+      </summary>
+    </member>
+    <member name="T:QueryNinja.Core.Filters.CollectionFilter">
+      <summary>
+        Filter with collection-related operations. Operations are defined in
+        <see cref="T:QueryNinja.Core.Filters.CollectionOperation" />
+      </summary>
+    </member>
+    <member
+      name="M:QueryNinja.Core.Filters.CollectionFilter.#ctor(QueryNinja.Core.Filters.CollectionOperation,System.String,System.String)">
+      <inheritdoc />
+    </member>
+    <member name="T:QueryNinja.Core.Filters.CollectionOperation">
+      <summary>
+        Represent operations applicable on the collection property.
+      </summary>
+    </member>
+    <member name="F:QueryNinja.Core.Filters.CollectionOperation.Contains">
+      <summary>
+        Checks that collection contains desired value
+      </summary>
+    </member>
+    <member name="F:QueryNinja.Core.Filters.CollectionOperation.IsEmpty">
+      <summary>
+        Allows to check collection emptiness.
+      </summary>
+    </member>
+    <member name="T:QueryNinja.Core.Filters.ComparisonFilter">
+      <summary>
+        Filter that works with primitive types and comparison operations. <br />
+        List of supported operations could be fined here: <see cref="T:QueryNinja.Core.Filters.ComparisonOperation" />.
+      </summary>
+    </member>
+    <member
+      name="M:QueryNinja.Core.Filters.ComparisonFilter.#ctor(QueryNinja.Core.Filters.ComparisonOperation,System.String,System.String)">
+      <inheritdoc />
+    </member>
+    <member name="T:QueryNinja.Core.Filters.ComparisonOperation">
+      <summary>
+        Represent desired filter operation for the <see cref="T:QueryNinja.Core.Filters.ComparisonFilter" />
+      </summary>
+    </member>
+    <member name="F:QueryNinja.Core.Filters.ComparisonOperation.Equals">
+      <summary>
+        Applicable to primitive types. <br />
+      </summary>
+    </member>
+    <member name="F:QueryNinja.Core.Filters.ComparisonOperation.NotEquals">
+      <summary>
+        Applicable to primitive types. <br />
+      </summary>
+    </member>
+    <member name="F:QueryNinja.Core.Filters.ComparisonOperation.Greater">
+      <summary>
+        Applicable to primitive types. <br />
+      </summary>
+    </member>
+    <member name="F:QueryNinja.Core.Filters.ComparisonOperation.GreaterOrEquals">
+      <summary>
+        Applicable to primitive types. <br />
+      </summary>
+    </member>
+    <member name="F:QueryNinja.Core.Filters.ComparisonOperation.Less">
+      <summary>
+        Applicable to primitive types. <br />
+      </summary>
+    </member>
+    <member name="F:QueryNinja.Core.Filters.ComparisonOperation.LessOrEquals">
+      <summary>
+        Applicable to primitive types. <br />
+      </summary>
+    </member>
+    <member name="T:QueryNinja.Core.Filters.IDefaultFilter`1">
+      <summary>
+        Represent a rule to filter Target collection with selected
+        <see cref="P:QueryNinja.Core.Filters.IDefaultFilter`1.Operation" />.
+      </summary>
+    </member>
+    <member name="P:QueryNinja.Core.Filters.IDefaultFilter`1.Operation">
+      <summary>
+        Enum that will describe all possible operations in this filter.
+      </summary>
+    </member>
+    <member name="P:QueryNinja.Core.Filters.IDefaultFilter`1.Value">
+      <summary>
+        Value to use for the <see cref="P:QueryNinja.Core.Filters.IDefaultFilter`1.Operation" /> with property
+      </summary>
+    </member>
+    <member name="T:QueryNinja.Core.Filters.IFilter">
+      <summary>
+        Represent a rule to filter Target collection.
+      </summary>
+    </member>
+    <member name="T:QueryNinja.Core.IDynamicQuery">
+      <summary>
+        This is core interface for queries that allows to select desired properties from original result aka projection.
+      </summary>
+    </member>
+    <member name="M:QueryNinja.Core.IDynamicQuery.GetSelectors">
+      <summary>
+        Returns a collection that defines how to construct result projection
+      </summary>
+      <returns></returns>
+    </member>
+    <member name="T:QueryNinja.Core.IDynamicQuery`1">
+      <summary>
+        This is core interface for queries that allows to select desired properties from original result aka projection.
+        <br />
+        This interface implies model type to be <typeparamref name="TEntity" />
+      </summary>
+    </member>
+    <member name="T:QueryNinja.Core.IQuery">
+      <summary>
+        This is core interface for all types of queries
+      </summary>
+    </member>
+    <member name="M:QueryNinja.Core.IQuery.GetComponents">
+      <summary>
+        Returns a single collections with all query components.
+      </summary>
+      <returns></returns>
+    </member>
+    <member name="T:QueryNinja.Core.IQuery`1">
+      <summary>
+        This is core interface for all types of queries with implication that model type is
+        <typeparamref name="TEntity" />
+      </summary>
+    </member>
+    <member name="T:QueryNinja.Core.IQueryComponent">
+      <summary>
+        Represent a generic query component such as <see cref="T:QueryNinja.Core.Filters.IFilter" /> or
+        <see cref="T:QueryNinja.Core.OrderingRules.OrderingRule" />
+      </summary>
+    </member>
+    <member name="T:QueryNinja.Core.ISpecificQueryComponent">
+      <summary>
+        Represent a query component that targets at specific model
+        <see cref="P:QueryNinja.Core.ISpecificQueryComponent.Property" />.
+      </summary>
+    </member>
+    <member name="P:QueryNinja.Core.ISpecificQueryComponent.Property">
+      <summary>
+        Property of the model
+      </summary>
+    </member>
+    <member name="T:QueryNinja.Core.OrderingRules.OrderDirection">
+      <summary>
+        Represent desired order direction for the <see cref="T:QueryNinja.Core.OrderingRules.OrderingRule" />
+      </summary>
+    </member>
+    <member name="F:QueryNinja.Core.OrderingRules.OrderDirection.Ascending">
+      <summary>
+        Ascending direction of order.
+      </summary>
+    </member>
+    <member name="F:QueryNinja.Core.OrderingRules.OrderDirection.Descending">
+      <summary>
+        Descending direction of order.
+      </summary>
+    </member>
+    <member name="T:QueryNinja.Core.OrderingRules.OrderingRule">
+      <summary>
+        Represent a rule to define Target collection order.
+      </summary>
+    </member>
+    <member
+      name="M:QueryNinja.Core.OrderingRules.OrderingRule.#ctor(System.String,QueryNinja.Core.OrderingRules.OrderDirection)">
+      <summary>
+        Creates ordering rule.
+      </summary>
+      <param name="property"></param>
+      <param name="direction"></param>
+    </member>
+    <member name="P:QueryNinja.Core.OrderingRules.OrderingRule.Property">
+      <summary>
+        Target property name
+      </summary>
+    </member>
+    <member name="P:QueryNinja.Core.OrderingRules.OrderingRule.Direction">
+      <summary>
+        Represent ordering direction for the selected property.
+      </summary>
+    </member>
+    <member name="M:QueryNinja.Core.OrderingRules.OrderingRule.ToString">
+      <summary>
+        Debug-friendly implementation. Return string representation of
+        <see cref="T:QueryNinja.Core.OrderingRules.OrderingRule" />
+      </summary>
+      <returns></returns>
+    </member>
+    <member name="T:QueryNinja.Core.Projection.ISelector">
+      <summary>
+        Allows to specify how the original properties should be selected into result projection.
+      </summary>
+    </member>
+    <member name="P:QueryNinja.Core.Projection.ISelector.Source">
+      <summary>
+        Name of the source property
+      </summary>
+    </member>
+    <member name="P:QueryNinja.Core.Projection.ISelector.NestedSelectors">
+      <summary>
+        Optionally represents selectors applied after to property selected in
+        <see cref="P:QueryNinja.Core.Projection.ISelector.Source" />
+      </summary>
+    </member>
+    <member name="T:QueryNinja.Core.Projection.Selector">
+      <summary>
+        Represent selector that leaves path to properties as-is.
+      </summary>
+    </member>
+    <member
+      name="M:QueryNinja.Core.Projection.Selector.#ctor(System.String,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String},System.Collections.Generic.IReadOnlyList{QueryNinja.Core.Projection.ISelector})">
+      <summary>
+        Creates instance of Selector.
+      </summary>
+      <param name="source"></param>
+      <param name="arguments"></param>
+      <param name="nestedSelectors"></param>
+    </member>
+    <member name="P:QueryNinja.Core.Projection.Selector.Source">
+      <inheritdoc />
+    </member>
+    <member name="P:QueryNinja.Core.Projection.Selector.NestedSelectors">
+      <inheritdoc />
+    </member>
+    <member name="P:QueryNinja.Core.Projection.Selector.Arguments">
+      <summary>
+        Arguments to be passed into <see cref="P:QueryNinja.Core.Projection.Selector.Source" /> method. <br />
+        If <see cref="P:System.Collections.Generic.KeyValuePair`2.Value" /> is not matching expected parameter type then
+        <see cref="T:System.ComponentModel.TypeDescriptor" /> will be used for conversion.
+      </summary>
+    </member>
+    <member name="M:QueryNinja.Core.Projection.Selector.ToString">
+      <inheritdoc />
+    </member>
+    <member name="T:QueryNinja.Core.Query">
+      <inheritdoc cref="T:QueryNinja.Core.IQuery" />
+    </member>
+    <member
+      name="M:QueryNinja.Core.Query.#ctor(System.Collections.Generic.IReadOnlyList{QueryNinja.Core.IQueryComponent})">
+      <summary>
+        Creates instance of <see cref="T:QueryNinja.Core.Query" /> with defined query components.
+      </summary>
+      <param name="components"></param>
+    </member>
+    <member name="P:QueryNinja.Core.Query.Filters">
+      <summary>
+        Represent a collection of filters to be applied on Target collection. <br />
+        All filters are join with AND operator.
+      </summary>
+    </member>
+    <member name="P:QueryNinja.Core.Query.OrderingRules">
+      <summary>
+        Represent a collection of order rules to be applied on Target collection. <br />
+      </summary>
+    </member>
+    <member name="M:QueryNinja.Core.Query.GetComponents">
+      <inheritdoc />
+    </member>
+    <member name="M:QueryNinja.Core.Query.ToString">
+      <summary>
+        Debug-friendly implementation. Represent whole query.
+      </summary>
+      <returns></returns>
+    </member>
+    <member name="T:QueryNinja.Core.Query`1">
+      <inheritdoc cref="T:QueryNinja.Core.IQuery`1" />
+    </member>
+    <member
+      name="M:QueryNinja.Core.Query`1.#ctor(System.Collections.Generic.IReadOnlyList{QueryNinja.Core.IQueryComponent})">
+      <inheritdoc />
+    </member>
+  </members>
 </doc>

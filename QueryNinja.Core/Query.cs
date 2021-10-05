@@ -13,7 +13,7 @@ namespace QueryNinja.Core
         private readonly IReadOnlyList<IQueryComponent> components;
 
         /// <summary>
-        /// Creates instance of <see cref="Query"/> with defined query components.
+        ///   Creates instance of <see cref="Query" /> with defined query components.
         /// </summary>
         /// <param name="components"></param>
         public Query(IReadOnlyList<IQueryComponent> components)
@@ -22,26 +22,26 @@ namespace QueryNinja.Core
         }
 
         /// <summary>
-        /// Represent a collection of filters to be applied on Target collection. <br/>
-        /// All filters are join with AND operator.
+        ///   Represent a collection of filters to be applied on Target collection. <br />
+        ///   All filters are join with AND operator.
         /// </summary>
         [SuppressMessage("ReSharper", "UnusedMember.Global", Justification = "Public API")]
         public IReadOnlyList<IFilter> Filters => components.OfType<IFilter>().ToList();
 
         /// <summary>
-        /// Represent a collection of order rules to be applied on Target collection. <br/>
+        ///   Represent a collection of order rules to be applied on Target collection. <br />
         /// </summary>
         [SuppressMessage("ReSharper", "UnusedMember.Global", Justification = "Public API")]
         public IReadOnlyList<OrderingRule> OrderingRules => components.OfType<OrderingRule>().ToList();
 
-        ///<inheritdoc/>
+        /// <inheritdoc />
         public IReadOnlyList<IQueryComponent> GetComponents()
         {
             return components;
         }
 
         /// <summary>
-        /// Debug-friendly implementation. Represent whole query.
+        ///   Debug-friendly implementation. Represent whole query.
         /// </summary>
         /// <returns></returns>
         public override string ToString()

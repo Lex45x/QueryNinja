@@ -14,11 +14,15 @@ using QueryNinja.Targets.Queryable.QueryBuilders;
 
 namespace QueryNinja.Benchmarking.Targets.Queryable
 {
-    
     [SimpleJob]
     [MemoryDiagnoser]
     public class QueryBuildersBenchmark
     {
+        [ParamsSource(nameof(Scenarios))]
+        public QueryBuildingScenario Scenario { get; set; }
+
+        public IQueryable<Customer> Source { get; } = Enumerable.Empty<Customer>().AsQueryable();
+
         [GlobalSetup]
         public void GlobalSetup()
         {
@@ -69,11 +73,6 @@ namespace QueryNinja.Benchmarking.Targets.Queryable
                 Description = "Ordering Rule"
             };
         }
-
-        [ParamsSource(nameof(Scenarios))]
-        public QueryBuildingScenario Scenario { get; set; }
-
-        public IQueryable<Customer> Source { get; } = Enumerable.Empty<Customer>().AsQueryable();
 
 
         [Benchmark]

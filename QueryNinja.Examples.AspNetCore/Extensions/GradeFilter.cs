@@ -6,13 +6,13 @@ using QueryNinja.Examples.AspNetCore.DbContext.Entities;
 namespace QueryNinja.Examples.AspNetCore.Extensions
 {
     /// <summary>
-    /// Allows to filter on top of <see cref="Student.Grades"/>
+    ///   Allows to filter on top of <see cref="Student.Grades" />
     /// </summary>
     [DefinedFor(typeof(ICollection<Grade>))]
     public class GradeFilter : IDefaultFilter<GradeOperations>
     {
         /// <summary>
-        /// Default constructor.
+        ///   Default constructor.
         /// </summary>
         /// <param name="operation"></param>
         /// <param name="property"></param>

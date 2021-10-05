@@ -10,6 +10,7 @@ namespace QueryNinja.Sources.GraphQL.Introspection
         ENUM = 2,
         LIST = 3,
         NON_NULL = 4,
+
         //todo: types below are not supported
         INPUT_OBJECT = 5,
         INTERFACE = 6,

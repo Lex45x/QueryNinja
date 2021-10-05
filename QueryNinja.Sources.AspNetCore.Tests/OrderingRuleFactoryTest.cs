@@ -29,7 +29,7 @@ namespace QueryNinja.Sources.AspNetCore.Tests
 
             Assert.IsInstanceOf(typeof(OrderingRule), queryComponent);
 
-            var orderingRule = (OrderingRule)queryComponent;
+            var orderingRule = (OrderingRule) queryComponent;
 
             var range = (name.IndexOf(value: '.') + 1)..;
             var property = name.AsSpan()[range].ToString();

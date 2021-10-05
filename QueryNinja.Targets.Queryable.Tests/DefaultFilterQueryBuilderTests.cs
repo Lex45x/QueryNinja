@@ -15,11 +15,11 @@ namespace QueryNinja.Targets.Queryable.Tests
             var queryBuilder = new DefaultFilterQueryBuilder<TestFilter, TestOperations>();
 
             queryBuilder.Define<int>(TestOperations.Equals, (property, constant) => property == constant);
-            
+
             var testTarget = new List<TestClass>
                 {
-                    new TestClass(1, "property", 10),
-                    new TestClass(2, "name", 15)
+                    new(id: 1, "property", amount: 10),
+                    new(id: 2, "name", amount: 15)
                 }
                 .AsQueryable();
 
@@ -39,12 +39,13 @@ namespace QueryNinja.Targets.Queryable.Tests
         {
             var queryBuilder = new DefaultFilterQueryBuilder<TestFilter, TestOperations>();
 
-            queryBuilder.Define<string, char>(TestOperations.Contains, (property, constant) => property.Contains(constant));
+            queryBuilder.Define<string, char>(TestOperations.Contains,
+                (property, constant) => property.Contains(constant));
 
             var testTarget = new List<TestClass>
                 {
-                    new TestClass(1, "property", 10),
-                    new TestClass(2, "name", 15)
+                    new(id: 1, "property", amount: 10),
+                    new(id: 2, "name", amount: 15)
                 }
                 .AsQueryable();
 

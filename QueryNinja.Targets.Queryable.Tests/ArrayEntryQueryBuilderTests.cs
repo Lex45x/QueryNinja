@@ -12,9 +12,9 @@ namespace QueryNinja.Targets.Queryable.Tests
         public static IEnumerable<TestCaseData> SuccessTests = new List<TestCaseData>
         {
             new TestCaseData(
-                    new Example[]{"a","b","aa","ab","aaa",""},
+                    new Example[] {"a", "b", "aa", "ab", "aaa", ""},
                     new ArrayEntryFilter(ArrayEntryOperations.In, "Value", "a|ab|abc"))
-                .Returns(new []{"a","ab"})
+                .Returns(new[] {"a", "ab"})
         };
 
         [Test]
@@ -32,12 +32,12 @@ namespace QueryNinja.Targets.Queryable.Tests
 
         public class Example
         {
-            public string Value { get; }
-
             public Example(string value)
             {
                 Value = value;
             }
+
+            public string Value { get; }
 
             public static implicit operator Example(string value)
             {

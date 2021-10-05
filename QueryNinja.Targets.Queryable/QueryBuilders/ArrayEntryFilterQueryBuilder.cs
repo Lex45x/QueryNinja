@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Linq.Expressions;
 using QueryNinja.Core.Filters;
-using QueryNinja.Targets.Queryable.Exceptions;
 using QueryNinja.Targets.Queryable.Reflection;
 
 namespace QueryNinja.Targets.Queryable.QueryBuilders
@@ -36,14 +35,14 @@ namespace QueryNinja.Targets.Queryable.QueryBuilders
         {
             var arrayElements = constant.Split(separator: '|');
             var arrayElementExpressions = new Expression[arrayElements.Length];
-            
+
             for (var arrayIndex = 0; arrayIndex < arrayElements.Length; arrayIndex++)
             {
                 arrayElementExpressions[arrayIndex] = arrayElements[arrayIndex].AsConstant(propertyType);
             }
-            
+
             var newArrayExpression = Expression.NewArrayInit(propertyType, arrayElementExpressions);
-            
+
             return newArrayExpression;
         }
 

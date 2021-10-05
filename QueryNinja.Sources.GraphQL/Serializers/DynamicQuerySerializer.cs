@@ -20,8 +20,9 @@ namespace QueryNinja.Sources.GraphQL.Serializers
                 ?.OfType<GraphQLOperationDefinition>()
                 .Single();
 
-            var selectors = ProcessSelectionSet(operation.SelectionSet.Selections, name => fragments[name.Value.ToString()])
-                .ToList();
+            var selectors =
+                ProcessSelectionSet(operation.SelectionSet.Selections, name => fragments[name.Value.ToString()])
+                    .ToList();
 
             //todo: implement deserialization here
             return new DynamicQuery(new List<IQueryComponent>(), selectors);

@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 namespace QueryNinja.Sources.GraphQL.Middleware
 {
     /// <summary>
-    /// Rebuilds given expression with null-handling for Linq calls and Dictionary construction.
+    ///   Rebuilds given expression with null-handling for Linq calls and Dictionary construction.
     /// </summary>
     internal class NullableFriendlyVisitor : ExpressionVisitor
     {
@@ -60,7 +60,9 @@ namespace QueryNinja.Sources.GraphQL.Middleware
         private static Type MakeNullable(Type type)
         {
             if (IsNullable(type))
+            {
                 return type;
+            }
 
             return typeof(Nullable<>).MakeGenericType(type);
         }
@@ -68,7 +70,10 @@ namespace QueryNinja.Sources.GraphQL.Middleware
         private static bool IsNullable(Type type)
         {
             if (type.IsClass || type.IsInterface)
+            {
                 return true;
+            }
+
             return type.IsGenericType &&
                    type.GetGenericTypeDefinition() == typeof(Nullable<>);
         }

@@ -1,182 +1,198 @@
 <?xml version="1.0"?>
+
 <doc>
-    <assembly>
-        <name>QueryNinja.Sources.GraphQL</name>
-    </assembly>
-    <members>
-        <member name="T:QueryNinja.Sources.GraphQL.EndpointRouteBuilderExtensions">
-            <summary>
-            Contains extensions needed to setup GraphQL endpoint.
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Sources.GraphQL.Introspection.__Type.Fields(System.Boolean)">
-            <summary>
-            Works for Objects and Interfaces
-            </summary>
-            <param name="includeDeprecated"></param>
-            <returns></returns>
-        </member>
-        <member name="P:QueryNinja.Sources.GraphQL.Introspection.__Type.Interfaces">
-            <summary>
-            Works for Objects only
-            </summary>
-        </member>
-        <member name="P:QueryNinja.Sources.GraphQL.Introspection.__Type.PossibleTypes">
-            <summary>
-            Works for interfaces and Unions
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Sources.GraphQL.Introspection.__Type.EnumValues(System.Boolean)">
-            <summary>
-            Works on Enums only
-            </summary>
-            <param name="includeDeprecated"></param>
-            <returns></returns>
-        </member>
-        <member name="P:QueryNinja.Sources.GraphQL.Introspection.__Type.InputFields">
-            <summary>
-            Works on InputObjects only
-            </summary>
-        </member>
-        <member name="P:QueryNinja.Sources.GraphQL.Introspection.__Type.OfType">
-            <summary>
-            Works for NonNull and Lists only
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Sources.GraphQL.Introspection.__Type.Equals(QueryNinja.Sources.GraphQL.Introspection.__Type)">
-            <inheritdoc />
-        </member>
-        <member name="M:QueryNinja.Sources.GraphQL.Introspection.__Type.Equals(System.Object)">
-            <inheritdoc />
-        </member>
-        <member name="M:QueryNinja.Sources.GraphQL.Introspection.__Type.GetHashCode">
-            <inheritdoc />
-        </member>
-        <member name="T:QueryNinja.Sources.GraphQL.IQueryComponentDescriptor">
-            <summary>
-            Allows schema generation and creating instances of <see cref="T:QueryNinja.Core.IQueryComponent"/>
-            </summary>
-        </member>
-        <member name="P:QueryNinja.Sources.GraphQL.Middleware.GraphQLQueriesSource.QueryHandlers">
-            <inheritdoc />
-        </member>
-        <member name="T:QueryNinja.Sources.GraphQL.Middleware.IGraphQLQueryHandler">
-            <summary>
-            Contains logic of handling specific GraphQL Query Operation
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Sources.GraphQL.Middleware.IGraphQLQueryHandler.Handle(Microsoft.AspNetCore.Http.HttpContext,GraphQLParser.AST.GraphQLDocument,Newtonsoft.Json.Linq.JObject)">
-            <summary>
-            Handles GraphQL Query Operation based on <see cref="T:Microsoft.AspNetCore.Http.HttpContext"/>, <see cref="T:GraphQLParser.AST.GraphQLDocument"/> and additional GraphQL variables.
-            </summary>
-            <param name="context"></param>
-            <param name="document"></param>
-            <param name="variables"></param>
-            <returns></returns>
-        </member>
-        <member name="M:QueryNinja.Sources.GraphQL.Middleware.IntrospectionQueryHandler.Handle(Microsoft.AspNetCore.Http.HttpContext,GraphQLParser.AST.GraphQLDocument,Newtonsoft.Json.Linq.JObject)">
-            <inheritdoc />
-        </member>
-        <member name="T:QueryNinja.Sources.GraphQL.Middleware.NullableFriendlyVisitor">
-            <summary>
-            Rebuilds given expression with null-handling for Linq calls and Dictionary construction.
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Sources.GraphQL.Middleware.NullableFriendlyVisitor.VisitListInit(System.Linq.Expressions.ListInitExpression)">
-            <inheritdoc />
-        </member>
-        <member name="M:QueryNinja.Sources.GraphQL.SchemaGeneration.ActionsScanner.GetQueryRoots">
-            <inheritdoc />
-        </member>
-        <member name="T:QueryNinja.Sources.GraphQL.SchemaGeneration.IActionsScanner">
-            <summary>
-            Allows to get all <see cref="T:QueryNinja.Sources.GraphQL.SchemaGeneration.QueryRoot"/>s from Asp.Net Core application.
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Sources.GraphQL.SchemaGeneration.IActionsScanner.GetQueryRoots">
-            <summary>
-            Scans all action methods and returns all found <see cref="T:QueryNinja.Sources.GraphQL.SchemaGeneration.QueryRoot"/>s.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:QueryNinja.Sources.GraphQL.SchemaGeneration.QueryRoot">
-            <summary>
-            Represent action method that contains <see cref="T:QueryNinja.Core.IQuery"/> argument.
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Sources.GraphQL.SchemaGeneration.QueryRoot.#ctor(System.Type,System.Type,System.Reflection.MethodInfo,System.Type)">
-            <summary>
-            Creates a new instance of <see cref="T:QueryNinja.Sources.GraphQL.SchemaGeneration.QueryRoot"/>
-            </summary>
-            <param name="modelType"></param>
-            <param name="controllerType"></param>
-            <param name="actionMethod"></param>
-            <param name="queryType"></param>
-        </member>
-        <member name="P:QueryNinja.Sources.GraphQL.SchemaGeneration.QueryRoot.ModelType">
-            <summary>
-            Represent target type for query.
-            </summary>
-        </member>
-        <member name="P:QueryNinja.Sources.GraphQL.SchemaGeneration.QueryRoot.ControllerType">
-            <summary>
-            Type of a controller that contains action method.
-            </summary>
-        </member>
-        <member name="P:QueryNinja.Sources.GraphQL.SchemaGeneration.QueryRoot.ActionMethod">
-            <summary>
-            Action method itself.
-            </summary>
-        </member>
-        <member name="P:QueryNinja.Sources.GraphQL.SchemaGeneration.QueryRoot.QueryType">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Sources.GraphQL.Serializers.DynamicQuerySerializer.Deserialize(GraphQLParser.AST.GraphQLDocument)">
-            <inheritdoc />
-        </member>
-        <member name="T:QueryNinja.Sources.GraphQL.Serializers.IQuerySerializer`1">
-            <summary>
-            Allows to serialize specific <see cref="T:QueryNinja.Core.IQuery"/> instance from <see cref="T:GraphQLParser.AST.GraphQLDocument"/>
-            </summary>
-            <typeparam name="TQuery"></typeparam>
-        </member>
-        <member name="M:QueryNinja.Sources.GraphQL.Serializers.IQuerySerializer`1.Deserialize(GraphQLParser.AST.GraphQLDocument)">
-            <summary>
-            Creates instance of <typeparamref name="TQuery"/> based on <paramref name="document"/>
-            </summary>
-            <param name="document"></param>
-            <returns></returns>
-        </member>
-        <member name="T:QueryNinja.Sources.GraphQL.ServiceCollectionExtensions">
-            <summary>
-            Provides extensions methods to register GraphQL Source for QueryNinja.
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Sources.GraphQL.ServiceCollectionExtensions.AddQueryNinjaGraphQL(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            Registers AspNetCore Source and all required GraphQL-related services.
-            </summary>
-            <param name="collection"></param>
-            <returns><see cref="P:QueryNinja.Core.Extensibility.QueryNinjaExtensions.Configure"/></returns>
-        </member>
-        <member name="M:QueryNinja.Sources.GraphQL.ServiceCollectionExtensions.ExtensionSettings.ForType``1">
-            <inheritdoc />
-        </member>
-        <member name="M:QueryNinja.Sources.GraphQL.ServiceCollectionExtensions.ExtensionSettings.RegisterComponent(System.Type)">
-            <inheritdoc />
-        </member>
-        <member name="M:QueryNinja.Sources.GraphQL.ServiceCollectionExtensions.ExtensionSettings.RegisterComponent``1">
-            <inheritdoc />
-        </member>
-        <member name="M:QueryNinja.Sources.GraphQL.ServiceCollectionExtensions.ExtensionSettings.ConfigureFilterFactory(System.Action{QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory})">
-            <inheritdoc />
-        </member>
-        <member name="T:QueryNinja.Sources.GraphQL.IGraphQLExtensionSettings">
-            <summary>
-            Allows to configure GraphQL Source
-            </summary>
-        </member>
-    </members>
+  <assembly>
+    <name>QueryNinja.Sources.GraphQL</name>
+  </assembly>
+  <members>
+    <member name="T:QueryNinja.Sources.GraphQL.EndpointRouteBuilderExtensions">
+      <summary>
+        Contains extensions needed to setup GraphQL endpoint.
+      </summary>
+    </member>
+    <member name="M:QueryNinja.Sources.GraphQL.Introspection.__Type.Fields(System.Boolean)">
+      <summary>
+        Works for Objects and Interfaces
+      </summary>
+      <param name="includeDeprecated"></param>
+      <returns></returns>
+    </member>
+    <member name="P:QueryNinja.Sources.GraphQL.Introspection.__Type.Interfaces">
+      <summary>
+        Works for Objects only
+      </summary>
+    </member>
+    <member name="P:QueryNinja.Sources.GraphQL.Introspection.__Type.PossibleTypes">
+      <summary>
+        Works for interfaces and Unions
+      </summary>
+    </member>
+    <member name="M:QueryNinja.Sources.GraphQL.Introspection.__Type.EnumValues(System.Boolean)">
+      <summary>
+        Works on Enums only
+      </summary>
+      <param name="includeDeprecated"></param>
+      <returns></returns>
+    </member>
+    <member name="P:QueryNinja.Sources.GraphQL.Introspection.__Type.InputFields">
+      <summary>
+        Works on InputObjects only
+      </summary>
+    </member>
+    <member name="P:QueryNinja.Sources.GraphQL.Introspection.__Type.OfType">
+      <summary>
+        Works for NonNull and Lists only
+      </summary>
+    </member>
+    <member
+      name="M:QueryNinja.Sources.GraphQL.Introspection.__Type.Equals(QueryNinja.Sources.GraphQL.Introspection.__Type)">
+      <inheritdoc />
+    </member>
+    <member name="M:QueryNinja.Sources.GraphQL.Introspection.__Type.Equals(System.Object)">
+      <inheritdoc />
+    </member>
+    <member name="M:QueryNinja.Sources.GraphQL.Introspection.__Type.GetHashCode">
+      <inheritdoc />
+    </member>
+    <member name="T:QueryNinja.Sources.GraphQL.IQueryComponentDescriptor">
+      <summary>
+        Allows schema generation and creating instances of <see cref="T:QueryNinja.Core.IQueryComponent" />
+      </summary>
+    </member>
+    <member name="P:QueryNinja.Sources.GraphQL.Middleware.GraphQLQueriesSource.QueryHandlers">
+      <inheritdoc />
+    </member>
+    <member name="T:QueryNinja.Sources.GraphQL.Middleware.IGraphQLQueryHandler">
+      <summary>
+        Contains logic of handling specific GraphQL Query Operation
+      </summary>
+    </member>
+    <member
+      name="M:QueryNinja.Sources.GraphQL.Middleware.IGraphQLQueryHandler.Handle(Microsoft.AspNetCore.Http.HttpContext,GraphQLParser.AST.GraphQLDocument,Newtonsoft.Json.Linq.JObject)">
+      <summary>
+        Handles GraphQL Query Operation based on <see cref="T:Microsoft.AspNetCore.Http.HttpContext" />,
+        <see cref="T:GraphQLParser.AST.GraphQLDocument" /> and additional GraphQL variables.
+      </summary>
+      <param name="context"></param>
+      <param name="document"></param>
+      <param name="variables"></param>
+      <returns></returns>
+    </member>
+    <member
+      name="M:QueryNinja.Sources.GraphQL.Middleware.IntrospectionQueryHandler.Handle(Microsoft.AspNetCore.Http.HttpContext,GraphQLParser.AST.GraphQLDocument,Newtonsoft.Json.Linq.JObject)">
+      <inheritdoc />
+    </member>
+    <member name="T:QueryNinja.Sources.GraphQL.Middleware.NullableFriendlyVisitor">
+      <summary>
+        Rebuilds given expression with null-handling for Linq calls and Dictionary construction.
+      </summary>
+    </member>
+    <member
+      name="M:QueryNinja.Sources.GraphQL.Middleware.NullableFriendlyVisitor.VisitListInit(System.Linq.Expressions.ListInitExpression)">
+      <inheritdoc />
+    </member>
+    <member name="M:QueryNinja.Sources.GraphQL.SchemaGeneration.ActionsScanner.GetQueryRoots">
+      <inheritdoc />
+    </member>
+    <member name="T:QueryNinja.Sources.GraphQL.SchemaGeneration.IActionsScanner">
+      <summary>
+        Allows to get all <see cref="T:QueryNinja.Sources.GraphQL.SchemaGeneration.QueryRoot" />s from Asp.Net Core application.
+      </summary>
+    </member>
+    <member name="M:QueryNinja.Sources.GraphQL.SchemaGeneration.IActionsScanner.GetQueryRoots">
+      <summary>
+        Scans all action methods and returns all found
+        <see cref="T:QueryNinja.Sources.GraphQL.SchemaGeneration.QueryRoot" />s.
+      </summary>
+      <returns></returns>
+    </member>
+    <member name="T:QueryNinja.Sources.GraphQL.SchemaGeneration.QueryRoot">
+      <summary>
+        Represent action method that contains <see cref="T:QueryNinja.Core.IQuery" /> argument.
+      </summary>
+    </member>
+    <member
+      name="M:QueryNinja.Sources.GraphQL.SchemaGeneration.QueryRoot.#ctor(System.Type,System.Type,System.Reflection.MethodInfo,System.Type)">
+      <summary>
+        Creates a new instance of <see cref="T:QueryNinja.Sources.GraphQL.SchemaGeneration.QueryRoot" />
+      </summary>
+      <param name="modelType"></param>
+      <param name="controllerType"></param>
+      <param name="actionMethod"></param>
+      <param name="queryType"></param>
+    </member>
+    <member name="P:QueryNinja.Sources.GraphQL.SchemaGeneration.QueryRoot.ModelType">
+      <summary>
+        Represent target type for query.
+      </summary>
+    </member>
+    <member name="P:QueryNinja.Sources.GraphQL.SchemaGeneration.QueryRoot.ControllerType">
+      <summary>
+        Type of a controller that contains action method.
+      </summary>
+    </member>
+    <member name="P:QueryNinja.Sources.GraphQL.SchemaGeneration.QueryRoot.ActionMethod">
+      <summary>
+        Action method itself.
+      </summary>
+    </member>
+    <member name="P:QueryNinja.Sources.GraphQL.SchemaGeneration.QueryRoot.QueryType">
+      <summary>
+
+      </summary>
+    </member>
+    <member
+      name="M:QueryNinja.Sources.GraphQL.Serializers.DynamicQuerySerializer.Deserialize(GraphQLParser.AST.GraphQLDocument)">
+      <inheritdoc />
+    </member>
+    <member name="T:QueryNinja.Sources.GraphQL.Serializers.IQuerySerializer`1">
+      <summary>
+        Allows to serialize specific <see cref="T:QueryNinja.Core.IQuery" /> instance from
+        <see cref="T:GraphQLParser.AST.GraphQLDocument" />
+      </summary>
+      <typeparam name="TQuery"></typeparam>
+    </member>
+    <member
+      name="M:QueryNinja.Sources.GraphQL.Serializers.IQuerySerializer`1.Deserialize(GraphQLParser.AST.GraphQLDocument)">
+      <summary>
+        Creates instance of <typeparamref name="TQuery" /> based on <paramref name="document" />
+      </summary>
+      <param name="document"></param>
+      <returns></returns>
+    </member>
+    <member name="T:QueryNinja.Sources.GraphQL.ServiceCollectionExtensions">
+      <summary>
+        Provides extensions methods to register GraphQL Source for QueryNinja.
+      </summary>
+    </member>
+    <member
+      name="M:QueryNinja.Sources.GraphQL.ServiceCollectionExtensions.AddQueryNinjaGraphQL(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+      <summary>
+        Registers AspNetCore Source and all required GraphQL-related services.
+      </summary>
+      <param name="collection"></param>
+      <returns>
+        <see cref="P:QueryNinja.Core.Extensibility.QueryNinjaExtensions.Configure" />
+      </returns>
+    </member>
+    <member name="M:QueryNinja.Sources.GraphQL.ServiceCollectionExtensions.ExtensionSettings.ForType``1">
+      <inheritdoc />
+    </member>
+    <member
+      name="M:QueryNinja.Sources.GraphQL.ServiceCollectionExtensions.ExtensionSettings.RegisterComponent(System.Type)">
+      <inheritdoc />
+    </member>
+    <member name="M:QueryNinja.Sources.GraphQL.ServiceCollectionExtensions.ExtensionSettings.RegisterComponent``1">
+      <inheritdoc />
+    </member>
+    <member
+      name="M:QueryNinja.Sources.GraphQL.ServiceCollectionExtensions.ExtensionSettings.ConfigureFilterFactory(System.Action{QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory})">
+      <inheritdoc />
+    </member>
+    <member name="T:QueryNinja.Sources.GraphQL.IGraphQLExtensionSettings">
+      <summary>
+        Allows to configure GraphQL Source
+      </summary>
+    </member>
+  </members>
 </doc>

@@ -5,10 +5,42 @@ using System.Linq;
 namespace QueryNinja.Core.Extensibility
 {
     /// <summary>
-    /// Contains all descriptors related to all plugins.
+    ///   Contains all descriptors related to all plugins.
     /// </summary>
     public static class QueryNinjaExtensions
     {
+        private static readonly HashSet<Type> KnownQueryComponentsSet = new HashSet<Type>();
+
+        /// <summary>
+        ///   Allows to get all known Types of <see cref="IQueryComponent" />. <br />
+        ///   Intended only for extensibility purposes.
+        /// </summary>
+        public static IReadOnlyCollection<Type> KnownQueryComponents => KnownQueryComponentsSet;
+
+        /// <summary>
+        ///   Allows to modify Extensions List and develop extension methods to do it in a simple way. <br />
+        ///   <b>
+        ///     It is not possible to register two instances of the extension with the same Type. This type of actions will be
+        ///     ignored.
+        ///   </b>
+        /// </summary>
+        public static IExtensionsSettings Configure { get; } = new ExtensionsSettings();
+
+        /// <summary>
+        ///   Allows to get all extensions of Desired type. <br />
+        ///   Should mainly be used by Targets or Sources to access required extensions.
+        /// </summary>
+        /// <typeparam name="TExtension">
+        ///   In most cases, interface or abstract class that registered extensions may derive from or
+        ///   implement.
+        /// </typeparam>
+        /// <returns></returns>
+        public static IReadOnlyList<TExtension> Extensions<TExtension>()
+            where TExtension : IQueryComponentExtension
+        {
+            return ExtensionsCollection<TExtension>.Extensions;
+        }
+
         private static class ExtensionsCollection<TExtension>
             where TExtension : IQueryComponentExtension
         {
@@ -27,32 +59,6 @@ namespace QueryNinja.Core.Extensibility
                 ExtensionsList.Add(extension);
             }
         }
-        
-        private static readonly HashSet<Type> KnownQueryComponentsSet = new HashSet<Type>();
-
-        /// <summary>
-        /// Allows to get all known Types of <see cref="IQueryComponent"/>. <br/>
-        /// Intended only for extensibility purposes.
-        /// </summary>
-        public static IReadOnlyCollection<Type> KnownQueryComponents => KnownQueryComponentsSet;
-        
-        /// <summary>
-        /// Allows to get all extensions of Desired type. <br/>
-        /// Should mainly be used by Targets or Sources to access required extensions.
-        /// </summary>
-        /// <typeparam name="TExtension">In most cases, interface or abstract class that registered extensions may derive from or implement.</typeparam>
-        /// <returns></returns>
-        public static IReadOnlyList<TExtension> Extensions<TExtension>()
-            where TExtension : IQueryComponentExtension
-        {
-            return ExtensionsCollection<TExtension>.Extensions;
-        }
-
-        /// <summary>
-        /// Allows to modify Extensions List and develop extension methods to do it in a simple way. <br/>
-        /// <b>It is not possible to register two instances of the extension with the same Type. This type of actions will be ignored.</b>
-        /// </summary>
-        public static IExtensionsSettings Configure { get; } = new ExtensionsSettings();
 
         private class ExtensionTypeSettings<TExtension> : IExtensionTypeSettings<TExtension>
             where TExtension : IQueryComponentExtension
@@ -101,7 +107,7 @@ namespace QueryNinja.Core.Extensibility
             }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         private class ExtensionsSettings
             : IExtensionsSettings
         {
@@ -110,7 +116,7 @@ namespace QueryNinja.Core.Extensibility
             {
                 return new ExtensionTypeSettings<TExtension>(this);
             }
-            
+
             /// <inheritdoc />
             public IExtensionsSettings RegisterComponent(Type componentType)
             {
@@ -139,8 +145,8 @@ namespace QueryNinja.Core.Extensibility
     }
 
     /// <summary>
-    /// Settings related to specific <see cref="IQueryComponentExtension"/> type. <br/>
-    /// Used to configure collections of Extensions with same parent.
+    ///   Settings related to specific <see cref="IQueryComponentExtension" /> type. <br />
+    ///   Used to configure collections of Extensions with same parent.
     /// </summary>
     /// <typeparam name="TExtension"></typeparam>
     public interface IExtensionTypeSettings<in TExtension> : IExtensionsSettings

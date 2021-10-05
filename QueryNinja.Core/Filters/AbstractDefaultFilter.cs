@@ -3,13 +3,13 @@
 namespace QueryNinja.Core.Filters
 {
     /// <summary>
-    /// Applies filter defined by the <see cref="AbstractDefaultFilter{TOperation}.Operation"/>
+    ///   Applies filter defined by the <see cref="AbstractDefaultFilter{TOperation}.Operation" />
     /// </summary>
     public abstract class AbstractDefaultFilter<TOperation> : IDefaultFilter<TOperation>
         where TOperation : struct, Enum
     {
         /// <summary>
-        /// Default constructor for Filter instance creation.
+        ///   Default constructor for Filter instance creation.
         /// </summary>
         /// <param name="operation"></param>
         /// <param name="property"></param>
@@ -21,17 +21,17 @@ namespace QueryNinja.Core.Filters
             Value = value;
         }
 
-        ///<inheritdoc/>
+        /// <inheritdoc />
         public TOperation Operation { get; }
 
-        ///<inheritdoc/>
+        /// <inheritdoc />
         public string Property { get; }
 
-        ///<inheritdoc/>
+        /// <inheritdoc />
         public string Value { get; }
 
         /// <summary>
-        /// Debug-friendly implementation. Return string representation of filter operation.
+        ///   Debug-friendly implementation. Return string representation of filter operation.
         /// </summary>
         /// <returns></returns>
         public override string ToString()

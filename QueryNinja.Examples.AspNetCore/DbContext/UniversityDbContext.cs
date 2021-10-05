@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using QueryNinja.Examples.AspNetCore.DbContext.Entities;
+
 // ReSharper disable StringLiteralTypo
 #pragma warning disable 1591
 
@@ -13,6 +14,7 @@ namespace QueryNinja.Examples.AspNetCore.DbContext
             : base(options)
         {
         }
+
         public DbSet<Student> Students { get; set; }
         public DbSet<Exam> Exams { get; set; }
         public DbSet<Grade> Grades { get; set; }
@@ -105,7 +107,7 @@ namespace QueryNinja.Examples.AspNetCore.DbContext
                         StudentId = 1,
                         ExamId = 1,
                         Mark = Mark.B
-                    }, 
+                    },
                     new Grade
                     {
                         Id = 2,

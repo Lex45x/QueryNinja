@@ -4,7 +4,7 @@ using QueryNinja.Core.Exceptions;
 namespace QueryNinja.Targets.Queryable.Exceptions
 {
     /// <summary>
-    /// Base exception for all exceptions in QueryNinja.Targets.Queryable namespace.
+    ///   Base exception for all exceptions in QueryNinja.Targets.Queryable namespace.
     /// </summary>
     public abstract class QueryableTargetException : QueryNinjaException
     {

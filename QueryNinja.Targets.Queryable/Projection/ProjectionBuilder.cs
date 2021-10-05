@@ -9,7 +9,7 @@ using QueryNinja.Targets.Queryable.Reflection;
 namespace QueryNinja.Targets.Queryable.Projection
 {
     /// <summary>
-    /// Applies a projection from <see cref="IQueryable{T}"/> to structure defined by <see cref="ISelector"/>
+    ///   Applies a projection from <see cref="IQueryable{T}" /> to structure defined by <see cref="ISelector" />
     /// </summary>
     internal static class ProjectionBuilder
     {
@@ -23,12 +23,12 @@ namespace QueryNinja.Targets.Queryable.Projection
         }
 
         /// <summary>
-        /// Applies <paramref name="selectors"/> on top of <paramref name="source"/>.
+        ///   Applies <paramref name="selectors" /> on top of <paramref name="source" />.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="source">Source IQueryable</param>
         /// <param name="selectors">Collection of selectors.</param>
-        /// <returns>Dynamic <see cref="IQueryable{T}"/>.</returns>
+        /// <returns>Dynamic <see cref="IQueryable{T}" />.</returns>
         internal static IQueryable<dynamic> Project<T>(this IQueryable<T> source, IReadOnlyList<ISelector> selectors)
         {
             var parameter = Expression.Parameter(typeof(T));
@@ -53,7 +53,7 @@ namespace QueryNinja.Targets.Queryable.Projection
 
             return result;
         }
-        
+
         private static ListInitExpression InitializeLayer(
             Expression source,
             NewExpression dictionary,
@@ -111,9 +111,9 @@ namespace QueryNinja.Targets.Queryable.Projection
 
         private static Expression BuildExpression(Expression source, ISelector selector)
         {
-            Expression value = (selector) switch
+            Expression value = selector switch
             {
-                Selector defaultSelector => source.TryGetProperty(defaultSelector.Source) 
+                Selector defaultSelector => source.TryGetProperty(defaultSelector.Source)
                                             ?? source.Call(defaultSelector.Source, defaultSelector.Arguments),
                 _ => throw new ArgumentOutOfRangeException(nameof(selector), selector,
                     "This type of selectors is currently not supported.")

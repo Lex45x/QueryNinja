@@ -18,6 +18,11 @@ namespace QueryNinja.Benchmarking.Targets.Queryable
     [MemoryDiagnoser]
     public class QueryableExtensionsBenchmark
     {
+        [ParamsSource(nameof(UsageScenarios))]
+        public QueryScenario Scenario { get; set; }
+
+        public IQueryable<Customer> Source { get; } = Enumerable.Empty<Customer>().AsQueryable();
+
         [GlobalSetup]
         public void GlobalSetup()
         {
@@ -50,7 +55,7 @@ namespace QueryNinja.Benchmarking.Targets.Queryable
                 Description = "5 Filters"
             };
 
-            var fiveOrderRules  = new List<IQueryComponent>
+            var fiveOrderRules = new List<IQueryComponent>
             {
                 new OrderingRule("Orders.Count", OrderDirection.Descending),
                 new OrderingRule("Country", OrderDirection.Ascending),
@@ -86,11 +91,6 @@ namespace QueryNinja.Benchmarking.Targets.Queryable
                 Description = "5 of Each"
             };
         }
-
-        [ParamsSource(nameof(UsageScenarios))]
-        public QueryScenario Scenario { get; set; }
-
-        public IQueryable<Customer> Source { get; } = Enumerable.Empty<Customer>().AsQueryable();
 
         [Benchmark]
         public object Query()

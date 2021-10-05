@@ -4,25 +4,10 @@ using System.Collections.Generic;
 namespace QueryNinja.Targets.Queryable.Exceptions
 {
     /// <summary>
-    /// Property <see cref="Property"/> is expected to implement <see cref="IEnumerable{T}"/>.
+    ///   Property <see cref="Property" /> is expected to implement <see cref="IEnumerable{T}" />.
     /// </summary>
     public class PropertyIsNotCollectionException : QueryableTargetException
     {
-        /// <summary>
-        /// Property of wrong type.
-        /// </summary>
-        public string Property { get; }
-
-        /// <summary>
-        /// Actual type of the property.
-        /// </summary>
-        public Type PropertyType { get; }
-
-        /// <summary>
-        /// Type of the entity.
-        /// </summary>
-        public Type EntityType { get; }
-
         /// <inheritdoc />
         public PropertyIsNotCollectionException(string property, Type propertyType, Type entityType)
             : base(
@@ -32,5 +17,20 @@ namespace QueryNinja.Targets.Queryable.Exceptions
             PropertyType = propertyType;
             EntityType = entityType;
         }
+
+        /// <summary>
+        ///   Property of wrong type.
+        /// </summary>
+        public string Property { get; }
+
+        /// <summary>
+        ///   Actual type of the property.
+        /// </summary>
+        public Type PropertyType { get; }
+
+        /// <summary>
+        ///   Type of the entity.
+        /// </summary>
+        public Type EntityType { get; }
     }
 }

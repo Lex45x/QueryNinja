@@ -1,8 +1,8 @@
 ﻿using System;
-using NUnit.Framework;
-using QueryNinja.Core;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
+using QueryNinja.Core;
 using QueryNinja.Core.Extensibility;
 using QueryNinja.Core.Filters;
 using QueryNinja.Core.OrderingRules;
@@ -14,6 +14,12 @@ namespace QueryNinja.Targets.Queryable.Tests
     [TestFixture(Category = "Integration", TestOf = typeof(QueryableExtensions))]
     public class QueryableExtensionsTest
     {
+        [OneTimeSetUp]
+        public void SetupExtensions()
+        {
+            QueryNinjaExtensions.Configure.WithQueryableTarget();
+        }
+
         private static readonly IQueryable<Example> SourceData = new[]
         {
             new Example(id: 1, "First", intValue: 15, nullableIntValue: 15,
@@ -152,13 +158,6 @@ namespace QueryNinja.Targets.Queryable.Tests
         {
             new(SourceData, new UnsupportedQuery(), typeof(NoMatchingExtensionsException))
         };
-
-
-        [OneTimeSetUp]
-        public void SetupExtensions()
-        {
-            QueryNinjaExtensions.Configure.WithQueryableTarget();
-        }
 
         [Test]
         [TestCaseSource(nameof(SuccessScenarios))]

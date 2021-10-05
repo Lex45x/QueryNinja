@@ -1,17 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QueryNinja.Core;
 using QueryNinja.Examples.AspNetCore.DbContext;
-using QueryNinja.Targets.Queryable;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using QueryNinja.Examples.AspNetCore.DbContext.Entities;
+using QueryNinja.Targets.Queryable;
 
 namespace QueryNinja.Examples.AspNetCore.Controllers
 {
     /// <summary>
-    /// This controller allow to test QueryNinja. <br/>
-    /// 
+    ///   This controller allow to test QueryNinja. <br />
     /// </summary>
     [ApiController]
     [Route("[controller]")]
@@ -20,7 +19,7 @@ namespace QueryNinja.Examples.AspNetCore.Controllers
         private readonly UniversityDbContext dbContext;
 
         /// <summary>
-        /// Creates instance of a controller with dbContext.
+        ///   Creates instance of a controller with dbContext.
         /// </summary>
         /// <param name="dbContext"></param>
         public StudentsController(UniversityDbContext dbContext)
@@ -29,7 +28,7 @@ namespace QueryNinja.Examples.AspNetCore.Controllers
         }
 
         /// <summary>
-        /// Allows to get list of students with QueryNinja query.
+        ///   Allows to get list of students with QueryNinja query.
         /// </summary>
         /// <param name="query">QueryNinja query. Send empty to see all students.</param>
         /// <returns>List of students</returns>

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -9,7 +8,7 @@ using QueryNinja.Sources.GraphQL.Middleware;
 namespace QueryNinja.Sources.GraphQL
 {
     /// <summary>
-    /// Contains extensions needed to setup GraphQL endpoint.
+    ///   Contains extensions needed to setup GraphQL endpoint.
     /// </summary>
     public static class EndpointRouteBuilderExtensions
     {

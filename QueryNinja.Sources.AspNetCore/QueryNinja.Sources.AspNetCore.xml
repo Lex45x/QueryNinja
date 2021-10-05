@@ -1,147 +1,175 @@
 <?xml version="1.0"?>
+
 <doc>
-    <assembly>
-        <name>QueryNinja.Sources.AspNetCore</name>
-    </assembly>
-    <members>
-        <member name="T:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory">
-            <summary>
-            Default factory that unify creation of all operation-based filter. <br/>
-            This factory can be configured with user-defined filters with <see cref="M:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.RegisterFilterFactory``1(QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.FactoryMethod{``0})"/>
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.#ctor">
-            <summary>
-            Create instance of the factory and initialize it with default filters.
-            </summary>
-        </member>
-        <member name="T:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.FactoryMethod`1">
-            <summary>
-            Operation-specific factory method that can create <see cref="T:QueryNinja.Core.Filters.IFilter"/> from parameters.
-            </summary>
-            <param name="operation"></param>
-            <param name="property"></param>
-            <param name="value"></param>
-            <typeparam name="TOperation"></typeparam>
-        </member>
-        <member name="T:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.FactoryMethod">
-            <summary>
-            Factory method that can create <see cref="T:QueryNinja.Core.Filters.IFilter"/> from parameters without knowing exact <paramref name="operation"/> type.
-            </summary>
-            <param name="operation"></param>
-            <param name="property"></param>
-            <param name="value"></param>
-        </member>
-        <member name="M:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.RegisterFilterFactory``1(QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.FactoryMethod{``0})">
-            <summary>
-            Allows to register user-defined operation-based filter.
-            </summary>
-            <typeparam name="TOperation">Enum that describes operation.</typeparam>
-            <param name="factory">Factory hat creates <see cref="T:QueryNinja.Core.Filters.IFilter"/> from operation, property and value.</param>
-        </member>
-        <member name="M:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.CanApply(System.String,System.String)">
-            <inheritdoc/>
-        </member>
-        <member name="M:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.TryCreateFactory(System.String)">
-            <summary>
-            Search for suitable <see cref="T:QueryNinja.Core.Filters.IDefaultFilter`1"/> in <see cref="P:QueryNinja.Core.Extensibility.QueryNinjaExtensions.KnownQueryComponents"/> and artificially creates factory for it.
-            </summary>
-            <param name="operation"></param>
-            <returns><code>true</code> when factory created and registered.</returns>
-        </member>
-        <member name="M:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.TryCreateFactory``1(System.Type)">
-            <summary>
-            Search for suitable constructor in <paramref name="filterType"/>. <br/>
-            Create <see cref="T:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.FactoryMethod`1"/> and register it via <see cref="M:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.RegisterFilterFactory``1(QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.FactoryMethod{``0})"/>.
-            </summary>
-            <typeparam name="TOperation"></typeparam>
-            <param name="filterType"></param>
-            <returns><code>true</code> when factory created and registered.</returns>
-        </member>
-        <member name="M:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.Create(System.String,System.String)">
-            <inheritdoc/>
-        </member>
-        <member name="T:QueryNinja.Sources.AspNetCore.IAspNetCoreExtensionSettings">
-            <summary>
-            Decorates <see cref="T:QueryNinja.Core.Extensibility.IExtensionsSettings"/> and extend them with additional configuration for <see cref="T:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory"/>
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Sources.AspNetCore.IAspNetCoreExtensionSettings.ConfigureFilterFactory(System.Action{QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory})">
-            <summary>
-            Allows to extend <see cref="T:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory"/> with user-defined filters.
-            </summary>
-            <param name="configure">Delegate to configure <see cref="T:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory"/> with user-defined filters.</param>
-        </member>
-        <member name="T:QueryNinja.Sources.AspNetCore.IQueryComponentFactory">
-            <summary>
-            Allows to create <see cref="T:QueryNinja.Core.Filters.IFilter"/> instance from Query Parameters
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Sources.AspNetCore.IQueryComponentFactory.CanApply(System.String,System.String)">
-            <summary>
-            Checks whether current factory can be applied to the specified query parameter.
-            </summary>
-            <param name="name"></param>
-            <param name="value"></param>
-            <returns></returns>
-        </member>
-        <member name="M:QueryNinja.Sources.AspNetCore.IQueryComponentFactory.Create(System.String,System.String)">
-            <summary>
-            Creates <see cref="T:QueryNinja.Core.Filters.IFilter"/> instance from the specified query parameter.
-            </summary>
-            <param name="name"></param>
-            <param name="value"></param>
-            <returns></returns>
-        </member>
-        <member name="T:QueryNinja.Sources.AspNetCore.ModelBinding.QueryNinjaModelBinder">
-            <summary>
-            ModelBinder that can create <see cref="T:QueryNinja.Core.IQuery"/> instance from request parameters. <br/>
-            Currently, only binding from <see cref="F:Microsoft.AspNetCore.Mvc.ModelBinding.BindingSource.Query"/> is supported.
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Sources.AspNetCore.ModelBinding.QueryNinjaModelBinder.BindModelAsync(Microsoft.AspNetCore.Mvc.ModelBinding.ModelBindingContext)">
-            <inheritdoc />
-        </member>
-        <member name="T:QueryNinja.Sources.AspNetCore.ModelBinding.QueryNinjaModelBinderProvider">
-            <summary>
-            Allows to determine when <see cref="T:QueryNinja.Sources.AspNetCore.ModelBinding.QueryNinjaModelBinder"/> should be used.
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Sources.AspNetCore.ModelBinding.QueryNinjaModelBinderProvider.GetBinder(Microsoft.AspNetCore.Mvc.ModelBinding.ModelBinderProviderContext)">
-            <inheritdoc/>
-        </member>
-        <member name="T:QueryNinja.Sources.AspNetCore.ServiceCollectionExtensions">
-            <summary>
-            Allows simplified registration of all required QueryNinja services in <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Sources.AspNetCore.ServiceCollectionExtensions.AddQueryNinja(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            Adds <see cref="T:QueryNinja.Sources.AspNetCore.ModelBinding.QueryNinjaModelBinderProvider"/> to <see cref="T:Microsoft.AspNetCore.Mvc.MvcOptions"/> and configures <see cref="T:QueryNinja.Core.Extensibility.QueryNinjaExtensions"/> <br/>
-            Also, allows to register user-defined operation-based filters via <see cref="T:QueryNinja.Sources.AspNetCore.IAspNetCoreExtensionSettings"/>
-            </summary>
-            <param name="collection"></param>
-            <returns><see cref="P:QueryNinja.Core.Extensibility.QueryNinjaExtensions.Configure"/></returns>
-        </member>
-        <member name="M:QueryNinja.Sources.AspNetCore.ServiceCollectionExtensions.WithAspNetCoreSource(QueryNinja.Core.Extensibility.IExtensionsSettings)">
-            <summary>
-            Add AspNetCores source to <see cref="P:QueryNinja.Core.Extensibility.QueryNinjaExtensions.Configure"/> only. Does not affects any AspNet services. <br/>
-            Has to be used only for testing purposes.
-            </summary>
-            <param name="settings"></param>
-            <returns></returns>
-        </member>
-        <member name="M:QueryNinja.Sources.AspNetCore.ServiceCollectionExtensions.ExtensionSettings.ForType``1">
-            <inheritdoc />
-        </member>
-        <member name="M:QueryNinja.Sources.AspNetCore.ServiceCollectionExtensions.ExtensionSettings.RegisterComponent(System.Type)">
-            <inheritdoc />
-        </member>
-        <member name="M:QueryNinja.Sources.AspNetCore.ServiceCollectionExtensions.ExtensionSettings.RegisterComponent``1">
-            <inheritdoc />
-        </member>
-        <member name="M:QueryNinja.Sources.AspNetCore.ServiceCollectionExtensions.ExtensionSettings.ConfigureFilterFactory(System.Action{QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory})">
-            <inheritdoc />
-        </member>
-    </members>
+  <assembly>
+    <name>QueryNinja.Sources.AspNetCore</name>
+  </assembly>
+  <members>
+    <member name="T:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory">
+      <summary>
+        Default factory that unify creation of all operation-based filter. <br />
+        This factory can be configured with user-defined filters with
+        <see
+          cref="M:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.RegisterFilterFactory``1(QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.FactoryMethod{``0})" />
+      </summary>
+    </member>
+    <member name="M:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.#ctor">
+      <summary>
+        Create instance of the factory and initialize it with default filters.
+      </summary>
+    </member>
+    <member name="T:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.FactoryMethod`1">
+      <summary>
+        Operation-specific factory method that can create <see cref="T:QueryNinja.Core.Filters.IFilter" /> from parameters.
+      </summary>
+      <param name="operation"></param>
+      <param name="property"></param>
+      <param name="value"></param>
+      <typeparam name="TOperation"></typeparam>
+    </member>
+    <member name="T:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.FactoryMethod">
+      <summary>
+        Factory method that can create <see cref="T:QueryNinja.Core.Filters.IFilter" /> from parameters without knowing exact
+        <paramref name="operation" /> type.
+      </summary>
+      <param name="operation"></param>
+      <param name="property"></param>
+      <param name="value"></param>
+    </member>
+    <member
+      name="M:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.RegisterFilterFactory``1(QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.FactoryMethod{``0})">
+      <summary>
+        Allows to register user-defined operation-based filter.
+      </summary>
+      <typeparam name="TOperation">Enum that describes operation.</typeparam>
+      <param name="factory">Factory hat creates <see cref="T:QueryNinja.Core.Filters.IFilter" /> from operation, property and value.</param>
+    </member>
+    <member name="M:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.CanApply(System.String,System.String)">
+      <inheritdoc />
+    </member>
+    <member name="M:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.TryCreateFactory(System.String)">
+      <summary>
+        Search for suitable <see cref="T:QueryNinja.Core.Filters.IDefaultFilter`1" /> in
+        <see cref="P:QueryNinja.Core.Extensibility.QueryNinjaExtensions.KnownQueryComponents" /> and artificially creates factory for it.
+      </summary>
+      <param name="operation"></param>
+      <returns><code>true</code> when factory created and registered.</returns>
+    </member>
+    <member name="M:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.TryCreateFactory``1(System.Type)">
+      <summary>
+        Search for suitable constructor in <paramref name="filterType" />. <br />
+        Create <see cref="T:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.FactoryMethod`1" /> and register it via
+        <see
+          cref="M:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.RegisterFilterFactory``1(QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.FactoryMethod{``0})" />
+        .
+      </summary>
+      <typeparam name="TOperation"></typeparam>
+      <param name="filterType"></param>
+      <returns><code>true</code> when factory created and registered.</returns>
+    </member>
+    <member name="M:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.Create(System.String,System.String)">
+      <inheritdoc />
+    </member>
+    <member name="T:QueryNinja.Sources.AspNetCore.IAspNetCoreExtensionSettings">
+      <summary>
+        Decorates <see cref="T:QueryNinja.Core.Extensibility.IExtensionsSettings" /> and extend them with additional configuration for
+        <see cref="T:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory" />
+      </summary>
+    </member>
+    <member
+      name="M:QueryNinja.Sources.AspNetCore.IAspNetCoreExtensionSettings.ConfigureFilterFactory(System.Action{QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory})">
+      <summary>
+        Allows to extend <see cref="T:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory" /> with user-defined filters.
+      </summary>
+      <param name="configure">
+        Delegate to configure
+        <see cref="T:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory" /> with user-defined filters.
+      </param>
+    </member>
+    <member name="T:QueryNinja.Sources.AspNetCore.IQueryComponentFactory">
+      <summary>
+        Allows to create <see cref="T:QueryNinja.Core.Filters.IFilter" /> instance from Query Parameters
+      </summary>
+    </member>
+    <member name="M:QueryNinja.Sources.AspNetCore.IQueryComponentFactory.CanApply(System.String,System.String)">
+      <summary>
+        Checks whether current factory can be applied to the specified query parameter.
+      </summary>
+      <param name="name"></param>
+      <param name="value"></param>
+      <returns></returns>
+    </member>
+    <member name="M:QueryNinja.Sources.AspNetCore.IQueryComponentFactory.Create(System.String,System.String)">
+      <summary>
+        Creates <see cref="T:QueryNinja.Core.Filters.IFilter" /> instance from the specified query parameter.
+      </summary>
+      <param name="name"></param>
+      <param name="value"></param>
+      <returns></returns>
+    </member>
+    <member name="T:QueryNinja.Sources.AspNetCore.ModelBinding.QueryNinjaModelBinder">
+      <summary>
+        ModelBinder that can create <see cref="T:QueryNinja.Core.IQuery" /> instance from request parameters. <br />
+        Currently, only binding from <see cref="F:Microsoft.AspNetCore.Mvc.ModelBinding.BindingSource.Query" /> is supported.
+      </summary>
+    </member>
+    <member
+      name="M:QueryNinja.Sources.AspNetCore.ModelBinding.QueryNinjaModelBinder.BindModelAsync(Microsoft.AspNetCore.Mvc.ModelBinding.ModelBindingContext)">
+      <inheritdoc />
+    </member>
+    <member name="T:QueryNinja.Sources.AspNetCore.ModelBinding.QueryNinjaModelBinderProvider">
+      <summary>
+        Allows to determine when <see cref="T:QueryNinja.Sources.AspNetCore.ModelBinding.QueryNinjaModelBinder" />
+        should be used.
+      </summary>
+    </member>
+    <member
+      name="M:QueryNinja.Sources.AspNetCore.ModelBinding.QueryNinjaModelBinderProvider.GetBinder(Microsoft.AspNetCore.Mvc.ModelBinding.ModelBinderProviderContext)">
+      <inheritdoc />
+    </member>
+    <member name="T:QueryNinja.Sources.AspNetCore.ServiceCollectionExtensions">
+      <summary>
+        Allows simplified registration of all required QueryNinja services in
+        <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection" />
+      </summary>
+    </member>
+    <member
+      name="M:QueryNinja.Sources.AspNetCore.ServiceCollectionExtensions.AddQueryNinja(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+      <summary>
+        Adds <see cref="T:QueryNinja.Sources.AspNetCore.ModelBinding.QueryNinjaModelBinderProvider" /> to
+        <see cref="T:Microsoft.AspNetCore.Mvc.MvcOptions" /> and configures
+        <see cref="T:QueryNinja.Core.Extensibility.QueryNinjaExtensions" /> <br />
+        Also, allows to register user-defined operation-based filters via
+        <see cref="T:QueryNinja.Sources.AspNetCore.IAspNetCoreExtensionSettings" />
+      </summary>
+      <param name="collection"></param>
+      <returns>
+        <see cref="P:QueryNinja.Core.Extensibility.QueryNinjaExtensions.Configure" />
+      </returns>
+    </member>
+    <member
+      name="M:QueryNinja.Sources.AspNetCore.ServiceCollectionExtensions.WithAspNetCoreSource(QueryNinja.Core.Extensibility.IExtensionsSettings)">
+      <summary>
+        Add AspNetCores source to <see cref="P:QueryNinja.Core.Extensibility.QueryNinjaExtensions.Configure" /> only. Does not affects any AspNet services.
+        <br />
+        Has to be used only for testing purposes.
+      </summary>
+      <param name="settings"></param>
+      <returns></returns>
+    </member>
+    <member name="M:QueryNinja.Sources.AspNetCore.ServiceCollectionExtensions.ExtensionSettings.ForType``1">
+      <inheritdoc />
+    </member>
+    <member
+      name="M:QueryNinja.Sources.AspNetCore.ServiceCollectionExtensions.ExtensionSettings.RegisterComponent(System.Type)">
+      <inheritdoc />
+    </member>
+    <member name="M:QueryNinja.Sources.AspNetCore.ServiceCollectionExtensions.ExtensionSettings.RegisterComponent``1">
+      <inheritdoc />
+    </member>
+    <member
+      name="M:QueryNinja.Sources.AspNetCore.ServiceCollectionExtensions.ExtensionSettings.ConfigureFilterFactory(System.Action{QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory})">
+      <inheritdoc />
+    </member>
+  </members>
 </doc>

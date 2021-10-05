@@ -14,23 +14,23 @@ namespace QueryNinja.Targets.Queryable.Tests
         public static IEnumerable<TestCaseData> SuccessTests = new List<TestCaseData>
         {
             new TestCaseData(
-                    new Example[]{"a","b","aa","ab","aaa",""},
+                    new Example[] {"a", "b", "aa", "ab", "aaa", ""},
                     new CollectionFilter(CollectionOperation.Contains, "Value", "a"))
-                .Returns(new []{"a","aa", "ab", "aaa"}),
+                .Returns(new[] {"a", "aa", "ab", "aaa"}),
             new TestCaseData(
-                    new Example[]{"a","b","aa","ab","aaa",""},
+                    new Example[] {"a", "b", "aa", "ab", "aaa", ""},
                     new CollectionFilter(CollectionOperation.IsEmpty, "Value", "true"))
-                .Returns(new []{""})
+                .Returns(new[] {""})
         };
 
         public static IEnumerable<TestCaseData> FailedTests = new List<TestCaseData>
         {
             new(
-                    new Example[]{"a","b","aa","ab","aaa",""},
-                    new CollectionFilter(CollectionOperation.Contains, "Value.Length", "a"),
-                    typeof(PropertyIsNotCollectionException)),
+                new Example[] {"a", "b", "aa", "ab", "aaa", ""},
+                new CollectionFilter(CollectionOperation.Contains, "Value.Length", "a"),
+                typeof(PropertyIsNotCollectionException)),
             new(
-                new Example[]{"a","b","aa","ab","aaa",""},
+                new Example[] {"a", "b", "aa", "ab", "aaa", ""},
                 new CollectionFilter((CollectionOperation) 12, "Value", "a"),
                 typeof(QueryBuildingException))
         };
@@ -50,7 +50,8 @@ namespace QueryNinja.Targets.Queryable.Tests
 
         [Test]
         [TestCaseSource(nameof(FailedTests))]
-        public void FailedAppendTestOnStrings(IEnumerable<Example> source, CollectionFilter defaultFilter, Type exceptionType)
+        public void FailedAppendTestOnStrings(IEnumerable<Example> source, CollectionFilter defaultFilter,
+            Type exceptionType)
         {
             var builder = new CollectionFilterQueryBuilder();
 
@@ -61,16 +62,16 @@ namespace QueryNinja.Targets.Queryable.Tests
 
         public class Example
         {
-            public string Value { get; }
-
             public Example(string value)
             {
                 Value = value;
             }
 
+            public string Value { get; }
+
             public static implicit operator Example(string value)
             {
-                return new (value);
+                return new(value);
             }
         }
     }

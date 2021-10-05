@@ -10,19 +10,19 @@ namespace QueryNinja.Sources.AspNetCore.Tests
     [TestFixture(Category = "Unit", TestOf = typeof(DefaultFilterFactory))]
     public class DefaultFilterFactoryTests
     {
-        public static IEnumerable<TestCaseData> SuccessCases = new[]
-        {
-            new TestCaseData("filter.Property.Test", "0", typeof(TestFilter), TestOperations.Test),
-            new TestCaseData("filter.Property.Equals", "0", typeof(ComparisonFilter), ComparisonOperation.Equals),
-            new TestCaseData("filter.Property.Contains", "0", typeof(CollectionFilter), CollectionOperation.Contains)
-        };
-        
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
             //enables dynamic factory building for this Filter
             QueryNinjaExtensions.Configure.RegisterComponent<TestFilter>();
         }
+
+        public static IEnumerable<TestCaseData> SuccessCases = new[]
+        {
+            new TestCaseData("filter.Property.Test", "0", typeof(TestFilter), TestOperations.Test),
+            new TestCaseData("filter.Property.Equals", "0", typeof(ComparisonFilter), ComparisonOperation.Equals),
+            new TestCaseData("filter.Property.Contains", "0", typeof(CollectionFilter), CollectionOperation.Contains)
+        };
 
         [Test]
         [TestCaseSource(nameof(SuccessCases))]

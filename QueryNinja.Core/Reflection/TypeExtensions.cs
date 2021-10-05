@@ -19,7 +19,8 @@ namespace QueryNinja.Core.Reflection
                 return baseName;
             }
 
-            return type.GetGenericArguments().Aggregate(baseName, (name, argument) => name + GetFriendlyTypeName(argument));
+            return type.GetGenericArguments()
+                .Aggregate(baseName, (name, argument) => name + GetFriendlyTypeName(argument));
         }
     }
 }

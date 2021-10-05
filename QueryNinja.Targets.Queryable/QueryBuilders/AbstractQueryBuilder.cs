@@ -8,14 +8,15 @@ using QueryNinja.Targets.Queryable.Exceptions;
 namespace QueryNinja.Targets.Queryable.QueryBuilders
 {
     /// <summary>
-    /// Provides generic implementation for <see cref="IQueryBuilder"/> using specific <typeparamref name="TComponent"/> type.
+    ///   Provides generic implementation for <see cref="IQueryBuilder" /> using specific <typeparamref name="TComponent" />
+    ///   type.
     /// </summary>
     /// <typeparam name="TComponent"></typeparam>
     public abstract class AbstractQueryBuilder<TComponent>
         : AbstractComponentExtension<TComponent>, ITypedQueryBuilder
         where TComponent : IQueryComponent
     {
-        ///<inheritdoc/>
+        /// <inheritdoc />
         public virtual bool CanAppend(IQueryComponent component)
         {
             if (component is null)
@@ -26,14 +27,18 @@ namespace QueryNinja.Targets.Queryable.QueryBuilders
             return component.GetType() == typeof(TComponent);
         }
 
-        ///<inheritdoc/>
+        /// <inheritdoc />
         public IQueryable<TEntity> Append<TEntity>(IQueryable<TEntity> source, IQueryComponent component)
         {
             return Append(source, (TComponent) component);
         }
 
+        /// <inheritdoc />
+        public Type ComponentType => typeof(TComponent);
+
         /// <summary>
-        /// A call to this method wil be wrapped with error handling in <see cref="Append{TEntity}(IQueryable{TEntity},TComponent)"/>
+        ///   A call to this method wil be wrapped with error handling in
+        ///   <see cref="Append{TEntity}(IQueryable{TEntity},TComponent)" />
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="source"></param>
@@ -43,8 +48,9 @@ namespace QueryNinja.Targets.Queryable.QueryBuilders
             TComponent component);
 
         /// <summary>
-        /// Provides generic <see cref="Append{TEntity}(IQueryable{TEntity},IQueryComponent)"/> implementation for specific component type.<br/>
-        /// Contains generic error handling.
+        ///   Provides generic <see cref="Append{TEntity}(IQueryable{TEntity},IQueryComponent)" /> implementation for specific
+        ///   component type.<br />
+        ///   Contains generic error handling.
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="source"></param>
@@ -66,8 +72,5 @@ namespace QueryNinja.Targets.Queryable.QueryBuilders
                 throw new QueryBuildingException(GetType(), e);
             }
         }
-
-        /// <inheritdoc />
-        public Type ComponentType => typeof(TComponent);
     }
 }

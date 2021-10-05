@@ -3,8 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
-using System.Reflection.Emit;
 using QueryNinja.Core;
 using QueryNinja.Core.Projection;
 
@@ -15,15 +13,10 @@ namespace QueryNinja.Sources.AspNetCore.Reflection
         private static readonly ConcurrentDictionary<Type, DynamicQueryFactory> DynamicQueryFactories =
             new ConcurrentDictionary<Type, DynamicQueryFactory>();
 
-        private delegate IDynamicQuery DynamicQueryFactory(IReadOnlyList<IQueryComponent> components,
-            IReadOnlyList<ISelector> selectors);
-
         private static readonly ConcurrentDictionary<Type, QueryFactory> QueryFactories =
             new ConcurrentDictionary<Type, QueryFactory>();
 
-        private delegate IQuery QueryFactory(IReadOnlyList<IQueryComponent> components);
-
-        public static IDynamicQuery DynamicQuery(Type queryType, 
+        public static IDynamicQuery DynamicQuery(Type queryType,
             IReadOnlyList<IQueryComponent> components,
             IReadOnlyList<ISelector> selectors)
         {
@@ -42,7 +35,8 @@ namespace QueryNinja.Sources.AspNetCore.Reflection
 
             var convertedInstance = Expression.Convert(newQueryInstance, typeof(IDynamicQuery));
 
-            var expressionFactory = Expression.Lambda<DynamicQueryFactory>(convertedInstance, componentsParameter, selectorsParameter);
+            var expressionFactory =
+                Expression.Lambda<DynamicQueryFactory>(convertedInstance, componentsParameter, selectorsParameter);
 
             var compiledFactory = expressionFactory.Compile();
 
@@ -75,5 +69,10 @@ namespace QueryNinja.Sources.AspNetCore.Reflection
 
             return compiledFactory(components);
         }
+
+        private delegate IDynamicQuery DynamicQueryFactory(IReadOnlyList<IQueryComponent> components,
+            IReadOnlyList<ISelector> selectors);
+
+        private delegate IQuery QueryFactory(IReadOnlyList<IQueryComponent> components);
     }
 }

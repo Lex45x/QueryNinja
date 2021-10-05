@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using QueryNinja.Core;
 using System.Linq;
+using QueryNinja.Core;
 using QueryNinja.Core.Extensibility;
 using QueryNinja.Targets.Queryable.Exceptions;
 using QueryNinja.Targets.Queryable.Projection;
 using QueryNinja.Targets.Queryable.QueryBuilders;
+
 // ReSharper disable ForCanBeConvertedToForeach
 // ReSharper disable LoopCanBeConvertedToQuery
 
 namespace QueryNinja.Targets.Queryable
 {
     /// <summary>
-    /// Extensions that allow to use QueryNinja on <see cref="IQueryable{T}"/> interface.
+    ///   Extensions that allow to use QueryNinja on <see cref="IQueryable{T}" /> interface.
     /// </summary>
     public static class QueryableExtensions
     {
@@ -27,12 +28,15 @@ namespace QueryNinja.Targets.Queryable
 
 
         /// <summary>
-        /// Appends <paramref name="query"/> to the <paramref name="queryable"/>.
+        ///   Appends <paramref name="query" /> to the <paramref name="queryable" />.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="queryable"></param>
         /// <param name="query"></param>
-        /// <exception cref="NoMatchingExtensionsException">When <paramref name="query"/> contains component that no <see cref="IQueryBuilder"/> can append.</exception>
+        /// <exception cref="NoMatchingExtensionsException">
+        ///   When <paramref name="query" /> contains component that no
+        ///   <see cref="IQueryBuilder" /> can append.
+        /// </exception>
         /// <returns></returns>
         public static IQueryable<T> WithQuery<T>(this IQueryable<T> queryable, IQuery query)
         {
@@ -76,12 +80,15 @@ namespace QueryNinja.Targets.Queryable
         }
 
         /// <summary>
-        /// Appends <paramref name="query"/> to the <paramref name="queryable"/>.
+        ///   Appends <paramref name="query" /> to the <paramref name="queryable" />.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="queryable"></param>
         /// <param name="query"></param>
-        /// <exception cref="NoMatchingExtensionsException">When <paramref name="query"/> contains component that no <see cref="IQueryBuilder"/> can append.</exception>
+        /// <exception cref="NoMatchingExtensionsException">
+        ///   When <paramref name="query" /> contains component that no
+        ///   <see cref="IQueryBuilder" /> can append.
+        /// </exception>
         /// <returns></returns>
         public static IQueryable<T> WithQuery<T>(this IQueryable<T> queryable, IQuery<T> query)
         {
@@ -89,7 +96,8 @@ namespace QueryNinja.Targets.Queryable
         }
 
         /// <summary>
-        /// Appends <paramref name="query"/> to the <paramref name="queryable"/> and allows to project <see cref="T"/> into dynamic object.
+        ///   Appends <paramref name="query" /> to the <paramref name="queryable" /> and allows to project <see cref="T" /> into
+        ///   dynamic object.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="queryable"></param>
@@ -103,7 +111,8 @@ namespace QueryNinja.Targets.Queryable
         }
 
         /// <summary>
-        /// Appends <paramref name="query"/> to the <paramref name="queryable"/> and allows to project <see cref="T"/> into dynamic object.
+        ///   Appends <paramref name="query" /> to the <paramref name="queryable" /> and allows to project <see cref="T" /> into
+        ///   dynamic object.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="queryable"></param>

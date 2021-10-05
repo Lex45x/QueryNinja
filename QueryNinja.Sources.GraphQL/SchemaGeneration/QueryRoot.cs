@@ -5,12 +5,12 @@ using QueryNinja.Core;
 namespace QueryNinja.Sources.GraphQL.SchemaGeneration
 {
     /// <summary>
-    /// Represent action method that contains <see cref="IQuery"/> argument.
+    ///   Represent action method that contains <see cref="IQuery" /> argument.
     /// </summary>
     public class QueryRoot
     {
         /// <summary>
-        /// Creates a new instance of <see cref="QueryRoot"/>
+        ///   Creates a new instance of <see cref="QueryRoot" />
         /// </summary>
         /// <param name="modelType"></param>
         /// <param name="controllerType"></param>
@@ -25,22 +25,21 @@ namespace QueryNinja.Sources.GraphQL.SchemaGeneration
         }
 
         /// <summary>
-        /// Represent target type for query.
+        ///   Represent target type for query.
         /// </summary>
         public Type ModelType { get; }
 
         /// <summary>
-        /// Type of a controller that contains action method.
+        ///   Type of a controller that contains action method.
         /// </summary>
         public Type ControllerType { get; }
 
         /// <summary>
-        /// Action method itself.
+        ///   Action method itself.
         /// </summary>
         public MethodInfo ActionMethod { get; }
 
         /// <summary>
-        /// 
         /// </summary>
         public Type QueryType { get; }
     }

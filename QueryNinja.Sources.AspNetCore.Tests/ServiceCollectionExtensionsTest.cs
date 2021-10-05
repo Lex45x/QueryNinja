@@ -20,7 +20,10 @@ namespace QueryNinja.Sources.AspNetCore.Tests
 
             var extensionSettings = serviceCollection.AddQueryNinja();
 
-            static IFilter TestFilterFactory(TestOperation operation, string property, string value) => new TestDefaultFilter(operation, property, value);
+            static IFilter TestFilterFactory(TestOperation operation, string property, string value)
+            {
+                return new TestDefaultFilter(operation, property, value);
+            }
 
             extensionSettings.ConfigureFilterFactory(factory =>
             {

@@ -1,8 +1,9 @@
-﻿using NUnit.Framework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
 using QueryNinja.Core.Filters;
 using QueryNinja.Targets.Queryable.QueryBuilders;
+
 // ReSharper disable StringLiteralTypo
 
 namespace QueryNinja.Targets.Queryable.Tests
@@ -13,33 +14,33 @@ namespace QueryNinja.Targets.Queryable.Tests
         public static IEnumerable<TestCaseData> CollectionsAndFilters = new List<TestCaseData>
         {
             new TestCaseData(
-                new Example[]{"a","b","aa","ab","aaa","aabb"},
-                new ComparisonFilter(ComparisonOperation.Equals, "Value.Length", "1"))
-            .Returns(new []{"a","b"}),
+                    new Example[] {"a", "b", "aa", "ab", "aaa", "aabb"},
+                    new ComparisonFilter(ComparisonOperation.Equals, "Value.Length", "1"))
+                .Returns(new[] {"a", "b"}),
             new TestCaseData(
-                new Example[]{"a","b","aa","ab","aaa","aabb"},
-                new ComparisonFilter(ComparisonOperation.NotEquals, "Value.Length", "2"))
-            .Returns(new []{"a","b","aaa","aabb"}),
+                    new Example[] {"a", "b", "aa", "ab", "aaa", "aabb"},
+                    new ComparisonFilter(ComparisonOperation.NotEquals, "Value.Length", "2"))
+                .Returns(new[] {"a", "b", "aaa", "aabb"}),
             new TestCaseData(
-                new Example[]{"a","b","aa","ab","aaa","aabb"},
-                new ComparisonFilter(ComparisonOperation.Greater, "Value.Length", "3"))
-            .Returns(new []{"aabb"}),
+                    new Example[] {"a", "b", "aa", "ab", "aaa", "aabb"},
+                    new ComparisonFilter(ComparisonOperation.Greater, "Value.Length", "3"))
+                .Returns(new[] {"aabb"}),
             new TestCaseData(
-                new Example[]{"a","b","aa","ab","aaa","aabb"},
-                new ComparisonFilter(ComparisonOperation.GreaterOrEquals, "Value.Length", "3"))
-            .Returns(new []{"aaa","aabb"}),
+                    new Example[] {"a", "b", "aa", "ab", "aaa", "aabb"},
+                    new ComparisonFilter(ComparisonOperation.GreaterOrEquals, "Value.Length", "3"))
+                .Returns(new[] {"aaa", "aabb"}),
             new TestCaseData(
-                new Example[]{"a","b","aa","ab","aaa","aabb"},
-                new ComparisonFilter(ComparisonOperation.Less, "Value.Length", "2"))
-            .Returns(new []{"a","b"}),
+                    new Example[] {"a", "b", "aa", "ab", "aaa", "aabb"},
+                    new ComparisonFilter(ComparisonOperation.Less, "Value.Length", "2"))
+                .Returns(new[] {"a", "b"}),
             new TestCaseData(
-                new Example[]{"a","b","aa","ab","aaa","aabb"},
-                new ComparisonFilter(ComparisonOperation.LessOrEquals, "Value.Length", "2"))
-            .Returns(new []{"a","b","aa","ab"}),
+                    new Example[] {"a", "b", "aa", "ab", "aaa", "aabb"},
+                    new ComparisonFilter(ComparisonOperation.LessOrEquals, "Value.Length", "2"))
+                .Returns(new[] {"a", "b", "aa", "ab"}),
             new TestCaseData(
-                new Example[]{"a","b","aa","ab","aaa","aabb"},
-                new ComparisonFilter(ComparisonOperation.Equals, "Value", "a"))
-            .Returns(new []{"a"})
+                    new Example[] {"a", "b", "aa", "ab", "aaa", "aabb"},
+                    new ComparisonFilter(ComparisonOperation.Equals, "Value", "a"))
+                .Returns(new[] {"a"})
         };
 
         [Test]
@@ -57,16 +58,16 @@ namespace QueryNinja.Targets.Queryable.Tests
 
         public class Example
         {
-            public string Value { get; }
-
             public Example(string value)
             {
                 Value = value;
             }
 
+            public string Value { get; }
+
             public static implicit operator Example(string value)
             {
-                return new (value);
+                return new(value);
             }
         }
     }

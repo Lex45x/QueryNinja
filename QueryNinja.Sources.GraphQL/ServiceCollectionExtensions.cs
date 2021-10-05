@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using QueryNinja.Core;
@@ -14,15 +13,17 @@ using QueryNinja.Targets.Queryable;
 namespace QueryNinja.Sources.GraphQL
 {
     /// <summary>
-    /// Provides extensions methods to register GraphQL Source for QueryNinja.
+    ///   Provides extensions methods to register GraphQL Source for QueryNinja.
     /// </summary>
     public static class ServiceCollectionExtensions
     {
         /// <summary>
-        /// Registers AspNetCore Source and all required GraphQL-related services.
+        ///   Registers AspNetCore Source and all required GraphQL-related services.
         /// </summary>
         /// <param name="collection"></param>
-        /// <returns><see cref="QueryNinjaExtensions.Configure"/></returns>
+        /// <returns>
+        ///   <see cref="QueryNinjaExtensions.Configure" />
+        /// </returns>
         public static IGraphQLExtensionSettings AddQueryNinjaGraphQL(this IServiceCollection collection)
         {
             var extensionSettings = collection.AddQueryNinja();
@@ -35,7 +36,8 @@ namespace QueryNinja.Sources.GraphQL
                 new ActionsScanner(provider.GetRequiredService<IActionDescriptorCollectionProvider>())));
 
             collection.Add(ServiceDescriptor.Singleton<IGraphQLQueriesSource>(provider =>
-                new GraphQLQueriesSource(provider.GetRequiredService<IActionsScanner>(), provider.GetRequiredService<IQuerySerializer<IDynamicQuery>>())));
+                new GraphQLQueriesSource(provider.GetRequiredService<IActionsScanner>(),
+                    provider.GetRequiredService<IQuerySerializer<IDynamicQuery>>())));
 
             collection.Add(ServiceDescriptor.Singleton<IGraphQLRequestHandler>(provider =>
                 new GraphQLRequestHandler(provider.GetRequiredService<IGraphQLQueriesSource>())));
@@ -81,7 +83,7 @@ namespace QueryNinja.Sources.GraphQL
     }
 
     /// <summary>
-    /// Allows to configure GraphQL Source
+    ///   Allows to configure GraphQL Source
     /// </summary>
     public interface IGraphQLExtensionSettings : IAspNetCoreExtensionSettings
     {

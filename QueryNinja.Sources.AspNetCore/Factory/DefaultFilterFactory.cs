@@ -3,32 +3,21 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using QueryNinja.Core;
 using QueryNinja.Core.Extensibility;
 using QueryNinja.Core.Filters;
-using BindingFlags = System.Reflection.BindingFlags;
 
 namespace QueryNinja.Sources.AspNetCore.Factory
 {
     /// <summary>
-    /// Default factory that unify creation of all operation-based filter. <br/>
-    /// This factory can be configured with user-defined filters with <see cref="RegisterFilterFactory{TOperation}"/>
+    ///   Default factory that unify creation of all operation-based filter. <br />
+    ///   This factory can be configured with user-defined filters with <see cref="RegisterFilterFactory{TOperation}" />
     /// </summary>
     public class DefaultFilterFactory : AbstractComponentExtension<IFilter>, IQueryComponentFactory
     {
         /// <summary>
-        /// Create instance of the factory and initialize it with default filters.
-        /// </summary>
-        public DefaultFilterFactory()
-        {
-            RegisterFilterFactory<CollectionOperation>((operation, property, value) =>
-                new CollectionFilter(operation, property, value));
-            RegisterFilterFactory<ComparisonOperation>((operation, property, value) =>
-                new ComparisonFilter(operation, property, value));
-        }
-
-        /// <summary>
-        /// Operation-specific factory method that can create <see cref="IFilter"/> from parameters.
+        ///   Operation-specific factory method that can create <see cref="IFilter" /> from parameters.
         /// </summary>
         /// <param name="operation"></param>
         /// <param name="property"></param>
@@ -38,7 +27,8 @@ namespace QueryNinja.Sources.AspNetCore.Factory
             where TOperation : struct, Enum;
 
         /// <summary>
-        /// Factory method that can create <see cref="IFilter"/> from parameters without knowing exact <paramref name="operation"/> type.
+        ///   Factory method that can create <see cref="IFilter" /> from parameters without knowing exact
+        ///   <paramref name="operation" /> type.
         /// </summary>
         /// <param name="operation"></param>
         /// <param name="property"></param>
@@ -49,27 +39,17 @@ namespace QueryNinja.Sources.AspNetCore.Factory
             new Dictionary<string, FactoryMethod>();
 
         /// <summary>
-        /// Allows to register user-defined operation-based filter.
+        ///   Create instance of the factory and initialize it with default filters.
         /// </summary>
-        /// <typeparam name="TOperation">Enum that describes operation.</typeparam>
-        /// <param name="factory">Factory hat creates <see cref="IFilter"/> from operation, property and value.</param>
-        public void RegisterFilterFactory<TOperation>(FactoryMethod<TOperation> factory)
-            where TOperation : struct, Enum
+        public DefaultFilterFactory()
         {
-            IFilter GeneralFactory(string operation, string property, string value)
-            {
-                var operationEnum = Enum.Parse<TOperation>(operation);
-
-                return factory(operationEnum, property, value);
-            }
-
-            foreach (var operation in typeof(TOperation).GetEnumNames())
-            {
-                filterFactories.Add(operation, GeneralFactory);
-            }
+            RegisterFilterFactory<CollectionOperation>((operation, property, value) =>
+                new CollectionFilter(operation, property, value));
+            RegisterFilterFactory<ComparisonOperation>((operation, property, value) =>
+                new ComparisonFilter(operation, property, value));
         }
 
-        ///<inheritdoc/>
+        /// <inheritdoc />
         public bool CanApply(string name, string value)
         {
             if (!name.StartsWith("filter", StringComparison.OrdinalIgnoreCase))
@@ -96,8 +76,48 @@ namespace QueryNinja.Sources.AspNetCore.Factory
             return factoryCreated;
         }
 
+        /// <inheritdoc />
+        public IQueryComponent Create(string name, string value)
+        {
+            var segments = name.AsSpan();
+
+            var firstDot = segments.IndexOf(value: '.');
+            var lastDot = segments.LastIndexOf(value: '.');
+
+            var operation = segments.Slice(lastDot + 1).ToString();
+            var property = segments.Slice(firstDot + 1, lastDot - firstDot - 1).ToString();
+
+            var desiredFactory = filterFactories[operation];
+
+            var filter = desiredFactory(operation, property, value);
+
+            return filter;
+        }
+
         /// <summary>
-        /// Search for suitable <see cref="IDefaultFilter{TOperation}"/> in <see cref="QueryNinjaExtensions.KnownQueryComponents"/> and artificially creates factory for it.
+        ///   Allows to register user-defined operation-based filter.
+        /// </summary>
+        /// <typeparam name="TOperation">Enum that describes operation.</typeparam>
+        /// <param name="factory">Factory hat creates <see cref="IFilter" /> from operation, property and value.</param>
+        public void RegisterFilterFactory<TOperation>(FactoryMethod<TOperation> factory)
+            where TOperation : struct, Enum
+        {
+            IFilter GeneralFactory(string operation, string property, string value)
+            {
+                var operationEnum = Enum.Parse<TOperation>(operation);
+
+                return factory(operationEnum, property, value);
+            }
+
+            foreach (var operation in typeof(TOperation).GetEnumNames())
+            {
+                filterFactories.Add(operation, GeneralFactory);
+            }
+        }
+
+        /// <summary>
+        ///   Search for suitable <see cref="IDefaultFilter{TOperation}" /> in
+        ///   <see cref="QueryNinjaExtensions.KnownQueryComponents" /> and artificially creates factory for it.
         /// </summary>
         /// <param name="operation"></param>
         /// <returns><code>true</code> when factory created and registered.</returns>
@@ -113,7 +133,7 @@ namespace QueryNinja.Sources.AspNetCore.Factory
             {
                 return false;
             }
-            
+
             if (knownDefaultFilters.Count > 1)
             {
                 //todo: custom exception
@@ -125,7 +145,8 @@ namespace QueryNinja.Sources.AspNetCore.Factory
             var operationType = filter.GetInterface("IDefaultFilter`1").GetGenericArguments()[0];
 
             var genericCreateFactory = GetType()
-                .GetMethod("TryCreateFactory", genericParameterCount: 1, BindingFlags.Instance | BindingFlags.NonPublic, binder: null, new[] {typeof(Type)}, modifiers: null);
+                .GetMethod("TryCreateFactory", genericParameterCount: 1, BindingFlags.Instance | BindingFlags.NonPublic,
+                    binder: null, new[] {typeof(Type)}, modifiers: null);
 
             //can be caused only by changing the codebase.
             if (genericCreateFactory == null)
@@ -139,8 +160,8 @@ namespace QueryNinja.Sources.AspNetCore.Factory
         }
 
         /// <summary>
-        /// Search for suitable constructor in <paramref name="filterType"/>. <br/>
-        /// Create <see cref="FactoryMethod{TOperation}"/> and register it via <see cref="RegisterFilterFactory{TOperation}"/>.
+        ///   Search for suitable constructor in <paramref name="filterType" />. <br />
+        ///   Create <see cref="FactoryMethod{TOperation}" /> and register it via <see cref="RegisterFilterFactory{TOperation}" />.
         /// </summary>
         /// <typeparam name="TOperation"></typeparam>
         /// <param name="filterType"></param>
@@ -171,24 +192,6 @@ namespace QueryNinja.Sources.AspNetCore.Factory
             RegisterFilterFactory(factoryMethod);
 
             return true;
-        }
-
-        ///<inheritdoc/>
-        public IQueryComponent Create(string name, string value)
-        {
-            var segments = name.AsSpan();
-
-            var firstDot = segments.IndexOf(value: '.');
-            var lastDot = segments.LastIndexOf(value: '.');
-
-            var operation = segments.Slice(lastDot + 1).ToString();
-            var property = segments.Slice(firstDot + 1, lastDot - firstDot - 1).ToString();
-
-            var desiredFactory = filterFactories[operation];
-
-            var filter = desiredFactory(operation, property, value);
-
-            return filter;
         }
     }
 }

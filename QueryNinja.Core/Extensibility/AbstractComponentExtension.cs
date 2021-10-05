@@ -2,11 +2,11 @@
 
 namespace QueryNinja.Core.Extensibility
 {
-    ///<inheritdoc/>
+    /// <inheritdoc />
     public class AbstractComponentExtension<TComponent> : IQueryComponentExtension
         where TComponent : IQueryComponent
     {
-        ///<inheritdoc/>
+        /// <inheritdoc />
         public Type QueryComponent => typeof(TComponent);
     }
 }

@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Moq;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using QueryNinja.Sources.GraphQL.SchemaGeneration;
 
 namespace QueryNinja.Sources.GraphQL.Tests.SchemaGeneration
@@ -16,7 +11,7 @@ namespace QueryNinja.Sources.GraphQL.Tests.SchemaGeneration
         {
             //todo: mock of provider without mocking whole middleware.
 
-            var actionsScanner = new ActionsScanner(null);
+            var actionsScanner = new ActionsScanner(provider: null);
         }
     }
 }

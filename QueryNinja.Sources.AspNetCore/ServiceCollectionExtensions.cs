@@ -1,24 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using QueryNinja.Sources.AspNetCore.ModelBinding;
-using System;
 using QueryNinja.Core;
 using QueryNinja.Core.Extensibility;
 using QueryNinja.Sources.AspNetCore.Factory;
+using QueryNinja.Sources.AspNetCore.ModelBinding;
 
 namespace QueryNinja.Sources.AspNetCore
 {
     /// <summary>
-    /// Allows simplified registration of all required QueryNinja services in <see cref="IServiceCollection"/>
+    ///   Allows simplified registration of all required QueryNinja services in <see cref="IServiceCollection" />
     /// </summary>
     public static class ServiceCollectionExtensions
     {
         /// <summary>
-        /// Adds <see cref="QueryNinjaModelBinderProvider"/> to <see cref="MvcOptions"/> and configures <see cref="QueryNinjaExtensions"/> <br/>
-        /// Also, allows to register user-defined operation-based filters via <see cref="IAspNetCoreExtensionSettings"/>
+        ///   Adds <see cref="QueryNinjaModelBinderProvider" /> to <see cref="MvcOptions" /> and configures
+        ///   <see cref="QueryNinjaExtensions" /> <br />
+        ///   Also, allows to register user-defined operation-based filters via <see cref="IAspNetCoreExtensionSettings" />
         /// </summary>
         /// <param name="collection"></param>
-        /// <returns><see cref="QueryNinjaExtensions.Configure"/></returns>
+        /// <returns>
+        ///   <see cref="QueryNinjaExtensions.Configure" />
+        /// </returns>
         public static IAspNetCoreExtensionSettings AddQueryNinja(this IServiceCollection collection)
         {
             var factory = new DefaultFilterFactory();
@@ -34,8 +37,9 @@ namespace QueryNinja.Sources.AspNetCore
         }
 
         /// <summary>
-        /// Add AspNetCores source to <see cref="QueryNinjaExtensions.Configure"/> only. Does not affects any AspNet services. <br/>
-        /// Has to be used only for testing purposes.
+        ///   Add AspNetCores source to <see cref="QueryNinjaExtensions.Configure" /> only. Does not affects any AspNet services.
+        ///   <br />
+        ///   Has to be used only for testing purposes.
         /// </summary>
         /// <param name="settings"></param>
         /// <returns></returns>
@@ -51,15 +55,15 @@ namespace QueryNinja.Sources.AspNetCore
 
         private class ExtensionSettings : IAspNetCoreExtensionSettings
         {
-            private readonly IExtensionsSettings parent;
             private readonly DefaultFilterFactory factory;
+            private readonly IExtensionsSettings parent;
 
             public ExtensionSettings(IExtensionsSettings parent, DefaultFilterFactory factory)
             {
                 this.parent = parent;
                 this.factory = factory;
             }
-            
+
             /// <inheritdoc />
             public IExtensionTypeSettings<TExtension> ForType<TExtension>()
                 where TExtension : IQueryComponentExtension

@@ -3,13 +3,13 @@
 namespace QueryNinja.Core.OrderingRules
 {
     /// <summary>
-    /// Represent a rule to define Target collection order.
+    ///   Represent a rule to define Target collection order.
     /// </summary>
     [DefinedForPrimitives]
     public sealed class OrderingRule : ISpecificQueryComponent
     {
         /// <summary>
-        /// Creates ordering rule.
+        ///   Creates ordering rule.
         /// </summary>
         /// <param name="property"></param>
         /// <param name="direction"></param>
@@ -20,17 +20,17 @@ namespace QueryNinja.Core.OrderingRules
         }
 
         /// <summary>
-        /// Target property name
-        /// </summary>
-        public string Property { get; }
-
-        /// <summary>
-        /// Represent ordering direction for the selected property.
+        ///   Represent ordering direction for the selected property.
         /// </summary>
         public OrderDirection Direction { get; }
 
         /// <summary>
-        /// Debug-friendly implementation. Return string representation of <see cref="OrderingRule"/>
+        ///   Target property name
+        /// </summary>
+        public string Property { get; }
+
+        /// <summary>
+        ///   Debug-friendly implementation. Return string representation of <see cref="OrderingRule" />
         /// </summary>
         /// <returns></returns>
         public override string ToString()

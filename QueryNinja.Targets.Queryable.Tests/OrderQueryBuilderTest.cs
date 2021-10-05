@@ -1,7 +1,7 @@
 ﻿using System;
-using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
 using QueryNinja.Core.OrderingRules;
 using QueryNinja.Targets.Queryable.Exceptions;
 using QueryNinja.Targets.Queryable.QueryBuilders;
@@ -62,12 +62,12 @@ namespace QueryNinja.Targets.Queryable.Tests
 
         public class Example
         {
-            public int Value { get; }
-
             public Example(int value)
             {
                 Value = value;
             }
+
+            public int Value { get; }
 
             public static implicit operator Example(int value)
             {

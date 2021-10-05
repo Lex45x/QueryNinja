@@ -7,12 +7,12 @@ using QueryNinja.Targets.Queryable.QueryBuilders;
 namespace QueryNinja.Targets.EntityFrameworkCore
 {
     /// <summary>
-    /// Allows to register IQueryable Target in <see cref="QueryNinjaExtensions"/>
+    ///   Allows to register IQueryable Target in <see cref="QueryNinjaExtensions" />
     /// </summary>
     public static class RegistrationExtensions
     {
         /// <summary>
-        /// Extends <paramref name="settings"/> with Queryable Target and registers default filters.
+        ///   Extends <paramref name="settings" /> with Queryable Target and registers default filters.
         /// </summary>
         /// <param name="settings"></param>
         /// <returns>Settings for Queryable Target</returns>
@@ -23,10 +23,11 @@ namespace QueryNinja.Targets.EntityFrameworkCore
         }
 
         /// <summary>
-        /// Will configure <see cref="DefaultFilterQueryBuilder{TFilter,TOperation}"/> for <see cref="DatabaseFunctionFilter"/>
+        ///   Will configure <see cref="DefaultFilterQueryBuilder{TFilter,TOperation}" /> for <see cref="DatabaseFunctionFilter" />
         /// </summary>
         /// <param name="queryBuilder"></param>
-        private static void AddDatabaseFunctionFilter(DefaultFilterQueryBuilder<DatabaseFunctionFilter, DatabaseFunction> queryBuilder)
+        private static void AddDatabaseFunctionFilter(
+            DefaultFilterQueryBuilder<DatabaseFunctionFilter, DatabaseFunction> queryBuilder)
         {
             queryBuilder.Define<string>(DatabaseFunction.Like,
                 (property, value) => EF.Functions.Like(property, value)

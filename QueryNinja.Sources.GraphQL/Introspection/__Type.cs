@@ -5,12 +5,91 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using QueryNinja.Core;
 
 namespace QueryNinja.Sources.GraphQL.Introspection
 {
     internal class __Type : IEquatable<__Type>
     {
+        private static readonly Dictionary<Type, __Type> TypeToTypeCache = new();
+
+        private static readonly HashSet<__Type> TypesSet = new();
+        private readonly IReadOnlyList<__EnumValue> enumValues;
+
+        private readonly IReadOnlyList<__Field> fields;
+
+        private __Type(string name,
+            __TypeKind kind,
+            string description = null,
+            IReadOnlyList<__Field> fields = null,
+            IReadOnlyList<__EnumValue> enumValues = null,
+            IReadOnlyList<__Type> interfaces = null,
+            IReadOnlyList<__Type> possibleTypes = null,
+            IReadOnlyList<__InputValue> inputFields = null,
+            __Type ofType = null)
+        {
+            this.fields = fields;
+            this.enumValues = enumValues;
+            Kind = kind;
+            Name = name;
+            Description = description;
+            Interfaces = interfaces;
+            PossibleTypes = possibleTypes;
+            InputFields = inputFields;
+            OfType = ofType;
+
+            if (Kind != __TypeKind.LIST && Kind != __TypeKind.NON_NULL)
+            {
+                TypesSet.Add(this);
+            }
+        }
+
+        public static IReadOnlySet<__Type> All => TypesSet;
+
+        public __TypeKind Kind { get; }
+        public string Name { get; }
+        public string Description { get; }
+
+        /// <summary>
+        ///   Works for Objects only
+        /// </summary>
+        public IReadOnlyList<__Type> Interfaces { get; }
+
+        /// <summary>
+        ///   Works for interfaces and Unions
+        /// </summary>
+        public IReadOnlyList<__Type> PossibleTypes { get; }
+
+        /// <summary>
+        ///   Works on InputObjects only
+        /// </summary>
+        public IReadOnlyList<__InputValue> InputFields { get; }
+
+        /// <summary>
+        ///   Works for NonNull and Lists only
+        /// </summary>
+        public __Type OfType { get; }
+
+        /// <inheritdoc />
+        public bool Equals(__Type other)
+        {
+            if (ReferenceEquals(objA: null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            return Kind switch
+            {
+                __TypeKind.LIST => false,
+                __TypeKind.NON_NULL => false,
+                _ => Name == other.Name
+            };
+        }
+
         public static __Type Scalar(string name, string description = null)
         {
             return new(name, __TypeKind.SCALAR, description);
@@ -50,11 +129,6 @@ namespace QueryNinja.Sources.GraphQL.Introspection
         {
             return new(name, __TypeKind.INPUT_OBJECT, description, inputFields: inputFields);
         }
-
-        private static readonly Dictionary<Type, __Type> TypeToTypeCache = new();
-
-        private static readonly HashSet<__Type> TypesSet = new();
-        public static IReadOnlySet<__Type> All => TypesSet;
 
         public static __Type FromType(Type source)
         {
@@ -117,7 +191,7 @@ namespace QueryNinja.Sources.GraphQL.Introspection
                     default:
                         continue;
                 }
-                
+
                 var success = FiltersInputObjectResolver.TryGetInputObject(fieldType, out var inputObject);
 
                 if (success)
@@ -132,7 +206,8 @@ namespace QueryNinja.Sources.GraphQL.Introspection
                 }
 
                 //todo: enable deprecation
-                var field = new __Field(member.Name, arguments, FromType(fieldType), false, null);
+                var field = new __Field(member.Name, arguments, FromType(fieldType), isDeprecated: false,
+                    deprecationReason: null);
 
                 fields.Add(field);
             }
@@ -150,41 +225,8 @@ namespace QueryNinja.Sources.GraphQL.Introspection
             return new(name: null, __TypeKind.NON_NULL, ofType: ofType);
         }
 
-        private __Type(string name,
-            __TypeKind kind,
-            string description = null,
-            IReadOnlyList<__Field> fields = null,
-            IReadOnlyList<__EnumValue> enumValues = null,
-            IReadOnlyList<__Type> interfaces = null,
-            IReadOnlyList<__Type> possibleTypes = null,
-            IReadOnlyList<__InputValue> inputFields = null,
-            __Type ofType = null)
-        {
-            this.fields = fields;
-            this.enumValues = enumValues;
-            Kind = kind;
-            Name = name;
-            Description = description;
-            Interfaces = interfaces;
-            PossibleTypes = possibleTypes;
-            InputFields = inputFields;
-            OfType = ofType;
-
-            if (Kind != __TypeKind.LIST && Kind != __TypeKind.NON_NULL)
-            {
-                TypesSet.Add(this);
-            }
-        }
-
-        public __TypeKind Kind { get; }
-        public string Name { get; }
-        public string Description { get; }
-
-        private readonly IReadOnlyList<__Field> fields;
-        private readonly IReadOnlyList<__EnumValue> enumValues;
-
         /// <summary>
-        /// Works for Objects and Interfaces
+        ///   Works for Objects and Interfaces
         /// </summary>
         /// <param name="includeDeprecated"></param>
         /// <returns></returns>
@@ -196,17 +238,7 @@ namespace QueryNinja.Sources.GraphQL.Introspection
         }
 
         /// <summary>
-        /// Works for Objects only
-        /// </summary>
-        public IReadOnlyList<__Type> Interfaces { get; }
-
-        /// <summary>
-        /// Works for interfaces and Unions
-        /// </summary>
-        public IReadOnlyList<__Type> PossibleTypes { get; }
-
-        /// <summary>
-        /// Works on Enums only
+        ///   Works on Enums only
         /// </summary>
         /// <param name="includeDeprecated"></param>
         /// <returns></returns>
@@ -217,41 +249,10 @@ namespace QueryNinja.Sources.GraphQL.Introspection
                 : enumValues?.Where(field => field.IsDeprecated == false).ToList();
         }
 
-        /// <summary>
-        /// Works on InputObjects only
-        /// </summary>
-        public IReadOnlyList<__InputValue> InputFields { get; }
-
-        /// <summary>
-        /// Works for NonNull and Lists only
-        /// </summary>
-        public __Type OfType { get; }
-
-        /// <inheritdoc />
-        public bool Equals(__Type other)
-        {
-            if (ReferenceEquals(null, other))
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(this, other))
-            {
-                return true;
-            }
-
-            return Kind switch
-            {
-                __TypeKind.LIST => false,
-                __TypeKind.NON_NULL => false,
-                _ => Name == other.Name
-            };
-        }
-
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj))
+            if (ReferenceEquals(objA: null, obj))
             {
                 return false;
             }
@@ -261,7 +262,7 @@ namespace QueryNinja.Sources.GraphQL.Introspection
                 return true;
             }
 
-            if (obj.GetType() != this.GetType())
+            if (obj.GetType() != GetType())
             {
                 return false;
             }

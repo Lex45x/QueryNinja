@@ -1,10 +1,9 @@
-﻿using System;
-using QueryNinja.Core.Attributes;
+﻿using QueryNinja.Core.Attributes;
 
 namespace QueryNinja.Core.Filters
 {
     /// <summary>
-    /// Checks whether target property is contained inside array
+    ///   Checks whether target property is contained inside array
     /// </summary>
     [DefinedForPrimitives]
     public class ArrayEntryFilter : AbstractDefaultFilter<ArrayEntryOperations>

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using QueryNinja.Core;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Primitives;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using QueryNinja.Core;
 using QueryNinja.Core.Extensibility;
 using QueryNinja.Core.Projection;
 using QueryNinja.Sources.AspNetCore.Reflection;
@@ -16,8 +14,8 @@ using QueryNinja.Sources.AspNetCore.Reflection;
 namespace QueryNinja.Sources.AspNetCore.ModelBinding
 {
     /// <summary>
-    /// ModelBinder that can create <see cref="IQuery"/> instance from request parameters. <br/>
-    /// Currently, only binding from <see cref="BindingSource.Query"/> is supported.
+    ///   ModelBinder that can create <see cref="IQuery" /> instance from request parameters. <br />
+    ///   Currently, only binding from <see cref="BindingSource.Query" /> is supported.
     /// </summary>
     public class QueryNinjaModelBinder : IModelBinder
     {

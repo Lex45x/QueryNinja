@@ -12,7 +12,6 @@ using QueryNinja.Examples.AspNetCore.DbContext;
 using QueryNinja.Examples.AspNetCore.DbContext.Entities;
 using QueryNinja.Examples.AspNetCore.Extensions;
 using QueryNinja.Extensions.AspNetCore.Swagger;
-using QueryNinja.Sources.AspNetCore;
 using QueryNinja.Sources.GraphQL;
 using QueryNinja.Targets.EntityFrameworkCore;
 

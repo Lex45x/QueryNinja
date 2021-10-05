@@ -4,11 +4,11 @@ using QueryNinja.Core;
 namespace QueryNinja.Sources.AspNetCore.ModelBinding
 {
     /// <summary>
-    /// Allows to determine when <see cref="QueryNinjaModelBinder"/> should be used.
+    ///   Allows to determine when <see cref="QueryNinjaModelBinder" /> should be used.
     /// </summary>
     public class QueryNinjaModelBinderProvider : IModelBinderProvider
     {
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public IModelBinder GetBinder(ModelBinderProviderContext context)
         {
             if (!typeof(IQuery).IsAssignableFrom(context.Metadata.ModelType))

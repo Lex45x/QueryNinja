@@ -1,8 +1,8 @@
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using NUnit.Framework;
 using QueryNinja.Targets.Queryable.Exceptions;
 
 namespace QueryNinja.Targets.Queryable.Tests
@@ -27,7 +27,7 @@ namespace QueryNinja.Targets.Queryable.Tests
         {
             new(arg1: 1, arg2: null),
             new(arg1: 1.1, arg2: null),
-            new((int?)1, arg2: null),
+            new((int?) 1, arg2: null),
             new(arg1: 1.1m, arg2: null),
             new("test", arg2: null),
             new(arg1: 'a', arg2: null),
@@ -62,7 +62,7 @@ namespace QueryNinja.Targets.Queryable.Tests
             new TestCaseData(Expression.Constant(ExampleInstance), "Value").Returns("1"),
             new TestCaseData(Expression.Constant(ExampleInstance), "Child.Value").Returns("2"),
             new TestCaseData(Expression.Constant(ExampleInstance), "Child.Child.Value").Returns("3"),
-            new TestCaseData(Expression.Constant(ExampleInstance), "Absent").Returns(null)
+            new TestCaseData(Expression.Constant(ExampleInstance), "Absent").Returns(result: null)
         };
 
         [Test]

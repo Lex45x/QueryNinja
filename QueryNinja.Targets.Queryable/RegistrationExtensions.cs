@@ -7,12 +7,12 @@ using QueryNinja.Targets.Queryable.QueryBuilders;
 namespace QueryNinja.Targets.Queryable
 {
     /// <summary>
-    /// Allows to register IQueryable Target in <see cref="QueryNinjaExtensions"/>
+    ///   Allows to register IQueryable Target in <see cref="QueryNinjaExtensions" />
     /// </summary>
     public static class RegistrationExtensions
     {
         /// <summary>
-        /// Extends <paramref name="settings"/> with default query builders.
+        ///   Extends <paramref name="settings" /> with default query builders.
         /// </summary>
         /// <param name="settings"></param>
         /// <returns></returns>
@@ -23,7 +23,7 @@ namespace QueryNinja.Targets.Queryable
                 .Register<ComparisonFilterQueryBuilder>()
                 .Register<ArrayEntryFilterQueryBuilder>()
                 .Register<OrderQueryBuilder>();
-                
+
 
             return new ExtensionSettings(settings);
         }

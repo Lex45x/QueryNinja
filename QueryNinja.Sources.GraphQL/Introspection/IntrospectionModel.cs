@@ -1,7 +1,6 @@
 ﻿// ReSharper disable InconsistentNaming as reserved '__' prefix for GraphQL internals
 // https://spec.graphql.org/June2018/#sec-Introspection
 
-using System;
 using System.Linq;
 
 namespace QueryNinja.Sources.GraphQL.Introspection

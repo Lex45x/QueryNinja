@@ -3,7 +3,7 @@
 namespace QueryNinja.Core.Exceptions
 {
     /// <summary>
-    /// Base exception for all QueryNinja exceptions.
+    ///   Base exception for all QueryNinja exceptions.
     /// </summary>
     public abstract class QueryNinjaException : Exception
     {
