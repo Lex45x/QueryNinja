@@ -87,8 +87,8 @@ namespace QueryNinja.Targets.Queryable
         /// </summary>
         /// <param name="instance"></param>
         /// <param name="name"></param>
-        /// <returns></returns>
-        public static Expression Property(this Expression instance, string name)
+        /// <returns>Null of property with this name was not found, otherwise <see cref="MemberExpression"/></returns>
+        public static Expression? TryGetProperty(this Expression instance, string name)
         {
             var properties = name.Split(separator: '.');
 
@@ -102,7 +102,7 @@ namespace QueryNinja.Targets.Queryable
                 }
                 catch
                 {
-                    throw new InvalidPropertyException(name, instance.Type, property);
+                    return null!;
                 }
             });
 
@@ -118,9 +118,9 @@ namespace QueryNinja.Targets.Queryable
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
         [SuppressMessage("ReSharper", "ForCanBeConvertedToForeach", Justification = "Performance optimizations")]
-        public static Expression Call(this Expression instance, string method, IReadOnlyDictionary<string, string> arguments)
+        public static Expression Call(this Expression instance, string method, IReadOnlyDictionary<string, string>? arguments)
         {
-            var methodInfo = instance.Type.GetMethod(method, BindingFlags.Public | BindingFlags.Instance);
+            var methodInfo = instance.Type.GetMethod(method, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
 
             if (methodInfo == null)
             {
@@ -134,7 +134,7 @@ namespace QueryNinja.Targets.Queryable
             {
                 var parameter = parameters[parameterIndex];
 
-                var value = arguments[parameter.Name];
+                var value = arguments?[parameter.Name];
 
                 constants.Add(value.AsConstant(parameter.ParameterType));
             }

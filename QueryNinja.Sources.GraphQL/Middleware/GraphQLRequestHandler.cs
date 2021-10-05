@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using GraphQLParser;
 using GraphQLParser.AST;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json.Converters;
 
 namespace QueryNinja.Sources.GraphQL.Middleware
 {
@@ -36,6 +39,13 @@ namespace QueryNinja.Sources.GraphQL.Middleware
                 await context.Response.WriteAsJsonAsync(new
                 {
                     Data = response
+                }, new JsonSerializerOptions
+                {
+                    Converters =
+                    {
+                        new JsonStringEnumConverter()
+                    },
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
                 });
             }
             else
@@ -57,7 +67,7 @@ namespace QueryNinja.Sources.GraphQL.Middleware
                 operationName = graphQLDocument.Definitions?
                     .OfType<GraphQLOperationDefinition>()
                     .SingleOrDefault(node => node.Operation == OperationType.Query)
-                    ?.Name?.ToString();
+                    ?.Name?.Value.ToString();
             }
 
             if (operationName == null)

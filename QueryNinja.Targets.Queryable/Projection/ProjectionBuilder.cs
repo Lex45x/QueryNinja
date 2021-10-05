@@ -78,7 +78,7 @@ namespace QueryNinja.Targets.Queryable.Projection
                     if (collectionInterface == null)
                     {
                         var nestedDictionary = Expression.New(DictionaryType);
-                        value = InitializeLayer(source, nestedDictionary, selector.NestedSelectors);
+                        value = InitializeLayer(propertyExpression, nestedDictionary, selector.NestedSelectors);
                     }
                     else
                     {
@@ -113,8 +113,8 @@ namespace QueryNinja.Targets.Queryable.Projection
         {
             Expression value = (selector) switch
             {
-                ExecuteSelector executeSelector => source.Call(executeSelector.Source, executeSelector.Arguments),
-                Selector _ => source.Property(selector.Source),
+                Selector defaultSelector => source.TryGetProperty(defaultSelector.Source) 
+                                            ?? source.Call(defaultSelector.Source, defaultSelector.Arguments),
                 _ => throw new ArgumentOutOfRangeException(nameof(selector), selector,
                     "This type of selectors is currently not supported.")
             };

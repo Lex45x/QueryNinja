@@ -74,6 +74,9 @@
             <param name="variables"></param>
             <returns></returns>
         </member>
+        <member name="M:QueryNinja.Sources.GraphQL.Middleware.NullableFriendlyVisitor.VisitListInit(System.Linq.Expressions.ListInitExpression)">
+            <inheritdoc />
+        </member>
         <member name="M:QueryNinja.Sources.GraphQL.Middleware.IntrospectionQueryHandler.Handle(Microsoft.AspNetCore.Http.HttpContext,GraphQLParser.AST.GraphQLDocument,Newtonsoft.Json.Linq.JObject)">
             <inheritdoc />
         </member>
@@ -125,6 +128,9 @@
             
             </summary>
         </member>
+        <member name="M:QueryNinja.Sources.GraphQL.Serializers.DynamicQuerySerializer.Deserialize(GraphQLParser.AST.GraphQLDocument)">
+            <inheritdoc />
+        </member>
         <member name="T:QueryNinja.Sources.GraphQL.Serializers.IQuerySerializer`1">
             <summary>
             Allows to serialize specific <see cref="T:QueryNinja.Core.IQuery"/> instance from <see cref="T:GraphQLParser.AST.GraphQLDocument"/>
@@ -137,9 +143,6 @@
             </summary>
             <param name="document"></param>
             <returns></returns>
-        </member>
-        <member name="M:QueryNinja.Sources.GraphQL.Serializers.DynamicQuerySerializer.Deserialize(GraphQLParser.AST.GraphQLDocument)">
-            <inheritdoc />
         </member>
         <member name="T:QueryNinja.Sources.GraphQL.ServiceCollectionExtensions">
             <summary>

@@ -36,6 +36,12 @@ namespace QueryNinja.Examples.AspNetCore
                 options.IncludeXmlComments("./QueryNinja.Examples.AspNetCore.xml");
             });
 
+            services.AddCors(options => options.AddDefaultPolicy(builder =>
+                builder.AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin()
+                    .DisallowCredentials()));
+
             services
                 .AddQueryNinjaGraphQL()
                 .WithEntityFrameworkTarget()
@@ -51,8 +57,8 @@ namespace QueryNinja.Examples.AspNetCore
                 {
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                     options.SerializerSettings.Converters.Add(new StringEnumConverter());
-                });                 
-            
+                });
+
             services.AddDbContext<UniversityDbContext>(options => options.UseSqlite("Data Source=University.db"));
         }
 
@@ -63,6 +69,8 @@ namespace QueryNinja.Examples.AspNetCore
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors();
 
             app.UseSwagger();
 

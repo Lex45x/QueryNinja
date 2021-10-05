@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using GraphQLParser.AST;
+﻿using GraphQLParser.AST;
 using QueryNinja.Core;
-using QueryNinja.Core.Projection;
 
 namespace QueryNinja.Sources.GraphQL.Serializers
 {
@@ -18,16 +16,5 @@ namespace QueryNinja.Sources.GraphQL.Serializers
         /// <param name="document"></param>
         /// <returns></returns>
         TQuery Deserialize(GraphQLDocument document);
-    }
-
-
-    internal class DynamicQuerySerializer : IQuerySerializer<IDynamicQuery>
-    {
-        /// <inheritdoc />
-        public IDynamicQuery Deserialize(GraphQLDocument document)
-        {
-            //todo: implement deserialization here
-            return new DynamicQuery(new List<IQueryComponent>(), new List<ISelector>());
-        }
     }
 }

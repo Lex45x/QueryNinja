@@ -69,9 +69,9 @@ namespace QueryNinja.Benchmarking.Targets.Queryable
             {
                 new Selector("Id"),
                 new Selector("FullName"),
-                new RenameSelector("Orders.Count", "OrdersCount"),
-                new RenameSelector("Email", "Contacts.Email"),
-                new RenameSelector("PhoneNumber", "Contacts.PhoneNumber")
+                new Selector("Orders.Count"),
+                new Selector("Email"),
+                new Selector("PhoneNumber")
             };
 
             yield return new QueryScenario

@@ -134,13 +134,13 @@
             <exception cref="T:QueryNinja.Targets.Queryable.Exceptions.InvalidPropertyException">In case of at leas one property in the <paramref name="path"/> will not be found.</exception>
             <returns></returns>
         </member>
-        <member name="M:QueryNinja.Targets.Queryable.ExpressionsExtensions.Property(System.Linq.Expressions.Expression,System.String)">
+        <member name="M:QueryNinja.Targets.Queryable.ExpressionsExtensions.TryGetProperty(System.Linq.Expressions.Expression,System.String)">
             <summary>
             Allows to take property from parameter expression.
             </summary>
             <param name="instance"></param>
             <param name="name"></param>
-            <returns></returns>
+            <returns>Null of property with this name was not found, otherwise <see cref="T:System.Linq.Expressions.MemberExpression"/></returns>
         </member>
         <member name="M:QueryNinja.Targets.Queryable.ExpressionsExtensions.Call(System.Linq.Expressions.Expression,System.String,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})">
             <summary>

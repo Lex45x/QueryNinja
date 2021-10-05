@@ -62,6 +62,7 @@ namespace QueryNinja.Targets.Queryable.Tests
             new TestCaseData(Expression.Constant(ExampleInstance), "Value").Returns("1"),
             new TestCaseData(Expression.Constant(ExampleInstance), "Child.Value").Returns("2"),
             new TestCaseData(Expression.Constant(ExampleInstance), "Child.Child.Value").Returns("3"),
+            new TestCaseData(Expression.Constant(ExampleInstance), "Absent").Returns(null)
         };
 
         [Test]
@@ -115,7 +116,12 @@ namespace QueryNinja.Targets.Queryable.Tests
         [TestCaseSource(nameof(Properties))]
         public object PropertyTest(Expression source, string property)
         {
-            var propertyExpression = source.Property(property);
+            var propertyExpression = source.TryGetProperty(property);
+
+            if (propertyExpression == null)
+            {
+                return null!;
+            }
 
             var lambda = Expression.Lambda<Func<object>>(propertyExpression);
 

@@ -93,8 +93,8 @@ namespace QueryNinja.Targets.Queryable.Tests
                             new Selector("Id"),
                             new Selector("StringValue"),
                             new Selector("IntValue"),
-                            new Selector("ChildValues", new[] {new Selector("Id")}),
-                            new ExecuteSelector("AppendToId", new Dictionary<string, string>
+                            new Selector("ChildValues", nestedSelectors: new[] {new Selector("Id")}),
+                            new Selector("AppendToId", new Dictionary<string, string>
                             {
                                 ["value"] = "text"
                             })

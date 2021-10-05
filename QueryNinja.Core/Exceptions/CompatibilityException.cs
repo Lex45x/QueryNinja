@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace QueryNinja.Core.Exceptions
+﻿namespace QueryNinja.Core.Exceptions
 {
     /// <summary>
     /// Exception is thrown in case of attempt to use behavior that is no loner supported. <br/>
@@ -11,12 +9,6 @@ namespace QueryNinja.Core.Exceptions
         /// <inheritdoc />
         internal CompatibilityException(string message)
             : base(message)
-        {
-        }
-
-        /// <inheritdoc />
-        private CompatibilityException(string message, Exception innerException)
-            : base(message, innerException)
         {
         }
     }

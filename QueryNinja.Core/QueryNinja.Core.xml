@@ -87,9 +87,6 @@
         <member name="M:QueryNinja.Core.Exceptions.CompatibilityException.#ctor(System.String)">
             <inheritdoc />
         </member>
-        <member name="M:QueryNinja.Core.Exceptions.CompatibilityException.#ctor(System.String,System.Exception)">
-            <inheritdoc />
-        </member>
         <member name="T:QueryNinja.Core.Exceptions.QueryNinjaException">
             <summary>
             Base exception for all QueryNinja exceptions.
@@ -425,34 +422,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:QueryNinja.Core.Projection.ExecuteSelector">
-            <summary>
-            Allows to execute <see cref="P:QueryNinja.Core.Projection.ExecuteSelector.Source"/> method and write result to <see cref="P:QueryNinja.Core.Projection.ExecuteSelector.Source"/> property.
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Core.Projection.ExecuteSelector.#ctor(System.String,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String},System.Collections.Generic.IReadOnlyList{QueryNinja.Core.Projection.ISelector})">
-            <summary>
-            Creates new instance of selector.
-            </summary>
-            <param name="source">Source method to call.</param>
-            <param name="arguments">Arguments for <paramref name="source"/> method.</param>
-            <param name="nestedSelectors"></param>
-        </member>
-        <member name="P:QueryNinja.Core.Projection.ExecuteSelector.Source">
-            <inheritdoc />
-        </member>
-        <member name="P:QueryNinja.Core.Projection.ExecuteSelector.NestedSelectors">
-            <inheritdoc />
-        </member>
-        <member name="P:QueryNinja.Core.Projection.ExecuteSelector.Arguments">
-            <summary>
-            Arguments to be passed into <see cref="P:QueryNinja.Core.Projection.ExecuteSelector.Source"/> method. <br/>
-            If <see cref="P:System.Collections.Generic.KeyValuePair`2.Value"/> is not matching expected parameter type then <see cref="T:System.ComponentModel.TypeDescriptor"/> will be used for conversion.
-            </summary>
-        </member>
-        <member name="M:QueryNinja.Core.Projection.ExecuteSelector.ToString">
-            <inheritdoc />
-        </member>
         <member name="T:QueryNinja.Core.Projection.ISelector">
             <summary>
             Allows to specify how the original properties should be selected into result projection.
@@ -473,11 +442,12 @@
             Represent selector that leaves path to properties as-is.
             </summary>
         </member>
-        <member name="M:QueryNinja.Core.Projection.Selector.#ctor(System.String,System.Collections.Generic.IReadOnlyList{QueryNinja.Core.Projection.ISelector})">
+        <member name="M:QueryNinja.Core.Projection.Selector.#ctor(System.String,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String},System.Collections.Generic.IReadOnlyList{QueryNinja.Core.Projection.ISelector})">
             <summary>
             Creates instance of Selector.
             </summary>
             <param name="source"></param>
+            <param name="arguments"></param>
             <param name="nestedSelectors"></param>
         </member>
         <member name="P:QueryNinja.Core.Projection.Selector.Source">
@@ -485,6 +455,12 @@
         </member>
         <member name="P:QueryNinja.Core.Projection.Selector.NestedSelectors">
             <inheritdoc />
+        </member>
+        <member name="P:QueryNinja.Core.Projection.Selector.Arguments">
+            <summary>
+            Arguments to be passed into <see cref="P:QueryNinja.Core.Projection.Selector.Source"/> method. <br/>
+            If <see cref="P:System.Collections.Generic.KeyValuePair`2.Value"/> is not matching expected parameter type then <see cref="T:System.ComponentModel.TypeDescriptor"/> will be used for conversion.
+            </summary>
         </member>
         <member name="M:QueryNinja.Core.Projection.Selector.ToString">
             <inheritdoc />

@@ -45,16 +45,18 @@ namespace QueryNinja.Sources.GraphQL.Middleware
                 var fieldType = __Type.FromType(includeFields ? queryRoot.ModelType : typeof(object));
 
                 var queryName = queryRoot.ActionMethod.Name.Replace("Get", "");
+                
+                //todo: provide proper types for arguments
+                //var arguments = queryRoot.ActionMethod.GetParameters()
+                //    .Select(info => new __InputValue(info.Name, __Type.FromType(info.ParameterType), info.DefaultValue?.ToString()))
+                //    .ToList();
 
-                var arguments = queryRoot.ActionMethod.GetParameters()
-                    .Select(info => new __InputValue(info.Name, __Type.FromType(info.ParameterType), info.DefaultValue?.ToString()))
-                    .ToList();
-
-                availableQueries.Add(new __Field(queryName, arguments, fieldType, false, null));
+                availableQueries.Add(new __Field(queryName, null, fieldType, false, null));
             }
 
             var queryType = __Type.Object("Query", availableQueries);
             var schema = new __Schema(__Type.All, queryType);
+            
             var introspectionQueryHandler = new IntrospectionQueryHandler(schema, serializer);
 
             queryHandlers["IntrospectionQuery"] = introspectionQueryHandler;

@@ -77,7 +77,7 @@ namespace QueryNinja.Sources.AspNetCore.ModelBinding
             foreach (var group in groupBy)
             {
                 var nestedSelectors = BuildSelectorsLayer(group, layer + 1);
-                result.Add(new Selector(group.Key, nestedSelectors));
+                result.Add(new Selector(group.Key, nestedSelectors: nestedSelectors));
             }
 
             return result;

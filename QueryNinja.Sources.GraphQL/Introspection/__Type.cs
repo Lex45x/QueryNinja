@@ -20,7 +20,7 @@ namespace QueryNinja.Sources.GraphQL.Introspection
             IReadOnlyList<__Type> interfaces = null,
             string description = null)
         {
-            return new(name, __TypeKind.OBJECT, description, fields, interfaces: interfaces);
+            return new(name, __TypeKind.OBJECT, description, fields, interfaces: interfaces ?? new List<__Type>());
         }
 
         public static __Type Union(string name, IReadOnlyList<__Type> possibleTypes, string description = null)
@@ -62,7 +62,7 @@ namespace QueryNinja.Sources.GraphQL.Introspection
                 return TypeToTypeCache[source];
             }
 
-            if (source.IsPrimitive)
+            if (source.IsPrimitive || source == typeof(string))
             {
                 return Scalar(source.Name);
             }
@@ -215,7 +215,7 @@ namespace QueryNinja.Sources.GraphQL.Introspection
         /// Works for NonNull and Lists only
         /// </summary>
         public __Type OfType { get; }
-
+        
         /// <inheritdoc />
         public bool Equals(__Type other)
         {
