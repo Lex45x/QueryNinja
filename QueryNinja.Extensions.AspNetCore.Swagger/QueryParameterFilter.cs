@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using System;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using QueryNinja.Core;
@@ -9,46 +11,53 @@ namespace QueryNinja.Extensions.AspNetCore.Swagger
     /// <summary>
     /// Treats all <see cref="IQuery"/> implementations in query parameters as object.
     /// </summary>
-    public class QueryParameterFilter : IParameterFilter
+    public class QueryParameterFilter : IOperationFilter
     {
         /// <inheritdoc />
-        public void Apply(OpenApiParameter parameter, ParameterFilterContext context)
+        public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
-            var isBindingSourceCorrect = context.ApiParameterDescription.Source == BindingSource.Query;
+            var queries = context.ApiDescription.ParameterDescriptions
+                .Where(description => description.Source == BindingSource.Query)
+                .Where(description => typeof(IQuery).IsAssignableFrom(description.Type))
+                .ToList();
 
-            if (!isBindingSourceCorrect)
+            foreach (var parameterInfo in queries)
             {
-                return;
-            }
+                var parameterPrefix = queries.Count > 1 ? $"{parameterInfo.Name}." : "";
+                var openApiParameter = operation.Parameters.FirstOrDefault(parameter => parameter.Name == parameterInfo.Name);
 
-            var isDynamicQuery = typeof(IDynamicQuery).IsAssignableFrom(context.ParameterInfo.ParameterType);
+                if (openApiParameter == null)
+                    continue;
 
-            if (isDynamicQuery)
-            {
-                parameter.Explode = true;
-                parameter.Style = ParameterStyle.Form;
-                parameter.In = ParameterLocation.Query;
-                parameter.Example = new OpenApiObject
+                var isDynamicQuery = typeof(IDynamicQuery).IsAssignableFrom(parameterInfo.Type);
+
+                if (isDynamicQuery)
                 {
-                    ["filters.Property.Equals"] = new OpenApiInteger(value: 0),
-                    ["order.Property"] = new OpenApiString("Ascending"),
-                    ["select"] = new OpenApiString("Property")
-                };
-                return;
-            }
+                    openApiParameter.Explode = true;
+                    openApiParameter.Style = ParameterStyle.Form;
+                    openApiParameter.In = ParameterLocation.Query;
+                    openApiParameter.Example = new OpenApiObject
+                    {
+                        [$"{parameterPrefix}filters.Property.Equals"] = new OpenApiInteger(value: 0),
+                        [$"{parameterPrefix}order.Property"] = new OpenApiString("Ascending"),
+                        [$"{parameterPrefix}select"] = new OpenApiString("Property")
+                    };
+                    return;
+                }
 
-            var isQuery = typeof(IQuery).IsAssignableFrom(context.ParameterInfo.ParameterType);
+                var isQuery = typeof(IQuery).IsAssignableFrom(parameterInfo.Type);
 
-            if (isQuery)
-            {
-                parameter.Explode = true;
-                parameter.Style = ParameterStyle.Form;
-                parameter.In = ParameterLocation.Query;
-                parameter.Example = new OpenApiObject
+                if (isQuery)
                 {
-                    ["filters.Property.Equals"] = new OpenApiInteger(value: 0),
-                    ["order.Property"] = new OpenApiString("Ascending")
-                };
+                    openApiParameter.Explode = true;
+                    openApiParameter.Style = ParameterStyle.Form;
+                    openApiParameter.In = ParameterLocation.Query;
+                    openApiParameter.Example = new OpenApiObject
+                    {
+                        [$"{parameterPrefix}filters.Property.Equals"] = new OpenApiInteger(value: 0),
+                        [$"{parameterPrefix}order.Property"] = new OpenApiString("Ascending")
+                    };
+                }
             }
         }
     }
