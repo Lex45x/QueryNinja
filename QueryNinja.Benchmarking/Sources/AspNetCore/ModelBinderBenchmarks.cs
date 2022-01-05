@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Primitives;
 using Moq;
@@ -35,8 +37,14 @@ namespace QueryNinja.Benchmarking.Sources.AspNetCore
             var queryCollection = new QueryCollection(query);
             var httpRequest = Mock.Of<HttpRequest>(request => request.Query == queryCollection);
             var httpContext = Mock.Of<HttpContext>(context => context.Request == httpRequest);
+            IList<ParameterDescriptor> parameters = new List<ParameterDescriptor>
+            {
+                Mock.Of<ParameterDescriptor>(descriptor => descriptor.ParameterType == typeof(IDynamicQuery))
+            };
+            var actionDescriptor = Mock.Of<ActionDescriptor>(descriptor => descriptor.Parameters == parameters);
+            var actionContext = Mock.Of<ActionContext>(context => context.ActionDescriptor == actionDescriptor);
             var bindingContext = Mock.Of<ModelBindingContext>(context =>
-                context.HttpContext == httpContext && context.ModelType == typeof(IDynamicQuery));
+                context.HttpContext == httpContext && context.ModelType == typeof(IDynamicQuery) && context.ActionContext == actionContext);
 
             return new ModelBindingScenario
             {
