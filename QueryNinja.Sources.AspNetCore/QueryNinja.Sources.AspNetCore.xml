@@ -39,7 +39,7 @@
             <typeparam name="TOperation">Enum that describes operation.</typeparam>
             <param name="factory">Factory hat creates <see cref="T:QueryNinja.Core.Filters.IFilter"/> from operation, property and value.</param>
         </member>
-        <member name="M:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.CanApply(System.String,System.String)">
+        <member name="M:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.CanApply(System.ReadOnlySpan{System.Char},System.String)">
             <inheritdoc/>
         </member>
         <member name="M:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.TryCreateFactory(System.String)">
@@ -58,7 +58,7 @@
             <param name="filterType"></param>
             <returns><code>true</code> when factory created and registered.</returns>
         </member>
-        <member name="M:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.Create(System.String,System.String)">
+        <member name="M:QueryNinja.Sources.AspNetCore.Factory.DefaultFilterFactory.Create(System.ReadOnlySpan{System.Char},System.String)">
             <inheritdoc/>
         </member>
         <member name="T:QueryNinja.Sources.AspNetCore.IAspNetCoreExtensionSettings">
@@ -77,7 +77,7 @@
             Allows to create <see cref="T:QueryNinja.Core.Filters.IFilter"/> instance from Query Parameters
             </summary>
         </member>
-        <member name="M:QueryNinja.Sources.AspNetCore.IQueryComponentFactory.CanApply(System.String,System.String)">
+        <member name="M:QueryNinja.Sources.AspNetCore.IQueryComponentFactory.CanApply(System.ReadOnlySpan{System.Char},System.String)">
             <summary>
             Checks whether current factory can be applied to the specified query parameter.
             </summary>
@@ -85,7 +85,7 @@
             <param name="value"></param>
             <returns></returns>
         </member>
-        <member name="M:QueryNinja.Sources.AspNetCore.IQueryComponentFactory.Create(System.String,System.String)">
+        <member name="M:QueryNinja.Sources.AspNetCore.IQueryComponentFactory.Create(System.ReadOnlySpan{System.Char},System.String)">
             <summary>
             Creates <see cref="T:QueryNinja.Core.Filters.IFilter"/> instance from the specified query parameter.
             </summary>

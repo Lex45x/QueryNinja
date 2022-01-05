@@ -15,7 +15,7 @@ namespace QueryNinja.Extensions.AspNetCore.Swagger
         /// <param name="options"></param>
         public static void WithQueryNinja(this SwaggerGenOptions options)
         {
-            options.ParameterFilter<QueryParameterFilter>();
+            options.OperationFilter<QueryParameterFilter>();
         }
     }
 }

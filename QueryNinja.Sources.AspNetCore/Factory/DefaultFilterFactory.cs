@@ -70,18 +70,16 @@ namespace QueryNinja.Sources.AspNetCore.Factory
         }
 
         ///<inheritdoc/>
-        public bool CanApply(string name, string value)
+        public bool CanApply(ReadOnlySpan<char> name, string value)
         {
             if (!name.StartsWith("filter", StringComparison.OrdinalIgnoreCase))
             {
                 return false;
             }
+            
+            var lastDot = name.LastIndexOf(value: '.');
 
-            var segments = name.AsSpan();
-
-            var lastDot = segments.LastIndexOf(value: '.');
-
-            var operation = segments.Slice(lastDot + 1).ToString();
+            var operation = name[(lastDot + 1)..].ToString();
 
             var factoryPresent = filterFactories.ContainsKey(operation);
 
@@ -174,15 +172,13 @@ namespace QueryNinja.Sources.AspNetCore.Factory
         }
 
         ///<inheritdoc/>
-        public IQueryComponent Create(string name, string value)
+        public IQueryComponent Create(ReadOnlySpan<char> name, string value)
         {
-            var segments = name.AsSpan();
+            var firstDot = name.IndexOf(value: '.');
+            var lastDot = name.LastIndexOf(value: '.');
 
-            var firstDot = segments.IndexOf(value: '.');
-            var lastDot = segments.LastIndexOf(value: '.');
-
-            var operation = segments.Slice(lastDot + 1).ToString();
-            var property = segments.Slice(firstDot + 1, lastDot - firstDot - 1).ToString();
+            var operation = name.Slice(lastDot + 1).ToString();
+            var property = name.Slice(firstDot + 1, lastDot - firstDot - 1).ToString();
 
             var desiredFactory = filterFactories[operation];
 

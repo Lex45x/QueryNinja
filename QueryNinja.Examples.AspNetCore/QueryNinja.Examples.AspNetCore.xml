@@ -16,11 +16,19 @@
             </summary>
             <param name="dbContext"></param>
         </member>
-        <member name="M:QueryNinja.Examples.AspNetCore.Controllers.StudentsController.Get(QueryNinja.Core.IDynamicQuery)">
+        <member name="M:QueryNinja.Examples.AspNetCore.Controllers.StudentsController.GetStudents(QueryNinja.Core.IDynamicQuery)">
             <summary>
             Allows to get list of students with QueryNinja query.
             </summary>
             <param name="query">QueryNinja query. Send empty to see all students.</param>
+            <returns>List of students</returns>
+        </member>
+        <member name="M:QueryNinja.Examples.AspNetCore.Controllers.StudentsController.GetStudentsReport(QueryNinja.Core.IQuery,QueryNinja.Core.IDynamicQuery)">
+            <summary>
+            Allows to get a report on different grades count across exams.
+            </summary>
+            <param name="denormalizedQuery">QueryNinja query. Will filter all students before aggregation. Send empty to see all students.</param>
+            <param name="aggregatedQuery">QueryNinja query. Will filter/select data after aggregation. Send empty to see all students.</param>
             <returns>List of students</returns>
         </member>
         <member name="T:QueryNinja.Examples.AspNetCore.DbContext.Entities.Exam">

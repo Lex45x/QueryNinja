@@ -9,7 +9,7 @@
             Treats all <see cref="T:QueryNinja.Core.IQuery"/> implementations in query parameters as object.
             </summary>
         </member>
-        <member name="M:QueryNinja.Extensions.AspNetCore.Swagger.QueryParameterFilter.Apply(Microsoft.OpenApi.Models.OpenApiParameter,Swashbuckle.AspNetCore.SwaggerGen.ParameterFilterContext)">
+        <member name="M:QueryNinja.Extensions.AspNetCore.Swagger.QueryParameterFilter.Apply(Microsoft.OpenApi.Models.OpenApiOperation,Swashbuckle.AspNetCore.SwaggerGen.OperationFilterContext)">
             <inheritdoc />
         </member>
         <member name="T:QueryNinja.Extensions.AspNetCore.Swagger.SwaggerGenExtensions">

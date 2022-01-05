@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using QueryNinja.Core.Extensibility;
 using QueryNinja.Core.Projection;
+
+// Performance optimization here. All LINQ is replaced with for-loops.
 // ReSharper disable ForCanBeConvertedToForeach
 // ReSharper disable LoopCanBeConvertedToQuery
 
@@ -20,7 +22,17 @@ namespace QueryNinja.Sources.AspNetCore.ModelBinding
         /// <inheritdoc />
         public Task BindModelAsync(ModelBindingContext bindingContext)
         {
-            var components = GetQueryComponents(bindingContext.HttpContext.Request.Query);
+            //if we have multiple queries, then we have to use original model name as query parameter prefix.
+            var queriesCount = 0;
+            for (var index = 0; index < bindingContext.ActionContext.ActionDescriptor.Parameters.Count; index++)
+            {
+                var descriptor = bindingContext.ActionContext.ActionDescriptor.Parameters[index];
+                if (typeof(IQuery).IsAssignableFrom(descriptor.ParameterType)) queriesCount++;
+            }
+
+            var queryPrefix = queriesCount > 1 ? bindingContext.OriginalModelName : null;
+
+            var components = GetQueryComponents(bindingContext.HttpContext.Request.Query, queryPrefix);
 
             if (bindingContext.ModelType == typeof(IQuery))
             {
@@ -33,7 +45,7 @@ namespace QueryNinja.Sources.AspNetCore.ModelBinding
 
             if (bindingContext.ModelType == typeof(IDynamicQuery))
             {
-                var selectors = GetSelectors(bindingContext.HttpContext.Request.Query);
+                var selectors = GetSelectors(bindingContext.HttpContext.Request.Query, queryPrefix);
 
                 var result = new DynamicQuery(components, selectors);
 
@@ -45,18 +57,22 @@ namespace QueryNinja.Sources.AspNetCore.ModelBinding
             return Task.CompletedTask;
         }
 
-        private static IReadOnlyList<ISelector> GetSelectors(IQueryCollection queryParameters)
+        private static IReadOnlyList<ISelector> GetSelectors(IQueryCollection queryParameters, string queryName = null)
         {
             var selectors = new List<ISelector>();
 
-            foreach (var (key, value) in queryParameters)
+            foreach ((ReadOnlySpan<char> key, var value) in queryParameters)
             {
-                if (!key.Contains("select"))
+                if (!key.Contains("select", StringComparison.OrdinalIgnoreCase))
                 {
                     continue;
                 }
 
-                if (string.Equals(key, "select", StringComparison.OrdinalIgnoreCase))
+                var queryIndependentKey = queryName != null && key.StartsWith(queryName)
+                    ? key[(queryName.Length + 1)..]
+                    : key;
+
+                if (queryIndependentKey.Equals("select", StringComparison.OrdinalIgnoreCase))
                 {
                     for (var valueIndex = 0; valueIndex < value.Count; valueIndex++)
                     {
@@ -66,10 +82,8 @@ namespace QueryNinja.Sources.AspNetCore.ModelBinding
                 }
                 else
                 {
-                    var keySpan = key.AsSpan();
-
-                    var propertyNameStart = keySpan.IndexOf(value: '.') + 1;
-                    var sourceProperty = keySpan.Slice(propertyNameStart).ToString();
+                    var propertyNameStart = queryIndependentKey.IndexOf(value: '.') + 1;
+                    var sourceProperty = queryIndependentKey[propertyNameStart..].ToString();
 
                     for (var valueIndex = 0; valueIndex < value.Count; valueIndex++)
                     {
@@ -82,24 +96,29 @@ namespace QueryNinja.Sources.AspNetCore.ModelBinding
             return selectors;
         }
 
-        private static IReadOnlyList<IQueryComponent> GetQueryComponents(IQueryCollection queryParameters)
+        private static IReadOnlyList<IQueryComponent> GetQueryComponents(IQueryCollection queryParameters,
+            string queryName = null)
         {
             var queryComponents = new List<IQueryComponent>();
 
             var factories = QueryNinjaExtensions.Extensions<IQueryComponentFactory>();
-            
-            foreach (var (key, value) in queryParameters)
+
+            foreach ((ReadOnlySpan<char> key, var value) in queryParameters)
             {
                 for (var factoryIndex = 0; factoryIndex < factories.Count; factoryIndex++)
                 {
                     var factory = factories[factoryIndex];
 
-                    if (!factory.CanApply(key, value))
+                    var queryIndependentKey = queryName != null && key.StartsWith(queryName)
+                        ? key[(queryName.Length + 1)..]
+                        : key;
+
+                    if (!factory.CanApply(queryIndependentKey, value))
                     {
                         continue;
                     }
 
-                    var queryComponent = factory.Create(key, value);
+                    var queryComponent = factory.Create(queryIndependentKey, value);
                     queryComponents.Add(queryComponent);
                     break;
                 }

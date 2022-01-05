@@ -1,4 +1,5 @@
-﻿using QueryNinja.Core;
+﻿using System;
+using QueryNinja.Core;
 using QueryNinja.Core.Extensibility;
 using QueryNinja.Core.Filters;
 
@@ -15,7 +16,7 @@ namespace QueryNinja.Sources.AspNetCore
         /// <param name="name"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        bool CanApply(string name, string value);
+        bool CanApply(ReadOnlySpan<char> name, string value);
 
         /// <summary>
         /// Creates <see cref="IFilter"/> instance from the specified query parameter.
@@ -23,6 +24,6 @@ namespace QueryNinja.Sources.AspNetCore
         /// <param name="name"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        IQueryComponent Create(string name, string value);
+        IQueryComponent Create(ReadOnlySpan<char> name, string value);
     }
 }
