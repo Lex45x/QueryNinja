@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Primitives;
 using Moq;
@@ -19,16 +21,40 @@ namespace QueryNinja.Sources.AspNetCore.Tests
     [TestFixture(Category = "Unit", TestOf = typeof(QueryNinjaModelBinder))]
     public class QueryNinjaModelBinderTests
     {
+        /// <summary>
+        /// Moq is unable to mock ReadOnlySpan
+        /// </summary>
+        private class FactoryMock:IQueryComponentFactory
+        {
+            private readonly IQueryComponent instance;
+
+            public FactoryMock(IQueryComponent instance)
+            {
+                this.instance = instance;
+            }
+
+            /// <inheritdoc />
+            public Type QueryComponent => instance.GetType();
+
+            /// <inheritdoc />
+            public bool CanApply(ReadOnlySpan<char> name, string value)
+            {
+                return true;
+            }
+
+            /// <inheritdoc />
+            public IQueryComponent Create(ReadOnlySpan<char> name, string value)
+            {
+                return instance;
+            }
+        }
+
         [Test]
         public async Task BindQueryModelTest()
         {
             var component = new TestComponent();
 
-            var componentFactory = Mock.Of<IQueryComponentFactory>(factory =>
-                // ReSharper disable once RedundantBoolCompare due to Moq specifications
-                factory.CanApply(It.IsAny<string>(), It.IsAny<string>()) == true &&
-                factory.Create(It.IsAny<string>(), It.IsAny<string>()) == component &&
-                factory.QueryComponent == component.GetType());
+            var componentFactory = new FactoryMock(component);
 
             QueryNinjaExtensions.Configure
                 .ForType<IQueryComponentFactory>()
@@ -92,8 +118,14 @@ namespace QueryNinja.Sources.AspNetCore.Tests
             var queryCollection = new QueryCollection(query);
             var httpRequest = Mock.Of<HttpRequest>(request => request.Query == queryCollection);
             var httpContext = Mock.Of<HttpContext>(context => context.Request == httpRequest);
+            IList<ParameterDescriptor> parameters = new List<ParameterDescriptor>
+            {
+                Mock.Of<ParameterDescriptor>(descriptor => descriptor.ParameterType == modelType)
+            };
+            var actionDescriptor = Mock.Of<ActionDescriptor>(descriptor => descriptor.Parameters == parameters);
+            var actionContext = Mock.Of<ActionContext>(context => context.ActionDescriptor == actionDescriptor);
             var bindingContext = Mock.Of<ModelBindingContext>(context =>
-                context.HttpContext == httpContext && context.ModelType == modelType);
+                context.HttpContext == httpContext && context.ModelType == modelType && context.ActionContext == actionContext);
             return bindingContext;
         }
 
