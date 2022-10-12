@@ -22,6 +22,16 @@ namespace QueryNinja.Targets.Queryable
         /// <returns></returns>
         public static Expression AsConstant(this string value, Type type)
         {
+            //allow nullables to be compared with null
+            if (type != typeof(string) && type.IsConstructedGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
+                if (string == "null")
+                {
+                    return Expression.Constant(null, type);
+                }
+            }
+            
+            //regular type coversion flow
             var typeConverter = TypeDescriptor.GetConverter(type);
 
             object? converted;
