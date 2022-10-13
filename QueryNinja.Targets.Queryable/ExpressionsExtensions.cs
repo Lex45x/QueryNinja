@@ -25,7 +25,7 @@ namespace QueryNinja.Targets.Queryable
             //allow nullables to be compared with null
             if (type != typeof(string) && type.IsConstructedGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
             {
-                if (string == "null")
+                if (value == "null")
                 {
                     return Expression.Constant(null, type);
                 }
