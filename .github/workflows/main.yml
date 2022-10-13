@@ -30,6 +30,7 @@ jobs:
       id: package_version
       if: ${{github.event_name == 'push'}}
       run: |
+        git config --global --add safe.directory /__w/QueryNinja/QueryNinja
         shortSha=$(git rev-parse --short ${{ github.ref }})
         version=$(echo ${{ github.ref }} | cut -d'v' -f 2-)
         if ${{ github.ref == 'refs/heads/develop' }};
