@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using GraphQLParser.AST;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json.Linq;
 using QueryNinja.Core;
 using QueryNinja.Sources.GraphQL.Introspection;
 using QueryNinja.Sources.GraphQL.SchemaGeneration;
@@ -44,6 +48,10 @@ namespace QueryNinja.Sources.GraphQL.Middleware
 
                 availableQueries.Add(new __Field(queryName, args: null, fieldType, isDeprecated: false,
                     deprecationReason: null));
+
+            
+                //todo: add IQuery support
+                queryHandlers[queryName] = new ControllerQueryHandler(queryRoot, serializer);
             }
 
             var queryType = __Type.Object("Query", availableQueries);
@@ -52,6 +60,23 @@ namespace QueryNinja.Sources.GraphQL.Middleware
             var introspectionQueryHandler = new IntrospectionQueryHandler(schema, serializer);
 
             queryHandlers["IntrospectionQuery"] = introspectionQueryHandler;
+        }
+    }
+
+    internal class ControllerQueryHandler : IGraphQLQueryHandler
+    {
+        private readonly QueryRoot queryRoot;
+        private readonly IQuerySerializer<IDynamicQuery> serializer;
+
+        public ControllerQueryHandler(QueryRoot queryRoot, IQuerySerializer<IDynamicQuery> serializer)
+        {
+            this.queryRoot = queryRoot;
+            this.serializer = serializer;
+        }
+
+        public Task<object> Handle(HttpContext context, GraphQLDocument document, JObject variables)
+        {
+            var query = serializer.Deserialize(document);
         }
     }
 }

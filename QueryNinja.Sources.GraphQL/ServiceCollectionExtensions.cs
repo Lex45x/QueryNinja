@@ -5,6 +5,7 @@ using QueryNinja.Core;
 using QueryNinja.Core.Extensibility;
 using QueryNinja.Sources.AspNetCore;
 using QueryNinja.Sources.AspNetCore.Factory;
+using QueryNinja.Sources.GraphQL.Controllers;
 using QueryNinja.Sources.GraphQL.Middleware;
 using QueryNinja.Sources.GraphQL.SchemaGeneration;
 using QueryNinja.Sources.GraphQL.Serializers;
@@ -33,7 +34,7 @@ namespace QueryNinja.Sources.GraphQL
                 new DynamicQuerySerializer()));
 
             collection.Add(ServiceDescriptor.Singleton<IActionsScanner>(provider =>
-                new ActionsScanner(provider.GetRequiredService<IActionDescriptorCollectionProvider>())));
+                new ActionsScanner(provider.GetServices<IQueryNinjaController>()));
 
             collection.Add(ServiceDescriptor.Singleton<IGraphQLQueriesSource>(provider =>
                 new GraphQLQueriesSource(provider.GetRequiredService<IActionsScanner>(),

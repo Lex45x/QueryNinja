@@ -1,27 +1,36 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using QueryNinja.Core;
+using QueryNinja.Sources.GraphQL.Controllers;
 
 namespace QueryNinja.Sources.GraphQL.SchemaGeneration
 {
     internal class ActionsScanner : IActionsScanner
     {
-        private readonly IActionDescriptorCollectionProvider provider;
+        private readonly IEnumerable<Func<IQueryNinjaController>> controllerFactories;
 
-        public ActionsScanner(IActionDescriptorCollectionProvider provider)
+        public ActionsScanner(IEnumerable<Func<IQueryNinjaController>> controllerFactories)
         {
-            this.provider = provider;
+            this.controllerFactories = controllerFactories;
         }
 
         /// <inheritdoc />
         public IEnumerable<QueryRoot> GetQueryRoots()
         {
-            foreach (var item in provider.ActionDescriptors.Items)
-            {
-                var actionDescriptor = item as ControllerActionDescriptor;
 
+            foreach (var factory in controllerFactories)
+            {
+                factory.ge
+            }
+
+
+
+
+            foreach (var factory in controllerFactories)
+            {
                 var queryParameter = actionDescriptor?.MethodInfo.GetParameters()
                     .FirstOrDefault(parameter => typeof(IQuery).IsAssignableFrom(parameter.ParameterType));
 
