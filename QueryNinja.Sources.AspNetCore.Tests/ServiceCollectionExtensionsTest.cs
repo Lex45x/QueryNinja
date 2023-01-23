@@ -4,8 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
 using QueryNinja.Core.Extensibility;
+using QueryNinja.Core.Factories;
 using QueryNinja.Core.Filters;
-using QueryNinja.Sources.AspNetCore.Factory;
 using QueryNinja.Sources.AspNetCore.ModelBinding;
 
 namespace QueryNinja.Sources.AspNetCore.Tests
@@ -20,7 +20,8 @@ namespace QueryNinja.Sources.AspNetCore.Tests
 
             var extensionSettings = serviceCollection.AddQueryNinja();
 
-            static IFilter TestFilterFactory(TestOperation operation, string property, string value) => new TestDefaultFilter(operation, property, value);
+            static IFilter TestFilterFactory(TestOperation operation, string property, string value) =>
+                new TestDefaultFilter(operation, property, value);
 
             extensionSettings.ConfigureFilterFactory(factory =>
             {
@@ -28,11 +29,11 @@ namespace QueryNinja.Sources.AspNetCore.Tests
             });
 
             var defaultFilterFactory = QueryNinjaExtensions
-                .Extensions<IQueryComponentFactory>()
-                .OfType<DefaultFilterFactory>()
+                .Extensions<IQueryComponentSerializer>()
+                .OfType<DefaultFilterSerializer>()
                 .Single();
 
-            var instance = defaultFilterFactory.Create("filter.Property.DoSmth", "Value");
+            var instance = defaultFilterFactory.Deserialize("filter.Property.DoSmth", "Value");
 
             Assert.IsInstanceOf<TestDefaultFilter>(instance);
 
@@ -47,23 +48,12 @@ namespace QueryNinja.Sources.AspNetCore.Tests
             Assert.IsInstanceOf<QueryNinjaModelBinderProvider>(mvcOptions.ModelBinderProviders[index: 0]);
         }
 
-        private class TestDefaultFilter : IDefaultFilter<TestOperation>
+        private class TestDefaultFilter : AbstractDefaultFilter<TestOperation>
         {
             public TestDefaultFilter(TestOperation operation, string property, string value)
+                : base(operation, property, value)
             {
-                Operation = operation;
-                Property = property;
-                Value = value;
             }
-
-            /// <inheritdoc />
-            public TestOperation Operation { get; }
-
-            /// <inheritdoc />
-            public string Property { get; }
-
-            /// <inheritdoc />
-            public string Value { get; }
         }
 
         private enum TestOperation

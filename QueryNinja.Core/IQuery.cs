@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace QueryNinja.Core
 {
     /// <summary>
     ///   This is core interface for all types of queries
     /// </summary>
-    public interface IQuery
+    public interface IQuery : IEquatable<IQuery>
     {
         /// <summary>
         ///   Returns a single collections with all query components.

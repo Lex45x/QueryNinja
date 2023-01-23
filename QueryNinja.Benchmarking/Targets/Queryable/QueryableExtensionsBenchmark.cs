@@ -22,7 +22,6 @@ namespace QueryNinja.Benchmarking.Targets.Queryable
         public void GlobalSetup()
         {
             QueryNinjaExtensions.Configure
-                .WithAspNetCoreSource()
                 .WithEntityFrameworkTarget();
         }
 

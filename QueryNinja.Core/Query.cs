@@ -53,5 +53,60 @@ namespace QueryNinja.Core
                 .ToString();
             return result;
         }
+
+        /// <summary>
+        /// Returns true if all underlying components in both queries are the same and in the same order.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        protected bool Equals(Query other)
+        {
+            if (components.Count != other.components.Count)
+            {
+                return false;
+            }
+
+            for (var i = 0; i < components.Count; i++)
+            {
+                if (!components[i].Equals(other.components[i]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public bool Equals(IQuery? other)
+        {
+            return Equals((object?)other);
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+
+            return Equals((Query)obj);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return components.GetHashCode();
+        }
     }
 }

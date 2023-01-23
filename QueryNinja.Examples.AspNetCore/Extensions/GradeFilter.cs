@@ -6,7 +6,7 @@ namespace QueryNinja.Examples.AspNetCore.Extensions
     /// <summary>
     /// Allows to filter on top of <see cref="Student.Grades"/>
     /// </summary>
-    public class GradeFilter : IDefaultFilter<GradeOperations>
+    public class GradeFilter : AbstractDefaultFilter<GradeOperations>
     {
         /// <summary>
         /// Default constructor.
@@ -15,19 +15,8 @@ namespace QueryNinja.Examples.AspNetCore.Extensions
         /// <param name="property"></param>
         /// <param name="value"></param>
         public GradeFilter(GradeOperations operation, string property, string value)
+            : base(operation, property, value)
         {
-            Operation = operation;
-            Property = property;
-            Value = value;
         }
-
-        /// <inheritdoc />
-        public GradeOperations Operation { get; }
-
-        /// <inheritdoc />
-        public string Property { get; }
-
-        /// <inheritdoc />
-        public string Value { get; }
     }
 }

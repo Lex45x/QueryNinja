@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
+using QueryNinja.Core.Factories;
 using QueryNinja.Core.OrderingRules;
-using QueryNinja.Sources.AspNetCore.Factory;
 
-namespace QueryNinja.Sources.AspNetCore.Tests
+namespace QueryNinja.Core.Tests
 {
-    [TestFixture(Category = "Unit", TestOf = typeof(OrderingRuleFactory))]
+    [TestFixture(Category = "Unit", TestOf = typeof(OrderingRuleSerializer))]
     public class OrderingRuleFactoryTest
     {
         public static IEnumerable<TestCaseData> SuccessCases = new[]
@@ -17,25 +17,23 @@ namespace QueryNinja.Sources.AspNetCore.Tests
 
         [Test]
         [TestCaseSource(nameof(SuccessCases))]
-        public void TestApply(string name, string value, OrderDirection expectedEnum)
+        public void TestApply(string path, string value, OrderDirection expectedEnum)
         {
-            var factory = new OrderingRuleFactory();
+            var factory = new OrderingRuleSerializer();
 
-            var canApply = factory.CanApply(name, value);
+            var canApply = factory.CanDeserialize(path, value);
 
             Assert.True(canApply);
 
-            var queryComponent = factory.Create(name, value);
+            var queryComponent = factory.Deserialize(path, value);
 
             Assert.IsInstanceOf(typeof(OrderingRule), queryComponent);
 
             var orderingRule = (OrderingRule)queryComponent;
+            var property = path.Split('.')[1];
 
-            var range = (name.IndexOf(value: '.') + 1)..;
-            var property = name.AsSpan()[range].ToString();
-
-            Assert.AreEqual(orderingRule.Direction, expectedEnum);
-            Assert.AreEqual(orderingRule.Property, property);
+            Assert.AreEqual(expectedEnum, orderingRule.Direction);
+            Assert.AreEqual(property, orderingRule.Property);
         }
     }
 }

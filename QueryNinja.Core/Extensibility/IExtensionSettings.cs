@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using QueryNinja.Core.Factories;
 
 namespace QueryNinja.Core.Extensibility
 {
@@ -29,5 +31,12 @@ namespace QueryNinja.Core.Extensibility
         /// <typeparam name="TComponent">Type that implements <see cref="IQueryComponent"/></typeparam>
         IExtensionsSettings RegisterComponent<TComponent>()
             where TComponent : IQueryComponent;
+
+        /// <summary>
+        /// Allows to extend <see cref="DefaultFilterSerializer"/> with user-defined filters.
+        /// </summary>
+        /// <param name="configure">Delegate to configure <see cref="DefaultFilterSerializer"/> with user-defined filters.</param>
+        [SuppressMessage("ReSharper", "UnusedMember.Global", Justification = "Public API")]
+        IExtensionsSettings ConfigureFilterFactory(Action<DefaultFilterSerializer> configure);
     }
 }

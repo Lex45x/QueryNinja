@@ -178,10 +178,21 @@ namespace QueryNinja.Targets.Queryable.Tests
             {
                 return new[] {new UnknownComponent()};
             }
+
+            public bool Equals(IQuery? other)
+            {
+                return other?.GetType() == GetType();
+            }
         }
 
         private class UnknownComponent : IQueryComponent
         {
+            public bool Equals(IQueryComponent? other)
+            {
+                return other?.GetType() == GetType();
+            }
+
+            public string Kind => "unknown";
         }
 
         public class Example

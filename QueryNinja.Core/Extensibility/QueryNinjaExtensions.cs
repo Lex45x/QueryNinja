@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QueryNinja.Core.Factories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,10 +10,18 @@ namespace QueryNinja.Core.Extensibility
     /// </summary>
     public static class QueryNinjaExtensions
     {
+        static QueryNinjaExtensions()
+        {
+            Serializer = new DefaultFilterSerializer();
+            Configure
+                .ForType<IQueryComponentSerializer>()
+                .Register(Serializer)
+                .Register<OrderingRuleSerializer>();
+        }
         private static class ExtensionsCollection<TExtension>
             where TExtension : IQueryComponentExtension
         {
-            private static readonly List<TExtension> ExtensionsList = new List<TExtension>();
+            private static readonly List<TExtension> ExtensionsList = new();
 
             //prevents any extension to be registered twice
             internal static IReadOnlyList<TExtension> Extensions => ExtensionsList;
@@ -28,7 +37,8 @@ namespace QueryNinja.Core.Extensibility
             }
         }
         
-        private static readonly HashSet<Type> KnownQueryComponentsSet = new HashSet<Type>();
+        private static readonly HashSet<Type> KnownQueryComponentsSet = new();
+        private static readonly DefaultFilterSerializer Serializer;
 
         /// <summary>
         /// Allows to get all known Types of <see cref="IQueryComponent"/>. <br/>
@@ -84,6 +94,11 @@ namespace QueryNinja.Core.Extensibility
                 return nestedSettings.RegisterComponent<TComponent>();
             }
 
+            public IExtensionsSettings ConfigureFilterFactory(Action<DefaultFilterSerializer> configure)
+            {
+                return nestedSettings.ConfigureFilterFactory(configure);
+            }
+
             /// <inheritdoc />
             public IExtensionTypeSettings<TExtension> Register<TNewExtension>()
                 where TNewExtension : TExtension, new()
@@ -132,6 +147,13 @@ namespace QueryNinja.Core.Extensibility
                 where TComponent : IQueryComponent
             {
                 KnownQueryComponentsSet.Add(typeof(TComponent));
+
+                return this;
+            }
+
+            public IExtensionsSettings ConfigureFilterFactory(Action<DefaultFilterSerializer> configure)
+            {
+                configure(Serializer);
 
                 return this;
             }

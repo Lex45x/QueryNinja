@@ -1,6 +1,7 @@
 ﻿using System;
 using QueryNinja.Core;
 using QueryNinja.Core.Extensibility;
+using QueryNinja.Core.Factories;
 using QueryNinja.Core.Filters;
 using QueryNinja.Targets.Queryable.QueryBuilders;
 
@@ -55,6 +56,11 @@ namespace QueryNinja.Targets.Queryable
                 where TComponent : IQueryComponent
             {
                 return extensionsSettings.RegisterComponent<TComponent>();
+            }
+
+            public IExtensionsSettings ConfigureFilterFactory(Action<DefaultFilterSerializer> configure)
+            {
+                return extensionsSettings.ConfigureFilterFactory(configure);
             }
 
             /// <inheritdoc />

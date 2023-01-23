@@ -24,11 +24,11 @@ namespace QueryNinja.Sources.AspNetCore.Tests
         /// <summary>
         /// Moq is unable to mock ReadOnlySpan
         /// </summary>
-        private class FactoryMock:IQueryComponentFactory
+        private class SerializerMock : IQueryComponentSerializer
         {
             private readonly IQueryComponent instance;
 
-            public FactoryMock(IQueryComponent instance)
+            public SerializerMock(IQueryComponent instance)
             {
                 this.instance = instance;
             }
@@ -37,15 +37,25 @@ namespace QueryNinja.Sources.AspNetCore.Tests
             public Type QueryComponent => instance.GetType();
 
             /// <inheritdoc />
-            public bool CanApply(ReadOnlySpan<char> name, string value)
+            public bool CanDeserialize(ReadOnlySpan<char> name, string value)
             {
                 return true;
             }
 
             /// <inheritdoc />
-            public IQueryComponent Create(ReadOnlySpan<char> name, string value)
+            public IQueryComponent Deserialize(ReadOnlySpan<char> name, string value)
             {
                 return instance;
+            }
+
+            public bool CanSerialize(IQueryComponent component)
+            {
+                return false;
+            }
+
+            public KeyValuePair<string, string> Serialize(IQueryComponent component)
+            {
+                throw new NotImplementedException();
             }
         }
 
@@ -54,10 +64,10 @@ namespace QueryNinja.Sources.AspNetCore.Tests
         {
             var component = new TestComponent();
 
-            var componentFactory = new FactoryMock(component);
+            var componentFactory = new SerializerMock(component);
 
             QueryNinjaExtensions.Configure
-                .ForType<IQueryComponentFactory>()
+                .ForType<IQueryComponentSerializer>()
                 .Register(componentFactory);
 
             var queryNinjaModelBinder = new QueryNinjaModelBinder();
@@ -131,6 +141,10 @@ namespace QueryNinja.Sources.AspNetCore.Tests
 
         private class TestComponent : IFilter
         {
+            public bool Equals(IQueryComponent other)
+            {
+                return other?.GetType() == GetType();
+            }
         }
     }
 }

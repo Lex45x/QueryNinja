@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using QueryNinja.Core.Extensibility;
+using QueryNinja.Core.Factories;
 using QueryNinja.Core.Filters;
-using QueryNinja.Sources.AspNetCore.Factory;
 
-namespace QueryNinja.Sources.AspNetCore.Tests
+namespace QueryNinja.Core.Tests
 {
-    [TestFixture(Category = "Unit", TestOf = typeof(DefaultFilterFactory))]
+    [TestFixture(Category = "Unit", TestOf = typeof(DefaultFilterSerializer))]
     public class DefaultFilterFactoryTests
     {
         public static IEnumerable<TestCaseData> SuccessCases = new[]
@@ -16,7 +16,7 @@ namespace QueryNinja.Sources.AspNetCore.Tests
             new TestCaseData("filter.Property.Equals", "0", typeof(ComparisonFilter), ComparisonOperation.Equals),
             new TestCaseData("filter.Property.Contains", "0", typeof(CollectionFilter), CollectionOperation.Contains)
         };
-        
+
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
@@ -26,22 +26,22 @@ namespace QueryNinja.Sources.AspNetCore.Tests
 
         [Test]
         [TestCaseSource(nameof(SuccessCases))]
-        public void TestApply(string name, string value, Type expectedFilterType, Enum expectedEnum)
+        public void TestApply(string path, string value, Type expectedFilterType, Enum expectedEnum)
         {
-            var factory = new DefaultFilterFactory();
+            var factory = new DefaultFilterSerializer();
 
-            var canApply = factory.CanApply(name, value);
+            var canApply = factory.CanDeserialize(path, value);
 
             Assert.True(canApply);
 
-            var queryComponent = factory.Create(name, value);
+            var queryComponent = factory.Deserialize(path, value);
 
             Assert.IsInstanceOf(expectedFilterType, queryComponent);
 
-            var filter = (dynamic) queryComponent;
+            var filter = (dynamic)queryComponent;
 
-            var range = (name.IndexOf(value: '.') + 1) .. name.LastIndexOf(value: '.');
-            var property = name.AsSpan()[range].ToString();
+            var range = (path.IndexOf(value: '.') + 1)..path.LastIndexOf(value: '.');
+            var property = path.AsSpan()[range].ToString();
 
             Assert.AreEqual(filter.Operation, expectedEnum);
             Assert.AreEqual(filter.Property, property);
@@ -49,23 +49,12 @@ namespace QueryNinja.Sources.AspNetCore.Tests
         }
 
 
-        private class TestFilter : IDefaultFilter<TestOperations>
+        private class TestFilter : AbstractDefaultFilter<TestOperations>
         {
             public TestFilter(TestOperations operation, string property, string value)
+                : base(operation, property, value)
             {
-                Operation = operation;
-                Property = property;
-                Value = value;
             }
-
-            /// <inheritdoc />
-            public TestOperations Operation { get; }
-
-            /// <inheritdoc />
-            public string Property { get; }
-
-            /// <inheritdoc />
-            public string Value { get; }
         }
 
         public enum TestOperations

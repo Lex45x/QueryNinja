@@ -65,23 +65,12 @@ namespace QueryNinja.Targets.Queryable.Tests
             Contains
         }
 
-        public class TestFilter : IDefaultFilter<TestOperations>
+        private class TestFilter : AbstractDefaultFilter<TestOperations>
         {
             public TestFilter(TestOperations operation, string property, string value)
+                : base(operation, property, value)
             {
-                Operation = operation;
-                Property = property;
-                Value = value;
             }
-
-            /// <inheritdoc />
-            public TestOperations Operation { get; }
-
-            /// <inheritdoc />
-            public string Property { get; }
-
-            /// <inheritdoc />
-            public string Value { get; }
         }
 
         public class TestClass

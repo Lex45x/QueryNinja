@@ -101,7 +101,7 @@ namespace QueryNinja.Sources.AspNetCore.ModelBinding
         {
             var queryComponents = new List<IQueryComponent>();
 
-            var factories = QueryNinjaExtensions.Extensions<IQueryComponentFactory>();
+            var factories = QueryNinjaExtensions.Extensions<IQueryComponentSerializer>();
 
             foreach ((ReadOnlySpan<char> key, var value) in queryParameters)
             {
@@ -113,12 +113,12 @@ namespace QueryNinja.Sources.AspNetCore.ModelBinding
                         ? key[(queryName.Length + 1)..]
                         : key;
 
-                    if (!factory.CanApply(queryIndependentKey, value))
+                    if (!factory.CanDeserialize(queryIndependentKey, value))
                     {
                         continue;
                     }
 
-                    var queryComponent = factory.Create(queryIndependentKey, value);
+                    var queryComponent = factory.Deserialize(queryIndependentKey, value);
                     queryComponents.Add(queryComponent);
                     break;
                 }
